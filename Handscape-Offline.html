@@ -8,14 +8,14 @@
 *{box-sizing:border-box}html,body{width:100%;height:100%;margin:0;overflow:hidden;background:#101e23;color:var(--ivory);font-family:Trebuchet MS,system-ui,-apple-system,sans-serif;user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}button,input{font:inherit}button{cursor:pointer}#game{display:block;width:100vw;height:100dvh;touch-action:none}#vignette{pointer-events:none;position:absolute;inset:0;background:radial-gradient(ellipse at 55% 42%,transparent 28%,rgba(6,17,23,.15) 72%,rgba(3,10,13,.59) 120%)}
 #menu,#pause,#settings,#complete{position:absolute;inset:0;display:flex;align-items:center;z-index:10;background:linear-gradient(90deg,rgba(7,19,24,.93) 0%,rgba(7,19,24,.77) 30%,rgba(7,19,24,.04) 80%)}
 .menu-panel{margin-left:clamp(24px,7vw,104px);width:min(410px,84vw);max-height:calc(100dvh - 30px);overflow:auto;padding:18px 0}#menu .crest{color:var(--gold);font-size:15px;letter-spacing:9px;font-weight:800;margin:0 0 8px}h1{font-size:clamp(46px,8.5vw,94px);letter-spacing:-4px;line-height:.93;margin:0 0 14px;font-weight:1000;text-shadow:0 5px 28px #081416}h1 span{color:var(--gold)}.subtitle{font-size:14px;letter-spacing:3px;text-transform:uppercase;color:#d9cda9;margin:0 0 44px}.menu-actions{display:flex;flex-direction:column;align-items:flex-start;gap:9px}.menu-btn{min-width:210px;text-align:left;background:transparent;color:var(--ivory);padding:12px 19px;border:1px solid transparent;border-radius:5px;text-transform:uppercase;letter-spacing:2px;font-weight:850;font-size:13px;transition:background .2s,transform .2s,border .2s}.menu-btn:hover,.menu-btn:focus-visible{background:rgba(243,217,173,.13);border-color:var(--stroke);transform:translateX(5px)}.menu-btn.primary{background:var(--gold);color:#1b211e;border-color:var(--gold);box-shadow:0 7px 27px rgba(220,139,59,.17)}.menu-btn.primary:hover{background:#ffd28b}.micro{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#bbb8a6;margin-top:35px}.top-corner{position:absolute;right:27px;top:25px;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#fff8dc8a}
-#pause,#settings,#complete{justify-content:center;background:rgba(4,13,18,.64);backdrop-filter:blur(8px)}.dialog{width:min(480px,calc(100vw - 26px));max-height:calc(100dvh - 20px);overflow:auto;border:1px solid var(--stroke);border-radius:13px;background:linear-gradient(145deg,#1c3134ed,#0a1920f7);padding:clamp(20px,4vw,36px);box-shadow:0 25px 100px #0009}.dialog h2{font-size:38px;letter-spacing:-2px;margin:0 0 7px}.dialog p{font-size:13px;color:var(--muted);margin:0 0 20px}.dialog .menu-btn{width:100%;margin:4px 0}.dialog label{display:flex;justify-content:space-between;font-size:13px;margin-top:17px;color:var(--ivory)}.dialog input[type=range]{width:100%;accent-color:var(--gold)}.dialog select{background:#243b3f;color:var(--ivory);border:1px solid var(--stroke);padding:8px;border-radius:5px}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:14px 0}.settings-row label{margin:0}#hud{position:absolute;inset:0;pointer-events:none;z-index:4}#pauseButton{position:absolute;right:max(17px,env(safe-area-inset-right));top:max(17px,env(safe-area-inset-top));border-radius:50%;width:42px;height:42px;display:grid;place-items:center;font-weight:900;background:#112b32ad;border:1px solid #ecddba75;color:#fff7e7;pointer-events:auto;font-size:15px}#hint{position:absolute;bottom:17%;left:50%;transform:translateX(-50%);color:#fceacb;font-size:13px;letter-spacing:1px;text-align:center;text-shadow:0 2px 10px #000;transition:opacity .25s;pointer-events:none;max-width:85vw}#objective{position:absolute;top:10%;left:50%;transform:translateX(-50%);font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#ffe4ab;background:#112c33aa;border:1px solid #d7b58065;border-radius:8px;padding:9px 16px;opacity:0;transition:opacity .6s;text-align:center}#toast{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:14px;letter-spacing:1px;text-align:center;color:#fff0ca;text-shadow:0 3px 10px #000;opacity:0;transition:opacity .3s}#mobile{display:none;position:absolute;inset:0;pointer-events:none}#stick-zone{position:absolute;left:max(20px,env(safe-area-inset-left));bottom:max(19px,env(safe-area-inset-bottom));width:128px;height:128px;border:2px solid #f5edd274;border-radius:50%;background:#15323b55;pointer-events:auto;touch-action:none}#stick-knob{position:absolute;left:42px;top:42px;width:42px;height:42px;border-radius:50%;background:#f0d39aa1;border:1px solid #ffefd5aa;box-shadow:0 4px 14px #0003}#actions{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:max(25px,env(safe-area-inset-bottom));display:flex;align-items:end;gap:13px;pointer-events:none}.action{pointer-events:auto;touch-action:none;border:1px solid #fff4d7aa;border-radius:50%;background:#193c46aa;color:#fff5d9;font-size:11px;font-weight:900;letter-spacing:1px;width:73px;height:73px;box-shadow:0 5px 18px #0005}.action.small{width:59px;height:59px;margin-bottom:38px}.action.pressed{background:#daa65b;color:#121d22}.action[hidden]{display:none}
+#pause,#settings,#complete{justify-content:center;background:rgba(4,13,18,.64);backdrop-filter:blur(8px)}.dialog{width:min(480px,calc(100vw - 26px));max-height:calc(100dvh - 20px);overflow:auto;border:1px solid var(--stroke);border-radius:13px;background:linear-gradient(145deg,#1c3134ed,#0a1920f7);padding:clamp(20px,4vw,36px);box-shadow:0 25px 100px #0009}.dialog h2{font-size:38px;letter-spacing:-2px;margin:0 0 7px}.dialog p{font-size:13px;color:var(--muted);margin:0 0 20px}.dialog .menu-btn{width:100%;margin:4px 0}.dialog label{display:flex;justify-content:space-between;font-size:13px;margin-top:17px;color:var(--ivory)}.dialog input[type=range]{width:100%;accent-color:var(--gold)}.dialog select{background:#243b3f;color:var(--ivory);border:1px solid var(--stroke);padding:8px;border-radius:5px}.settings-row{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:14px 0}.settings-row label{margin:0}#hud{position:absolute;inset:0;pointer-events:none;z-index:4}#pauseButton{position:absolute;right:max(17px,env(safe-area-inset-right));top:max(17px,env(safe-area-inset-top));border-radius:50%;width:42px;height:42px;display:grid;place-items:center;font-weight:900;background:#112b32ad;border:1px solid #ecddba75;color:#fff7e7;pointer-events:auto;font-size:15px}#hint{position:absolute;bottom:17%;left:50%;transform:translateX(-50%);color:#fceacb;font-size:13px;letter-spacing:1px;text-align:center;text-shadow:0 2px 10px #000;transition:opacity .25s;pointer-events:none;max-width:85vw}#objective{position:absolute;top:10%;left:50%;transform:translateX(-50%);font-size:12px;text-transform:uppercase;letter-spacing:2px;color:#ffe4ab;background:#112c33aa;border:1px solid #d7b58065;border-radius:8px;padding:9px 16px;opacity:0;transition:opacity .6s;text-align:center}#toast{position:absolute;top:20%;left:50%;transform:translateX(-50%);font-size:14px;letter-spacing:1px;text-align:center;color:#fff0ca;text-shadow:0 3px 10px #000;opacity:0;transition:opacity .3s}#mobile{display:none;position:absolute;inset:0;pointer-events:none}#stick-zone{position:absolute;left:max(20px,env(safe-area-inset-left));bottom:max(19px,env(safe-area-inset-bottom));width:128px;height:128px;border:2px solid #f5edd274;border-radius:50%;background:#15323b55;pointer-events:auto;touch-action:none}#stick-knob{position:absolute;left:42px;top:42px;width:42px;height:42px;border-radius:50%;background:#f0d39aa1;border:1px solid #ffefd5aa;box-shadow:0 4px 14px #0003}#actions{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:max(25px,env(safe-area-inset-bottom));display:flex;align-items:end;gap:13px;pointer-events:none}.action{pointer-events:auto;touch-action:none;border:1px solid #fff4d7aa;border-radius:50%;background:#193c46aa;color:#fff5d9;font-size:11px;font-weight:900;letter-spacing:1px;width:73px;height:73px;box-shadow:0 5px 18px #0005}.action.small{width:56px;height:56px;position:absolute;left:-16px;bottom:83px}.action.grip{width:68px;height:68px}#actions{min-width:165px;height:75px;align-items:center;justify-content:flex-end;gap:11px}#gripButton{flex:none}#jumpButton{flex:none}.action.pressed{background:#daa65b;color:#121d22}.action[hidden]{display:none}
 #rotateHint{position:absolute;inset:0;background:#0c2028f5;z-index:20;display:none;align-items:center;justify-content:center;padding:30px;text-align:center;font-size:18px}.hidden{display:none!important}#credits{position:absolute;bottom:22px;right:26px;color:#eadcb8ab;letter-spacing:1.5px;text-transform:uppercase;font-size:10px}#resumeCard{display:none}#runHelp{font-size:11px;color:#e0d3b7;line-height:1.8;margin-top:30px}.em{color:var(--gold)}@media (pointer:coarse){#mobile{display:block}#hint{bottom:18%}#pauseButton{width:39px;height:39px}}@media(max-width:700px){#menu,#pause{background:linear-gradient(90deg,rgba(6,20,24,.9),rgba(6,20,24,.52) 65%,rgba(6,20,24,.13))}.menu-panel{margin-left:6vw}.subtitle{margin-bottom:20px}.menu-btn{padding:10px 14px}#runHelp{display:none}#credits{display:none}}@media (orientation:portrait) and (pointer:coarse){#rotateHint{display:flex}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 <canvas id="game" aria-label="Handscape playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ A TINY ADVENTURE ✦</div><h1>HAND<span>SCAPE</span></h1><p class="subtitle">Small hand. Big trouble.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; INTERACT <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Workshop Awakening</p></div><span class="top-corner">A World Within Reach</span><span id="credits">An original voxel adventure · v0.2</span></section>
-<div id="hud" class="hidden"><button id="pauseButton" aria-label="Pause game">Ⅱ</button><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ A TINY ADVENTURE ✦</div><h1>HAND<span>SCAPE</span></h1><p class="subtitle">Small hand. Big trouble.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Workshop Awakening</p></div><span class="top-corner">A World Within Reach</span><span id="credits">An original voxel adventure · v0.3</span></section>
+<div id="hud" class="hidden"><button id="pauseButton" aria-label="Pause game">Ⅱ</button><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="restartButton" class="menu-btn">↺ Restart Workshop</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
 <section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
 <section id="complete" class="hidden"><div class="dialog"><div class="crest" style="color:var(--gold)">✦ CHAPTER CLEAR ✦</div><h2>TROUBLE<br>MADE<span class="em">.</span></h2><p>Nim has mastered the workshop. The workshop is only the beginning. A much bigger world awaits beyond the vent.</p><button id="playAgain" class="menu-btn primary">↺ Explore Again</button><button id="finishedMenu" class="menu-btn">⌂ Main Menu</button></div></section>
@@ -34,7 +34,7 @@ const faces=[{n:[1,0,0],v:[[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]]},{n:[-1,0,0],v:[
 class Mesh{constructor(){this.a=[];this.count=0;}box(x,y,z,w,h,d,hex,ry=0,rx=0,rz=0){const col=color(hex),co=Math.cos(ry),si=Math.sin(ry),cx=Math.cos(rx),sx=Math.sin(rx),cz=Math.cos(rz),sz=Math.sin(rz);const rot=(v)=>{let [a,b,c]=v;let y=b*cx-c*sx,z=b*sx+c*cx;a2: {let xx=a*cz-y*sz; y=a*sz+y*cz;a=xx;}return [a*co+z*si,y,-a*si+z*co]};for(const face of faces){const normal=rot(face.n);const p=face.v.map(v=>{let q=rot([v[0]*w*.5,v[1]*h*.5,v[2]*d*.5]);return [x+q[0],y+q[1],z+q[2]]});for(const ii of [0,1,2,0,2,3])this.a.push(...p[ii],...col,...normal);this.count+=6;}return this;}vox(x,y,z,rx,ry,rz,step,palette,seed=1){let v=0;for(let i=-rx;i<=rx;i++)for(let j=-ry;j<=ry;j++)for(let k=-rz;k<=rz;k++){let r=(i*i/(rx*rx+.01)+j*j/(ry*ry+.01)+k*k/(rz*rz+.01));if(r>1.1||r<.47)continue;let h=Math.abs(Math.sin((i*17+j*37+k*11+seed)*12.9898));this.box(x+i*step,y+j*step,z+k*step,step*.99,step*.99,step*.99,palette[Math.floor(h*palette.length)%palette.length]);v++}return v;}}
 function gpu(mesh,dynamic=false){const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(mesh.a),dynamic?gl.DYNAMIC_DRAW:gl.STATIC_DRAW);return {buffer:b,count:mesh.count}}
 function draw(g){gl.bindBuffer(gl.ARRAY_BUFFER,g.buffer);const stride=9*4;for(const [k,idx] of [['p',0],['c',3],['n',6]]){gl.enableVertexAttribArray(att[k]);gl.vertexAttribPointer(att[k],3,gl.FLOAT,false,stride,idx*4)}gl.drawArrays(gl.TRIANGLES,0,g.count)}
-const world=new Mesh(),colliders=[];let props=[];function box(x,y,z,w,h,d,c,rot=0,solid=false){world.box(x,y,z,w,h,d,c,rot);if(solid&&rot===0)colliders.push({x,y,z,w,h,d,top:y+h/2});}function placeObj(id,x,y,z,type){props.push({id,x,y,z,type,used:false});}
+const world=new Mesh(),colliders=[];let props=[];function box(x,y,z,w,h,d,c,rot=0,solid=false){world.box(x,y,z,w,h,d,c,rot);if(solid&&rot===0)colliders.push({x,y,z,w,h,d,top:y+h/2,grabbable:y+h/2>=.54});}function placeObj(id,x,y,z,type){props.push({id,x,y,z,type,used:false});}
 function bench(){box(0,-.27,0,24,.54,18,C.wood2);box(0,.035,-8.7,24,.14,.3,C.brass);box(0,.035,8.7,24,.14,.3,C.brass);box(-11.65,.035,0,.3,.14,18,C.brass);box(11.65,.035,0,.3,.14,18,C.brass);for(let x of [-10,10])for(let z of [-7,7])box(x,-1.9,z,1,3.2,1,C.darkWood);for(let z of [-6.5,-2.5,1.5,5.5]){box(-10.2,-.56,z,1,.18,.12,C.wood3);box(10.2,-.56,z,1,.18,.12,C.wood3)}box(0,-2.76,0,37,.18,31,C.floor);for(let x=-17;x<=17;x+=2)box(x,-2.64,0,.038,.018,31,C.floor2);
 box(0,5.0,-16,.42,16,38,C.wall);box(-18,5.0,0,.42,16,36,C.wall2);box(18,5.0,0,.42,16,36,C.wall2);box(0,12.8,-2,37,.45,35,C.darkWood);
 // Structural beams, trim and warm window
@@ -64,6 +64,18 @@ box(7.6,.15,-4.7,1.9,.3,1.9,C.iron,0,true);box(7.6,1.65,-4.7,.22,2.8,.2,C.iron2)
 // Toolbox and staggered crates (solid parkour objects)
 box(-8.5,.55,-3.85,3.4,1.1,2.3,C.red,0,true);box(-8.5,1.1,-3.85,3.6,.22,2.5,C.copper);box(-8.5,1.28,-3.85,1,.16,.2,C.brass);box(1.1,.48,-5.1,1.65,.96,1.65,C.wood2,0,true);box(1.1,.99,-5.1,1.7,.12,1.7,C.wood3);box(-.5,.47,-6.5,1.45,.94,1.45,C.wood2,0,true);box(-.5,.98,-6.5,1.5,.14,1.5,C.brass);
 for(let k=0;k<3;k++){box(-10.15,.23,-5.2+k*1.9,1.05,.4,1.1,C.navy);box(-10.15,.45,-5.2+k*1.9,.8,.06,.8,C.brass)}
+// P1 training ledge: low enough to catch from a jump, high enough to require a mantle.
+box(-4.2,.675,.65,2.25,1.35,1.60,C.teal,0,true);
+box(-4.2,1.385,.65,2.32,.095,1.67,C.wood3);
+box(-4.2,1.40,1.49,.75,.12,.09,C.gold);
+for(let i=0;i<3;i++)box(-5.0+i*.8,.39,1.47,.10,.63,.04,C.wood2);
+// A second reachable platform makes the ledge mechanic usable beyond the tutorial.
+box(-.35,.78,-2.2,1.85,1.56,1.7,C.navy,0,true);
+box(-.35,1.59,-2.2,1.92,.09,1.79,C.wood3);
+box(-.35,1.59,-1.32,.75,.08,.1,C.gold);
+// Static cable support; the moving cable itself is drawn in the dynamic pass.
+box(3.7,3.45,.85,1.55,.18,.25,C.darkWood);
+box(3.7,3.35,.85,.35,.24,.35,C.brass);
 // Painted blocks and small details
 for(let i=0;i<42;i++){let x=-9.2+(i%14)*1.26,z=6.5+Math.floor(i/14)*.41;box(x,.055,z,.3,.11,.25,[C.wood2,C.wood3,C.darkWood][i%3]);}
 for(let i=0;i<18;i++){let x=-4+(i%6)*.38,z=-4.5+Math.floor(i/6)*.4;box(x,.075,z,.09,.11,.16,i%2?C.iron2:C.brass)}
@@ -78,6 +90,9 @@ for(let x of [-8,0,8]){box(x,11.5,-3,.1,2,.1,C.black);box(x,10.45,-3,1.5,.5,1.5,
 // Ambient flying motes are rendered dynamically.
 const worldGpu=gpu(world);
 const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
+const rope={x:3.7,y:3.35,z:.85,length:1.85};
+const parkour={mode:'none',ledge:null,hangX:0,hangZ:0,timer:0,start:null,finish:null,theta:0,omega:0,gripUntil:0,firstCatch:false,firstMantle:false,firstSwing:false};
+let jumpQueued=false;
 let settings={quality:'high',volume:70,sensitivity:60,shadows:true,hints:true,followCamera:true};try{let loaded=JSON.parse(localStorage.getItem('handscape-settings')||'null');if(loaded)settings={...settings,...loaded}}catch(e){}function store(){try{localStorage.setItem('handscape-settings',JSON.stringify(settings))}catch(e){}}
 $('quality').value=settings.quality;$('volume').value=settings.volume;$('sensitivity').value=settings.sensitivity;$('shadows').checked=settings.shadows;$('hints').checked=settings.hints;$('followCamera').checked=settings.followCamera;
 const keys=new Set(),touch={x:0,y:0,jump:false,act:false},camera={yaw:0,pitch:.56,dist:5.9,x:0,y:0,z:0,manualUntil:0},pos=new Float32Array(3),eye=new Float32Array(3),view=new Float32Array(16),proj=new Float32Array(16);
@@ -89,7 +104,28 @@ const toeState=Array.from({length:4},()=>({planted:false,x:0,y:0,z:0,fromX:0,fro
 function toWorld(x,y,z){const c=Math.cos(player.yaw),si=Math.sin(player.yaw);return [player.x+x*c+z*si,player.y+y,player.z-x*si+z*c]}
 function bone(mesh,a,b,width,depth,col){let dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2];let len=Math.hypot(dx,dy,dz);if(len<.015)return;
   mesh.box((a[0]+b[0])*.5,(a[1]+b[1])*.5,(a[2]+b[2])*.5,width,depth,len,col,Math.atan2(dx,dz),-Math.atan2(dy,Math.hypot(dx,dz)));}
+// Parkour pose is attached to actual ledge/cable contacts, instead of the walking gait.
+function gripPose(mesh){
+ const swinging=parkour.mode==='swing', pulling=parkour.mode==='mantle';
+ const xs=[-.355,-.12,.135,.36];
+ local(mesh,0,.76,.1,1.02,.3,.95,C.skin,0,pulling?-.16:.06);
+ local(mesh,0,.925,-.03,.90,.105,.73,C.skinLight);
+ local(mesh,0,.76,.59,.84,.32,.32,C.cuff);
+ local(mesh,0,.76,.77,.87,.3,.13,C.cuffEdge);
+ for(let i=0;i<4;i++){
+   const x=xs[i];
+   const a=toWorld(x,.70,-.39);
+   const mid=toWorld(x, swinging?1.07:1.01, swinging?-.67:-.62);
+   const tip=toWorld(x,swinging?1.17:1.08,swinging?-.48:-.87);
+   bone(mesh,a,mid,.19,.18,C.skin);
+   bone(mesh,mid,tip,.16,.16,C.skinLight);
+   mesh.box(tip[0],tip[1],tip[2],.18,.15,.19,C.skinDark);
+ }
+ bone(mesh,toWorld(-.50,.71,0),toWorld(-.78,.99,-.38),.24,.22,C.skin);
+ bone(mesh,toWorld(-.78,.99,-.38),toWorld(-.71,1.14,-.6),.21,.20,C.skinLight);
+}
 function hand(mesh,dt,ambient=false){
+ if(parkour.mode!=='none'){gripPose(mesh);return;}
   const speed=Math.hypot(player.vx,player.vz),moving=speed>.17&&player.onGround;
   const phase=player.walking, bob=moving?.024*Math.sin(phase*2):.007*Math.sin(time*2.2);
   const lean=Math.min(.095,speed*.014),roll=Math.max(-.07,Math.min(.07,player.turnLean||0));
@@ -138,8 +174,12 @@ if(!jarDown){mesh.box(-2.05,.38,-3.55,.57,.78,.58,C.iron2);mesh.box(-2.05,.79,-3
 mesh.box(5.5,.11,-4.4,1.05,.21,.95,C.iron);mesh.box(5.5,.33,-4.4,.45,.29,.45,fanOn?C.red:C.green);mesh.box(5.5,.51,-4.4,.18,.1,.18,C.brass);
 // Spinning fan blades near workshop exit
 if(fanOn)for(let i=0;i<4;i++){let a=t*7+i*Math.PI*.5;mesh.box(9.7+.6*Math.cos(a),1.2+.55*Math.sin(a),-7.77,.72,.12,.14,C.teal,.0,0,a)}else mesh.box(9.7,1.2,-7.77,.42,.42,.18,C.green);
+// Reachable swinging cable with a visible end grip; follows the hand when attached.
+const cableEnd=parkour.mode==='swing'?[player.x,player.y+1.12,player.z-.36]:[rope.x,rope.y-rope.length,rope.z];
+bone(mesh,[rope.x,rope.y,rope.z],cableEnd,.085,.086,C.iron2);
+mesh.box(cableEnd[0],cableEnd[1],cableEnd[2],.32,.23,.27,C.gold,time*.13);
 // A subtle in-world guiding sparkle replaces persistent quest panels.
- const target=!bellRung?[2.5,.98,-1.8]:fanOn?[5.5,.92,-4.4]:[9.7,2.22,-7.8];
+ const target=!parkour.firstMantle?[-4.2,1.82,1.45]:!bellRung?[2.5,.98,-1.8]:fanOn?[5.5,.92,-4.4]:[9.7,2.22,-7.8];
  let pulse=.5+.5*Math.sin(t*3.3);
  mesh.box(target[0],target[1]+.18*Math.sin(t*2.5),target[2],.12+pulse*.075,.2+pulse*.12,.12+pulse*.075,C.gold,t*.9,.2,t*.4);
  mesh.box(target[0],target[1]+.46+.14*Math.sin(t*2.5),target[2],.055,.06,.055,C.glow,t*.7);
@@ -185,6 +225,142 @@ function avoidCameraOcclusion(fx,fy,fz,tx,ty,tz){
   }
   return [fx+dx*allowed,fy+dy*allowed,fz+dz*allowed];
 }
+// P1 — deterministic ledge acquisition, hanging, shimmy, mantle, and cable swinging.
+const clamp=(a,l,h)=>Math.max(l,Math.min(h,a));
+function findLedge(){
+ if(player.onGround)return null;
+ let best=null,score=1e9;
+ for(const b of colliders){
+   if(!b.grabbable||b.top-player.y<.22||b.top-player.y>1.63)continue;
+   const x0=b.x-b.w/2,x1=b.x+b.w/2,z0=b.z-b.d/2,z1=b.z+b.d/2;
+   // Keep the character outside the solid box while hooking its upper edge.
+   const faces=[{nx:0,nz:1,x:clamp(player.x,x0+.12,x1-.12),z:z1},
+     {nx:0,nz:-1,x:clamp(player.x,x0+.12,x1-.12),z:z0},
+     {nx:1,nz:0,x:x1,z:clamp(player.z,z0+.12,z1-.12)},
+     {nx:-1,nz:0,x:x0,z:clamp(player.z,z0+.12,z1-.12)}];
+   for(const f of faces){
+     const outward=(player.x-f.x)*f.nx+(player.z-f.z)*f.nz;
+     if(outward<.06||outward>.83)continue;
+     const tangential=Math.abs((player.x-f.x)*(-f.nz)+(player.z-f.z)*f.nx);
+     if(tangential>.47)continue;
+     const dist=Math.abs(outward-.36)+tangential*.5+Math.abs((b.top-player.y)-.90)*.12;
+     if(dist<score){score=dist;best={b,...f,outward};}
+   }
+ }
+ return best;
+}
+function canCatchCable(){
+ if(player.onGround)return false;
+ return Math.hypot(player.x-rope.x,player.z-rope.z)<.77 &&
+ Math.abs((player.y+.95)-(rope.y-rope.length))<.70;
+}
+function startGrip(){
+ if(parkour.mode!=='none'||player.onGround)return false;
+ const ledge=findLedge();
+ if(ledge){
+   parkour.mode='hang';parkour.ledge=ledge;
+   parkour.hangX=ledge.x;parkour.hangZ=ledge.z;
+   player.x=ledge.x+ledge.nx*.41;player.z=ledge.z+ledge.nz*.41;
+   player.y=ledge.b.top-1.01;
+   player.vx=player.vy=player.vz=0;player.onGround=false;
+   player.yaw=Math.atan2(ledge.nx,ledge.nz);
+   parkour.firstCatch=true;parkour.gripUntil=0;
+   for(const t of toeState){t.planted=false;t.initialized=false;}
+   playTone(490,.1,'sine');
+   if(settings.hints)objective('Caught it! · JUMP to climb · GRIP to let go');
+   return true;
+ }
+ if(canCatchCable()){
+   parkour.mode='swing';parkour.theta=clamp(Math.asin(clamp((player.z-rope.z)/rope.length,-.35,.35)),-.35,.35);
+   parkour.omega=clamp(player.vz/rope.length,-1.9,1.9);
+   parkour.gripUntil=0;player.vx=player.vy=player.vz=0;player.onGround=false;player.yaw=0;
+   playTone(540,.12,'triangle');if(settings.hints)objective('Swing · W/S to pump · JUMP to launch');
+   return true;
+ }
+ return false;
+}
+function requestGrip(){
+ if(state!=='playing')return;
+ if(parkour.mode==='hang'||parkour.mode==='swing'){releaseGrip(false);return;}
+ if(parkour.mode==='mantle')return;
+ parkour.gripUntil=time+.65;
+ if(!startGrip()&&player.onGround&&settings.hints)toast('Jump near a golden ledge or the hanging cable, then tap GRIP');
+}
+function releaseGrip(launch){
+ if(parkour.mode==='none')return;
+ const mode=parkour.mode,face=parkour.ledge;
+ if(mode==='swing'){
+   const tangent=rope.length*Math.cos(parkour.theta)*parkour.omega;
+   player.vz=launch?(Math.abs(tangent)<1.5?-2.7:tangent):tangent*.45;
+   player.vx=0;player.vy=launch?3.2:-.65;
+   if(launch)parkour.firstSwing=true;
+ }else if(mode==='hang'){
+   player.x+=(face?.nx||0)*.17;player.z+=(face?.nz||0)*.17;
+   player.vx=(face?.nx||0)*.5;player.vz=(face?.nz||0)*.5;player.vy=-.85;
+ }
+ parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;player.onGround=false;
+}
+function startMantle(){
+ if(parkour.mode!=='hang')return;
+ const l=parkour.ledge;
+ parkour.mode='mantle';parkour.timer=0;
+ parkour.start=[player.x,player.y,player.z];
+ const inset=.69;
+ parkour.finish=[clamp(parkour.hangX-l.nx*inset,l.b.x-l.b.w/2+.30,l.b.x+l.b.w/2-.30),
+ l.b.top,
+ clamp(parkour.hangZ-l.nz*inset,l.b.z-l.b.d/2+.30,l.b.z+l.b.d/2-.30)];
+ playTone(650,.17,'sine');
+}
+function updateParkour(dt,forward,side,basis){
+ if(parkour.mode==='hang'){
+   const l=parkour.ledge,tangent=[-l.nz,l.nx];
+   const desiredX=forward*basis.forward[0]+side*basis.right[0];
+   const desiredZ=forward*basis.forward[1]+side*basis.right[1];
+   const shimmy=(desiredX*tangent[0]+desiredZ*tangent[1])*dt*1.05;
+   if(Math.abs(shimmy)>.001){
+     const nx=parkour.hangX+tangent[0]*shimmy,nz=parkour.hangZ+tangent[1]*shimmy;
+     parkour.hangX=clamp(nx,l.b.x-l.b.w/2+.15,l.b.x+l.b.w/2-.15);
+     parkour.hangZ=clamp(nz,l.b.z-l.b.d/2+.15,l.b.z+l.b.d/2-.15);
+   }
+   player.x=parkour.hangX+l.nx*.41;player.z=parkour.hangZ+l.nz*.41;
+   player.y=l.b.top-1.01;player.vx=player.vy=player.vz=0;
+   if(jumpQueued)startMantle();
+ }else if(parkour.mode==='mantle'){
+   parkour.timer+=dt;
+   const u=clamp(parkour.timer/.63,0,1),e=u*u*(3-2*u);
+   player.x=parkour.start[0]+(parkour.finish[0]-parkour.start[0])*e;
+   player.z=parkour.start[2]+(parkour.finish[2]-parkour.start[2])*e;
+   player.y=parkour.start[1]+(parkour.finish[1]-parkour.start[1])*e+.09*Math.sin(u*Math.PI);
+   player.vx=player.vy=player.vz=0;
+   if(u>=1){parkour.mode='none';parkour.ledge=null;parkour.firstMantle=true;player.onGround=true;
+     if(settings.hints)objective(bellRung?'Nice climb · Find the fan switch':'Nice climb · Find the bell');
+     for(const t of toeState){t.planted=false;t.initialized=false;}
+   }
+ }else if(parkour.mode==='swing'){
+   parkour.omega+=(-5.8/rope.length*Math.sin(parkour.theta)-forward*2.8-parkour.omega*.20)*dt;
+   parkour.omega=clamp(parkour.omega,-3.6,3.6);
+   parkour.theta+=parkour.omega*dt;
+   if(Math.abs(parkour.theta)>1.12){parkour.theta=clamp(parkour.theta,-1.12,1.12);parkour.omega*= -.22;}
+   player.x=rope.x;player.z=rope.z+Math.sin(parkour.theta)*rope.length;
+   player.y=rope.y-Math.cos(parkour.theta)*rope.length-.87;
+   player.vx=player.vy=player.vz=0;
+   if(jumpQueued)releaseGrip(true);
+ }
+ jumpQueued=false;
+}
+function updateGameplayFeedback(){
+ const h=$('hint'),j=$('jumpButton'),g=$('gripButton');
+ j.textContent=parkour.mode==='hang'?'CLIMB':parkour.mode==='swing'?'LAUNCH':'JUMP';
+ g.textContent=(parkour.mode==='hang'||parkour.mode==='swing')?'DROP':'GRIP';
+ const a=parkour.mode==='none'?nearest():null;
+ $('interactButton').hidden=!a;
+ if(parkour.mode==='hang')h.textContent='SPACE / JUMP to climb · G / GRIP to release';
+ else if(parkour.mode==='swing')h.textContent='W / S to swing · SPACE to launch · G to release';
+ else if(!player.onGround&&findLedge())h.textContent='G / GRIP · Catch the ledge';
+ else if(!player.onGround&&canCatchCable())h.textContent='G / GRIP · Catch the cable';
+ else if(a)h.textContent=a.id==='exit'&&fanOn?'Fan spinning · Find the switch':a.label+'  ·  '+('ontouchstart'in window?'USE':'E');
+ else h.textContent='';
+}
 const guide={steps:0,firstMove:false};
 let last=0;function tick(ms){let dt=Math.min(.033,(ms-last)/1000||.016);last=ms;time+=dt;if(state==='playing')update(dt);else if(state==='menu')player.walking+=dt*.85;render(dt);requestAnimationFrame(tick)}
 function update(dt){
@@ -192,53 +368,59 @@ function update(dt){
   let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-touch.y;
   let side=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0)+touch.x;
   let mag=Math.hypot(forward,side);if(mag>1){forward/=mag;side/=mag;mag=1;}
-  let sprint=keys.has('shift')||(mag>.92&&!!('ontouchstart'in window));
-  let speed=sprint?4.3:2.8;
   const basis=moveBasis(camera.yaw);
-  const vx=(forward*basis.forward[0]+side*basis.right[0])*speed;
-  const vz=(forward*basis.forward[1]+side*basis.right[1])*speed;
-  const response=1-Math.exp(-dt*(mag>0?10:14));
-  player.vx+=(vx-player.vx)*response;player.vz+=(vz-player.vz)*response;
-  const oldVX=player.vx,oldVZ=player.vz;
-  moveSolid(player.vx*dt,player.vz*dt);
-  let motion=Math.hypot(player.vx,player.vz);
-  if(motion>.13){
-    const desired=Math.atan2(-player.vx,-player.vz);
-    const diff=Math.atan2(Math.sin(desired-player.yaw),Math.cos(desired-player.yaw));
-    player.yaw+=diff*Math.min(1,dt*10);
-    player.turnLean=player.turnLean*.75+Math.max(-.08,Math.min(.08,-diff*.12))*.25;
-    player.walking+=dt*motion*4.8;
-    if(!guide.firstMove&&motion>.8){guide.firstMove=true;if(settings.hints)objective('Follow the golden glimmer · Ring the bell');}
-  }else player.turnLean*=.82;
-  if((keys.has(' ')||touch.jump)&&player.onGround){player.vy=5.0;player.onGround=false;touch.jump=false;playTone(310,.09,'triangle');}
-  let oldY=player.y;player.vy-=15*dt;player.y+=player.vy*dt;
-  let support=groundAt(player.x,player.z,oldY);
-  if(player.vy<=0&&player.y<=support&&oldY>=support-.23){player.y=support;player.vy=0;player.onGround=true;}else player.onGround=false;
-  if(player.y< -1.65){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});for(const t of toeState){t.planted=false;t.initialized=false;}toast('Back on the workbench!');}
-  // Trail the hand after a manual-camera grace period, without stealing camera control.
-  if(settings.followCamera && time>camera.manualUntil && motion>.16 && forward>.25){
-    const angular=Math.atan2(Math.sin(player.yaw-camera.yaw),Math.cos(player.yaw-camera.yaw));
-    camera.yaw+=angular*(1-Math.exp(-dt*1.85));
+  if(parkour.mode!=='none'){
+    updateParkour(dt,forward,side,basis);
+  }else{
+    let sprint=keys.has('shift')||(mag>.92&&!!('ontouchstart'in window));
+    let speed=sprint?4.3:2.8;
+    const vx=(forward*basis.forward[0]+side*basis.right[0])*speed;
+    const vz=(forward*basis.forward[1]+side*basis.right[1])*speed;
+    const response=1-Math.exp(-dt*(mag>0?10:14));
+    player.vx+=(vx-player.vx)*response;player.vz+=(vz-player.vz)*response;
+    moveSolid(player.vx*dt,player.vz*dt);
+    let motion=Math.hypot(player.vx,player.vz);
+    if(motion>.13){
+      const desired=Math.atan2(-player.vx,-player.vz);
+      const diff=Math.atan2(Math.sin(desired-player.yaw),Math.cos(desired-player.yaw));
+      player.yaw+=diff*Math.min(1,dt*10);
+      player.turnLean=player.turnLean*.75+clamp(-diff*.12,-.08,.08)*.25;
+      player.walking+=dt*motion*4.8;
+      if(!guide.firstMove&&motion>.8){guide.firstMove=true;if(settings.hints)objective('Jump toward a golden ledge · Tap GRIP to catch');}
+    }else player.turnLean*=.82;
+    if(jumpQueued&&player.onGround){player.vy=5.0;player.onGround=false;playTone(310,.09,'triangle');}
+    jumpQueued=false;
+    let oldY=player.y;player.vy-=15*dt;player.y+=player.vy*dt;
+    let support=groundAt(player.x,player.z,oldY);
+    if(player.vy<=0&&player.y<=support&&oldY>=support-.23){player.y=support;player.vy=0;player.onGround=true;}
+    else player.onGround=false;
+    if(parkour.gripUntil>time&&!player.onGround)startGrip();
+    if(player.y< -1.65){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});parkour.mode='none';parkour.gripUntil=0;
+      for(const t of toeState){t.planted=false;t.initialized=false;}toast('Back on the workbench!');}
+    if(settings.followCamera&&time>camera.manualUntil&&motion>.16&&forward>.25&&parkour.mode==='none'){
+      const angular=Math.atan2(Math.sin(player.yaw-camera.yaw),Math.cos(player.yaw-camera.yaw));
+      camera.yaw+=angular*(1-Math.exp(-dt*1.85));
+    }
   }
 // Caretaker reacts to mischief, not omniscient player tracking
 npc.timer-=dt;if(npc.mode==='investigate'&&npc.timer<=0){npc.mode='patrol';npc.targetX=1.8;npc.targetZ=-5.8}if(npc.mode==='patrol'&&Math.hypot(npc.x-npc.targetX,npc.z-npc.targetZ)<.35){npc.targetX=npc.targetX>0?-4.1:1.8;npc.targetZ=-5.8}let dx=npc.targetX-npc.x,dz=npc.targetZ-npc.z,dist=Math.hypot(dx,dz);if(dist>.08){let s=Math.min(dist,dt*(npc.mode==='investigate'?1.25:.48));npc.x+=dx/dist*s;npc.z+=dz/dist*s;npc.angle=Math.atan2(-dx,-dz)}
-const a=nearest();$('hint').textContent=a?(a.id==='exit'&&fanOn?'Fan spinning · Find the switch':a.label+'  ·  '+('ontouchstart'in window?'USE':'E')):'';$('interactButton').hidden=!a;
-if(!freeTime){freeTime=1;if(settings.hints)objective('Wake up, little hand · Move to explore');}
+  updateGameplayFeedback();
+  if(!freeTime){freeTime=1;if(settings.hints)objective('The workshop awakens · Explore with WASD or the joystick');}
 }
 function render(dt){const r=canvas.getBoundingClientRect(),q=settings.quality==='low'?.7:settings.quality==='medium'?.9:1.4,dpr=Math.min(window.devicePixelRatio||1,q);let w=Math.max(1,Math.floor(r.width*dpr)),h=Math.max(1,Math.floor(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.14,.25,.30,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(prog);
-let focusX=player.x-Math.sin(camera.yaw)*.85,focusZ=player.z-Math.cos(camera.yaw)*.85,focusY=player.y+.57;if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;if(state==='playing'){[tx,ty,tz]=avoidCameraOcclusion(focusX,focusY,focusZ,tx,ty,tz);}let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
+let focusX=player.x-Math.sin(camera.yaw)*.85,focusZ=player.z-Math.cos(camera.yaw)*.85,focusY=player.y+(parkour.mode==='none'?.57:1.15);if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;if(state==='playing'){[tx,ty,tz]=avoidCameraOcclusion(focusX,focusY,focusZ,tx,ty,tz);}let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
 let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
 function show(name){for(let n of ['menu','pause','settings','complete'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
-function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=0;camera.pitch=.56;camera.dist=5.9;camera.manualUntil=0;guide.firstMove=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('HANDSCAPE · Small Hand. Big Trouble.\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Workshop Awakening.\nOffline-first prototype v0.2.')};
+function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=0;camera.pitch=.56;camera.dist=5.9;camera.manualUntil=0;guide.firstMove=false;parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;jumpQueued=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
+$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('HANDSCAPE · Small Hand. Big Trouble.\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Workshop Awakening.\nOffline-first prototype v0.3.')};
 for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;store()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
-window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='settings')$('settingsBack').click();else pause();return}keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
+window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='settings')$('settingsBack').click();else pause();return}if(k===' '&&!keys.has(k))jumpQueued=true;if(k==='g'&&!keys.has(k))requestGrip();keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
 let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.7,Math.min(11,camera.dist+Math.sign(e.deltaY)*.6))},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
-$('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();touch.jump=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
+$('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();jumpQueued=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('gripButton').addEventListener('pointerdown',e=>{e.preventDefault();requestGrip();$('gripButton').classList.add('pressed')});for(const s of ['pointerup','pointercancel','pointerleave'])$('gripButton').addEventListener(s,()=>$('gripButton').classList.remove('pressed'));$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
 requestAnimationFrame(tick);
 })();
 </script>
