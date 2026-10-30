@@ -14,11 +14,11 @@
 </head>
 <body>
 <canvas id="game" aria-label="Handscape playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ A TINY ADVENTURE ✦</div><h1>HAND<span>SCAPE</span></h1><p class="subtitle">Small hand. Big trouble.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; INTERACT <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Workshop Awakening</p></div><span class="top-corner">A World Within Reach</span><span id="credits">An original voxel adventure · v0.1</span></section>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ A TINY ADVENTURE ✦</div><h1>HAND<span>SCAPE</span></h1><p class="subtitle">Small hand. Big trouble.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; INTERACT <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Workshop Awakening</p></div><span class="top-corner">A World Within Reach</span><span id="credits">An original voxel adventure · v0.2</span></section>
 <div id="hud" class="hidden"><button id="pauseButton" aria-label="Pause game">Ⅱ</button><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="restartButton" class="menu-btn">↺ Restart Workshop</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
-<section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
-<section id="complete" class="hidden"><div class="dialog"><div class="crest" style="color:var(--gold)">✦ CHAPTER CLEAR ✦</div><h2>TROUBLE<br>MADE<span class="em">.</span></h2><p>Nim has mastered the workshop. This is the foundation build: more routes, puzzles and reactive characters arrive in the next milestone.</p><button id="playAgain" class="menu-btn primary">↺ Explore Again</button><button id="finishedMenu" class="menu-btn">⌂ Main Menu</button></div></section>
+<section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
+<section id="complete" class="hidden"><div class="dialog"><div class="crest" style="color:var(--gold)">✦ CHAPTER CLEAR ✦</div><h2>TROUBLE<br>MADE<span class="em">.</span></h2><p>Nim has mastered the workshop. The workshop is only the beginning. A much bigger world awaits beyond the vent.</p><button id="playAgain" class="menu-btn primary">↺ Explore Again</button><button id="finishedMenu" class="menu-btn">⌂ Main Menu</button></div></section>
 <div id="rotateHint">↻<br>Rotate your phone to landscape for the best Handscape experience.</div>
 <script>
 (()=>{'use strict';
@@ -56,11 +56,11 @@ box(1,-2.62,4,12,.04,10,C.red);box(1,-2.59,4,11,.04,9,C.copper);for(let i=-4;i<=
 bench();
 function book(x,z,w=1.4,colorHex=C.red,y=0){box(x,y+.18,z,w,.36,1.03,colorHex,0,true);box(x,y+.37,z,w,.045,1.04,C.gold);}for(let i=0;i<5;i++)book(-6.9+i*.9,1.1,1,[C.navy,C.teal,C.copper,C.green,C.red][i],0);book(-2.3,-1.1,1.9,C.cream);book(-2.25,-2.04,1.7,C.navy,.36);
 // Cup, pencil pot, and pens
-box(4.6,.47,3.7,.8,.9,.8,C.cream);box(4.6,.95,3.7,.7,.14,.7,C.brass);for(let k=0;k<6;k++){let a=k*1.046;box(4.6+.23*Math.cos(a),1.24,3.7+.23*Math.sin(a),.09,.8,.09,[C.red,C.green,C.gold][k%3],a)}
+box(4.6,.47,3.7,.8,.9,.8,C.cream,0,true);box(4.6,.95,3.7,.7,.14,.7,C.brass);for(let k=0;k<6;k++){let a=k*1.046;box(4.6+.23*Math.cos(a),1.24,3.7+.23*Math.sin(a),.09,.8,.09,[C.red,C.green,C.gold][k%3],a)}
 // Notebook with pages
-box(.4,.08,4.3,3.1,.15,2.6,C.darkWood);box(.4,.19,4.3,2.9,.15,2.4,C.paper);for(let k=0;k<7;k++)box(-.52,.274,3.5+k*.27,.92,.015,.035,C.wood2);
+box(.4,.08,4.3,3.1,.15,2.6,C.darkWood,0,true);box(.4,.19,4.3,2.9,.15,2.4,C.paper);for(let k=0;k<7;k++)box(-.52,.274,3.5+k*.27,.92,.015,.035,C.wood2);
 // Lamp base, stand, articulated shade
-box(7.6,.15,-4.7,1.9,.3,1.9,C.iron);box(7.6,1.65,-4.7,.22,2.8,.2,C.iron2);box(6.8,3.15,-4.7,1.9,.22,.23,C.iron2);box(6,3.08,-4.7,1.5,.72,1.35,C.gold);box(6,2.69,-4.7,1.6,.13,1.45,C.glow);
+box(7.6,.15,-4.7,1.9,.3,1.9,C.iron,0,true);box(7.6,1.65,-4.7,.22,2.8,.2,C.iron2);box(6.8,3.15,-4.7,1.9,.22,.23,C.iron2);box(6,3.08,-4.7,1.5,.72,1.35,C.gold);box(6,2.69,-4.7,1.6,.13,1.45,C.glow);
 // Toolbox and staggered crates (solid parkour objects)
 box(-8.5,.55,-3.85,3.4,1.1,2.3,C.red,0,true);box(-8.5,1.1,-3.85,3.6,.22,2.5,C.copper);box(-8.5,1.28,-3.85,1,.16,.2,C.brass);box(1.1,.48,-5.1,1.65,.96,1.65,C.wood2,0,true);box(1.1,.99,-5.1,1.7,.12,1.7,C.wood3);box(-.5,.47,-6.5,1.45,.94,1.45,C.wood2,0,true);box(-.5,.98,-6.5,1.5,.14,1.5,C.brass);
 for(let k=0;k<3;k++){box(-10.15,.23,-5.2+k*1.9,1.05,.4,1.1,C.navy);box(-10.15,.45,-5.2+k*1.9,.8,.06,.8,C.brass)}
@@ -70,7 +70,7 @@ for(let i=0;i<18;i++){let x=-4+(i%6)*.38,z=-4.5+Math.floor(i/6)*.4;box(x,.075,z,
 // Vent exit frame at far end of bench; glow controlled by interaction
 box(9.7,1.1,-8.25,3.2,2.2,.32,C.iron);box(9.7,1.1,-8.04,2.45,1.58,.10,C.black);for(let k=0;k<5;k++)box(9.7,.48+k*.31,-7.95,2.35,.09,.1,C.iron2);box(9.7,.05,-7.65,2.4,.10,1,C.wood2);
 // Tools and rods
-for(let i=0;i<7;i++){let x=1.5+i*.3;box(x,.13,1.6,.13,.14,1.25,i%2?C.iron2:C.brass,0.15+i*.12);}box(1.1,.24,-3.2,2.1,.35,.9,C.wood3);box(1.1,.5,-3.2,1.4,.19,.55,C.iron2);
+for(let i=0;i<7;i++){let x=1.5+i*.3;box(x,.13,1.6,.13,.14,1.25,i%2?C.iron2:C.brass,0.15+i*.12);}box(1.1,.24,-3.2,2.1,.35,.9,C.wood3,0,true);box(1.1,.5,-3.2,1.4,.19,.55,C.iron2);
 // Floor corner planters and leafy voxel trees for rich composition
 for(let x of [-14,14]){for(let z of [-11,9]){box(x,-1.9,z,2,1.5,2,C.red);box(x,-1.05,z,1.8,.2,1.8,C.wood2);box(x,0,z,.28,2.1,.28,C.darkWood);world.vox(x,1.5,z,4,4,4,.28,[C.green,C.teal,C.tealLight],x+z)}}
 // Hanging lights
@@ -78,17 +78,57 @@ for(let x of [-8,0,8]){box(x,11.5,-3,.1,2,.1,C.black);box(x,10.45,-3,1.5,.5,1.5,
 // Ambient flying motes are rendered dynamically.
 const worldGpu=gpu(world);
 const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
-let settings={quality:'high',volume:70,sensitivity:60,shadows:true,hints:true};try{let loaded=JSON.parse(localStorage.getItem('handscape-settings')||'null');if(loaded)settings={...settings,...loaded}}catch(e){}function store(){try{localStorage.setItem('handscape-settings',JSON.stringify(settings))}catch(e){}}
-$('quality').value=settings.quality;$('volume').value=settings.volume;$('sensitivity').value=settings.sensitivity;$('shadows').checked=settings.shadows;$('hints').checked=settings.hints;
-const keys=new Set(),touch={x:0,y:0,jump:false,act:false},camera={yaw:.28,pitch:.43,dist:7.3,x:0,y:0,z:0,drag:false,oldX:0,oldY:0},pos=new Float32Array(3),eye=new Float32Array(3),view=new Float32Array(16),proj=new Float32Array(16);
+let settings={quality:'high',volume:70,sensitivity:60,shadows:true,hints:true,followCamera:true};try{let loaded=JSON.parse(localStorage.getItem('handscape-settings')||'null');if(loaded)settings={...settings,...loaded}}catch(e){}function store(){try{localStorage.setItem('handscape-settings',JSON.stringify(settings))}catch(e){}}
+$('quality').value=settings.quality;$('volume').value=settings.volume;$('sensitivity').value=settings.sensitivity;$('shadows').checked=settings.shadows;$('hints').checked=settings.hints;$('followCamera').checked=settings.followCamera;
+const keys=new Set(),touch={x:0,y:0,jump:false,act:false},camera={yaw:0,pitch:.56,dist:5.9,x:0,y:0,z:0,manualUntil:0},pos=new Float32Array(3),eye=new Float32Array(3),view=new Float32Array(16),proj=new Float32Array(16);
 function perspective(out,fovy,aspect,near,far){let f=1/Math.tan(fovy/2);out.fill(0);out[0]=f/aspect;out[5]=f;out[10]=(far+near)/(near-far);out[11]=-1;out[14]=2*far*near/(near-far)}function lookAt(out,eye,target){let z=[eye[0]-target[0],eye[1]-target[1],eye[2]-target[2]],zl=Math.hypot(...z);z=z.map(n=>n/zl);let x=[z[2],0,-z[0]],xl=Math.hypot(...x);x=x.map(n=>n/xl);let y=[z[1]*x[2]-z[2]*x[1],z[2]*x[0]-z[0]*x[2],z[0]*x[1]-z[1]*x[0]];out.set([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-(x[0]*eye[0]+x[1]*eye[1]+x[2]*eye[2]),-(y[0]*eye[0]+y[1]*eye[1]+y[2]*eye[2]),-(z[0]*eye[0]+z[1]*eye[1]+z[2]*eye[2]),1])}
 function local(mesh,x,y,z,w,h,d,col,ry=0,rx=0,rz=0){let co=Math.cos(player.yaw),si=Math.sin(player.yaw);mesh.box(player.x+x*co+z*si,player.y+y,player.z-x*si+z*co,w,h,d,col,player.yaw+ry,rx,rz)}
-function hand(mesh,dt,ambient=false){let v=Math.hypot(player.vx,player.vz),phase=player.walking, bob=Math.sin(phase*2)*Math.min(v,4)*.016;let drop=ambient?0:0;local(mesh,0,.78+bob+drop,0,1.04,.36,.99,C.skin,0,-.04);local(mesh,0,.96+bob,-.05,.88,.12,.8,C.skinLight);local(mesh,0,.73+bob,.5,.82,.35,.35,C.cuff);local(mesh,0,.72+bob,.72,.86,.31,.17,C.cuffEdge);
-for(let i=0;i<4;i++){let x=-.39+i*.26,ph=phase+i*Math.PI*.9,step=Math.sin(ph)*Math.min(1,v*.3),lift=Math.max(0,Math.sin(ph))*.23*Math.min(1,v*.6);let l=[.48,.66,.61,.43][i];local(mesh,x,.66+bob+lift*.45,-.63-step*.11,.19,.23,.42,C.skin,0,-.3+lift*.4);local(mesh,x,.45+bob+lift,-.82-l*.35-step*.17,.17,.23,.45,C.skinLight,0,.27-lift*.7);local(mesh,x,.22+bob+lift*.45,-.91-l*.65-step*.15,.17,.26,.22,C.skinDark,0,.12);local(mesh,x,.34+bob+lift,-.96-l*.68-step*.15,.15,.14,.21,C.skinLight);local(mesh,x,.98+bob,-.42,.20,.06,.14,C.skinLight)}
-// Thumb angled out to the left, with forward stepping motion
-local(mesh,-.59,.59+bob,-.05,.36,.25,.26,C.skin,0,0,-.25);local(mesh,-.76,.4+bob+Math.max(0,Math.sin(phase+1))*.1,-.23,.34,.21,.24,C.skinLight,-.35,0,-.4);local(mesh,-.86,.25+bob,-.36,.26,.21,.22,C.skinDark,-.5);
-// Three small knuckle plates define the original stylized character
-for(let i=0;i<3;i++)local(mesh,-.31+i*.30,1.012+bob,-.38,.13,.035,.17,i===1?C.cuffEdge:C.skinDark);
+// World-space articulated phalanges. Fingertips plant during stance and lift in swing.
+// The body is kinematic; the digits articulate to their actual contact targets.
+const toeState=Array.from({length:4},()=>({planted:false,x:0,y:0,z:0,fromX:0,fromZ:0}));
+function toWorld(x,y,z){const c=Math.cos(player.yaw),si=Math.sin(player.yaw);return [player.x+x*c+z*si,player.y+y,player.z-x*si+z*c]}
+function bone(mesh,a,b,width,depth,col){let dx=b[0]-a[0],dy=b[1]-a[1],dz=b[2]-a[2];let len=Math.hypot(dx,dy,dz);if(len<.015)return;
+  mesh.box((a[0]+b[0])*.5,(a[1]+b[1])*.5,(a[2]+b[2])*.5,width,depth,len,col,Math.atan2(dx,dz),-Math.atan2(dy,Math.hypot(dx,dz)));}
+function hand(mesh,dt,ambient=false){
+  const speed=Math.hypot(player.vx,player.vz),moving=speed>.17&&player.onGround;
+  const phase=player.walking, bob=moving?.024*Math.sin(phase*2):.007*Math.sin(time*2.2);
+  const lean=Math.min(.095,speed*.014),roll=Math.max(-.07,Math.min(.07,player.turnLean||0));
+  local(mesh,0,.79+bob,.10,1.02,.29,.93,C.skin,0,-lean,roll);
+  local(mesh,0,.955+bob,-.03,.90,.095,.74,C.skinLight,0,-lean,roll);
+  local(mesh,0,.78+bob,.59,.84,.32,.32,C.cuff);
+  local(mesh,0,.78+bob,.76,.86,.29,.12,C.cuffEdge);
+  local(mesh,0,.77+bob,.83,.68,.20,.07,C.tealLight);
+  const xs=[-.355,-.12,.135,.36], lengths=[.96,1.16,1.07,.83];
+  for(let i=0;i<4;i++){
+    let x=xs[i],toe=toeState[i],ph=(((phase/(Math.PI*2))+(i%2)*.5)%1+1)%1;
+    let contact=toWorld(x,.072,-1.12-(lengths[i]-.98)*.29);
+    let tip=contact;
+    if(moving){
+      if(!toe.initialized){toe.x=contact[0];toe.y=contact[1];toe.z=contact[2];toe.fromX=contact[0];toe.fromZ=contact[2];toe.initialized=true;}
+      if(ph<.57){if(!toe.planted){toe.x=contact[0];toe.y=contact[1];toe.z=contact[2];toe.planted=true;}
+        tip=[toe.x,toe.y,toe.z];
+        // Prevent unnatural joint hyperextension on sharp turns or sudden acceleration.
+        let d=Math.hypot(tip[0]-contact[0],tip[2]-contact[2]);if(d>.66){tip[0]+=(contact[0]-tip[0])*.35;tip[2]+=(contact[2]-tip[2])*.35;toe.x=tip[0];toe.z=tip[2];}
+      }else{
+        if(toe.planted){toe.fromX=toe.x;toe.fromZ=toe.z;toe.planted=false;}
+        const u=Math.max(0,Math.min(1,(ph-.57)/.43));const ease=u*u*(3-2*u);
+        const ahead=toWorld(x,.07,-1.26-(lengths[i]-.98)*.3);
+        tip=[toe.fromX+(ahead[0]-toe.fromX)*ease,contact[1]+Math.sin(u*Math.PI)*.26,toe.fromZ+(ahead[2]-toe.fromZ)*ease];
+      }
+    }else{toe.planted=false;toe.initialized=false;toe.fromX=contact[0];toe.fromZ=contact[2];if(!player.onGround){tip=toWorld(x,.39,-.84);}}
+    let root=toWorld(x,.71+bob,-.46);
+    let mid=toWorld(x,.47+bob,-.70-(lengths[i]-.98)*.2);
+    mid[0]=mid[0]*.78+tip[0]*.22;mid[2]=mid[2]*.78+tip[2]*.22;
+    let distal=[mid[0]*.40+tip[0]*.60,mid[1]*.36+tip[1]*.64+.09,mid[2]*.40+tip[2]*.60];
+    bone(mesh,root,mid,.19,.20,C.skin);
+    bone(mesh,mid,distal,.17,.18,C.skinLight);
+    bone(mesh,distal,tip,.15,.17,C.skinDark);
+    mesh.box(tip[0],tip[1]+.033,tip[2],.18,.13,.19,C.skinLight);
+    local(mesh,x,.955+bob,-.38,.145,.034,.16,i===1?C.cuffEdge:C.skinDark);
+  }
+  // Thumb is an active stabilizer rather than a decorative fifth straight finger.
+  let tr=toWorld(-.52,.72+bob,.03),tm=toWorld(-.76,.48+bob,-.22),tt=toWorld(-.94,.16+(!player.onGround?.16:0),-.42);
+  bone(mesh,tr,tm,.26,.24,C.skin);bone(mesh,tm,tt,.23,.22,C.skinLight);mesh.box(tt[0],tt[1],tt[2],.23,.18,.23,C.skinDark);
 }
 function robot(mesh,t){const x=npc.x,z=npc.z,bob=Math.sin(t*5)*.038;const rb=(ax,ay,az,w,h,d,col)=>mesh.box(x+ax,ay+bob,z+az,w,h,d,col,npc.angle);rb(0,.48,0,.7,.55,.58,C.teal);rb(0,.89,0,.73,.43,.56,C.iron2);rb(0,1.08,-.32,.57,.22,.1,C.black);rb(-.19,1.09,-.385,.12,.10,.03,C.gold);rb(.19,1.09,-.385,.12,.10,.03,C.gold);rb(0,1.38,0,.08,.31,.08,C.brass);rb(0,1.55,0,.25,.14,.25,C.gold);for(let s of [-1,1]){rb(s*.45,.52,0,.18,.4,.2,C.copper);rb(s*.23,.15,.05,.20,.27,.28,C.iron2)}rb(0,.52,-.34,.18,.16,.05,C.brass)}
 function gizmos(mesh,t){ // Bell, jar and switch are dynamic to make interactions readable
@@ -98,36 +138,91 @@ if(!jarDown){mesh.box(-2.05,.38,-3.55,.57,.78,.58,C.iron2);mesh.box(-2.05,.79,-3
 mesh.box(5.5,.11,-4.4,1.05,.21,.95,C.iron);mesh.box(5.5,.33,-4.4,.45,.29,.45,fanOn?C.red:C.green);mesh.box(5.5,.51,-4.4,.18,.1,.18,C.brass);
 // Spinning fan blades near workshop exit
 if(fanOn)for(let i=0;i<4;i++){let a=t*7+i*Math.PI*.5;mesh.box(9.7+.6*Math.cos(a),1.2+.55*Math.sin(a),-7.77,.72,.12,.14,C.teal,.0,0,a)}else mesh.box(9.7,1.2,-7.77,.42,.42,.18,C.green);
-// Firefly motes, localized for atmospheric movement
+// A subtle in-world guiding sparkle replaces persistent quest panels.
+ const target=!bellRung?[2.5,.98,-1.8]:fanOn?[5.5,.92,-4.4]:[9.7,2.22,-7.8];
+ let pulse=.5+.5*Math.sin(t*3.3);
+ mesh.box(target[0],target[1]+.18*Math.sin(t*2.5),target[2],.12+pulse*.075,.2+pulse*.12,.12+pulse*.075,C.gold,t*.9,.2,t*.4);
+ mesh.box(target[0],target[1]+.46+.14*Math.sin(t*2.5),target[2],.055,.06,.055,C.glow,t*.7);
+ // Firefly motes, localized for atmospheric movement
 for(let i=0;i<16;i++){let a=i*1.618+t*.18;let x=-8+(i%6)*3.15+.32*Math.cos(a),z=-7+(i%4)*3.8+.24*Math.sin(a),y=1.4+(i%5)*.44+.18*Math.sin(a*2);mesh.box(x,y,z,.035,.035,.035,i%2?C.gold:C.tealLight)}
 }
 let timeSinceBell=99,worldViewGpu=worldGpu,dynGpu=null;const RESTART={x:-4.2,y:0,z:3.3};const interactions=[{id:'bell',x:2.5,z:-1.8,label:'Ring bell'},{id:'jar',x:-2.05,z:-3.55,label:'Tip jar'},{id:'switch',x:5.5,z:-4.4,label:'Press switch'},{id:'exit',x:9.7,z:-7.2,label:'Enter vent'}];
 function toast(s){$('toast').textContent=s;$('toast').style.opacity=1;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.opacity=0,2200)}function objective(s){$('objective').textContent=s;$('objective').style.opacity=1;clearTimeout(objective.timer);objective.timer=setTimeout(()=>$('objective').style.opacity=0,3200)}
 function nearest(){let min=1.65,found=null;for(let a of interactions){let dist=Math.hypot(player.x-a.x,player.z-a.z);if(dist<min){min=dist;found=a}}return found}
 function playTone(f=300,d=.13,type='sine',vol=.10){if(settings.volume===0)return;try{const context=(playTone.ctx??=new(window.AudioContext||window.webkitAudioContext)());if(context.state==='suspended')context.resume();let o=context.createOscillator(),g=context.createGain();o.type=type;o.frequency.setValueAtTime(f,context.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(100,f*.74),context.currentTime+d);g.gain.setValueAtTime(.0001,context.currentTime);g.gain.exponentialRampToValueAtTime(.018*settings.volume/100*vol/.10,context.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,context.currentTime+d);o.connect(g);g.connect(context.destination);o.start();o.stop(context.currentTime+d+.02)}catch(e){}}
-function interact(){if(state!=='playing')return;let a=nearest();if(!a)return;if(a.id==='bell'){bellRung=true;timeSinceBell=0;playTone(880,.62,'sine');toast('DING! Someone heard that…');npc.mode='investigate';npc.targetX=2.5;npc.targetZ=-1.8;npc.timer=9}else if(a.id==='jar'){jarDown=!jarDown;playTone(200,.27,'triangle');toast(jarDown?'Clatter! What a mess.':'Jar upright again.');npc.mode='investigate';npc.targetX=-2.05;npc.targetZ=-3.55;npc.timer=10}else if(a.id==='switch'){fanOn=!fanOn;playTone(400,.2,'square');toast(fanOn?'The fan spins up.':'The fan stops! The vent is safe.');npc.mode='investigate';npc.targetX=5.5;npc.targetZ=-4.4;npc.timer=7}else if(a.id==='exit'){if(fanOn){toast('The spinning fan blocks the way. Find the switch!');playTone(175,.2)}else{state='complete';$('hud').classList.add('hidden');$('complete').classList.remove('hidden');try{localStorage.setItem('handscape-complete','1')}catch(e){}playTone(720,.55)}}}
-function groundAt(x,z,footY){let surface=(Math.abs(x)<11.6&&Math.abs(z)<8.7)?0:-100;for(let b of colliders){const top=b.top;if(x>b.x-b.w/2-.15&&x<b.x+b.w/2+.15&&z>b.z-b.d/2-.15&&z<b.z+b.d/2+.15&&footY>=top-.27)surface=Math.max(surface,top)}return surface}
-let last=0;function tick(ms){let dt=Math.min(.033,(ms-last)/1000||.016);last=ms;time+=dt;if(state==='playing')update(dt);else if(state==='menu')player.walking+=dt*1.3;render(dt);requestAnimationFrame(tick)}
-function update(dt){timeSinceBell+=dt;let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-touch.y;let side=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0)+touch.x;let mag=Math.hypot(forward,side);if(mag>1){forward/=mag;side/=mag}let sprint=keys.has('shift')||mag>.89;let speed=sprint?4.8:3.1;let vx=(side*Math.cos(camera.yaw)-forward*Math.sin(camera.y))*speed,vz=(-side*Math.sin(camera.y)-forward*Math.cos(camera.y))*speed;const response=1-Math.exp(-dt*11);player.vx+=(vx-player.vx)*response;player.vz+=(vz-player.vz)*response;let mx=player.x+player.vx*dt,mz=player.z+player.vz*dt;if(Math.abs(mx)>11.15||Math.abs(mz)>8.35){mx=player.x;mz=player.z;player.vx=0;player.vz=0}player.x=mx;player.z=mz;let motion=Math.hypot(player.vx,player.vz);if(motion>.15){let desired=Math.atan2(-player.vx,-player.vz);let diff=Math.atan2(Math.sin(desired-player.yaw),Math.cos(desired-player.y));player.yaw+=diff*Math.min(1,dt*12);player.walking+=dt*motion*8;}
-if((keys.has(' ')||touch.jump)&&player.onGround){player.vy=5.2;player.onGround=false;touch.jump=false;playTone(310,.09,'triangle');}let oldY=player.y;player.vy-=14*dt;player.y+=player.vy*dt;let support=groundAt(player.x,player.z,oldY);if(player.vy<=0&&player.y<=support&&oldY>=support-.3){player.y=support;player.vy=0;player.onGround=true}else player.onGround=false;if(player.y< -3.8){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});toast('A lucky landing back at the workbench!')}
+function interact(){if(state!=='playing')return;let a=nearest();if(!a)return;if(a.id==='bell'){bellRung=true;if(settings.hints)objective('The caretaker heard that! · Find the fan switch');timeSinceBell=0;playTone(880,.62,'sine');toast('DING! Someone heard that…');npc.mode='investigate';npc.targetX=2.5;npc.targetZ=-1.8;npc.timer=9}else if(a.id==='jar'){jarDown=!jarDown;playTone(200,.27,'triangle');toast(jarDown?'Clatter! What a mess.':'Jar upright again.');npc.mode='investigate';npc.targetX=-2.05;npc.targetZ=-3.55;npc.timer=10}else if(a.id==='switch'){fanOn=!fanOn;if(!fanOn&&settings.hints)objective('Fan stopped · Reach the ventilation exit');playTone(400,.2,'square');toast(fanOn?'The fan spins up.':'The fan stops! The vent is safe.');npc.mode='investigate';npc.targetX=5.5;npc.targetZ=-4.4;npc.timer=7}else if(a.id==='exit'){if(fanOn){toast('The spinning fan blocks the way. Find the switch!');playTone(175,.2)}else{state='complete';$('hud').classList.add('hidden');$('complete').classList.remove('hidden');try{localStorage.setItem('handscape-complete','1')}catch(e){}playTone(720,.55)}}}
+function groundAt(x,z,footY){
+  let surface=(Math.abs(x)<11.7&&Math.abs(z)<8.7)?0:-2.65;
+  for(const b of colliders){const top=b.top;
+    if(x>b.x-b.w/2-.25&&x<b.x+b.w/2+.25&&z>b.z-b.d/2-.25&&z<b.z+b.d/2+.25&&footY>=top-.23)surface=Math.max(surface,top);
+  }return surface;
+}
+// A broadphase rectangle check is sufficient for the authored box-shaped obstacles.
+function blockedAt(x,z,y){const radius=.29,head=y+.85;
+  for(const b of colliders){if(b.top<=y+.17 || b.y-b.h/2>=head)continue;
+    if(x>b.x-b.w/2-radius&&x<b.x+b.w/2+radius&&z>b.z-b.d/2-radius&&z<b.z+b.d/2+radius)return true;
+  }return false;
+}
+function moveSolid(dx,dz){
+  let x=player.x+dx,z=player.z+dz;
+  if(x<11.3&&x>-11.3&&!blockedAt(x,player.z,player.y)){player.x=x;}else player.vx=0;
+  if(z<8.45&&z>-8.45&&!blockedAt(player.x,z,player.y)){player.z=z;}else player.vz=0;
+}
+function moveBasis(yaw){return {forward:[-Math.sin(yaw),-Math.cos(yaw)],right:[Math.cos(yaw),-Math.sin(yaw)]};}
+const guide={steps:0,firstMove:false};
+let last=0;function tick(ms){let dt=Math.min(.033,(ms-last)/1000||.016);last=ms;time+=dt;if(state==='playing')update(dt);else if(state==='menu')player.walking+=dt*.85;render(dt);requestAnimationFrame(tick)}
+function update(dt){
+  timeSinceBell+=dt;
+  let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-touch.y;
+  let side=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0)+touch.x;
+  let mag=Math.hypot(forward,side);if(mag>1){forward/=mag;side/=mag;mag=1;}
+  let sprint=keys.has('shift')||(mag>.92&&!!('ontouchstart'in window));
+  let speed=sprint?4.3:2.8;
+  const basis=moveBasis(camera.yaw);
+  const vx=(forward*basis.forward[0]+side*basis.right[0])*speed;
+  const vz=(forward*basis.forward[1]+side*basis.right[1])*speed;
+  const response=1-Math.exp(-dt*(mag>0?10:14));
+  player.vx+=(vx-player.vx)*response;player.vz+=(vz-player.vz)*response;
+  const oldVX=player.vx,oldVZ=player.vz;
+  moveSolid(player.vx*dt,player.vz*dt);
+  let motion=Math.hypot(player.vx,player.vz);
+  if(motion>.13){
+    const desired=Math.atan2(-player.vx,-player.vz);
+    const diff=Math.atan2(Math.sin(desired-player.yaw),Math.cos(desired-player.yaw));
+    player.yaw+=diff*Math.min(1,dt*10);
+    player.turnLean=player.turnLean*.75+Math.max(-.08,Math.min(.08,-diff*.12))*.25;
+    player.walking+=dt*motion*4.8;
+    if(!guide.firstMove&&motion>.8){guide.firstMove=true;if(settings.hints)objective('Follow the golden glimmer · Ring the bell');}
+  }else player.turnLean*=.82;
+  if((keys.has(' ')||touch.jump)&&player.onGround){player.vy=5.0;player.onGround=false;touch.jump=false;playTone(310,.09,'triangle');}
+  let oldY=player.y;player.vy-=15*dt;player.y+=player.vy*dt;
+  let support=groundAt(player.x,player.z,oldY);
+  if(player.vy<=0&&player.y<=support&&oldY>=support-.23){player.y=support;player.vy=0;player.onGround=true;}else player.onGround=false;
+  if(player.y< -1.65){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});for(const t of toeState){t.planted=false;t.initialized=false;}toast('Back on the workbench!');}
+  // Trail the hand after a manual-camera grace period, without stealing camera control.
+  if(settings.followCamera && time>camera.manualUntil && motion>.16 && forward>.25){
+    const angular=Math.atan2(Math.sin(player.yaw-camera.yaw),Math.cos(player.yaw-camera.yaw));
+    camera.yaw+=angular*(1-Math.exp(-dt*1.85));
+  }
 // Caretaker reacts to mischief, not omniscient player tracking
 npc.timer-=dt;if(npc.mode==='investigate'&&npc.timer<=0){npc.mode='patrol';npc.targetX=1.8;npc.targetZ=-5.8}if(npc.mode==='patrol'&&Math.hypot(npc.x-npc.targetX,npc.z-npc.targetZ)<.35){npc.targetX=npc.targetX>0?-4.1:1.8;npc.targetZ=-5.8}let dx=npc.targetX-npc.x,dz=npc.targetZ-npc.z,dist=Math.hypot(dx,dz);if(dist>.08){let s=Math.min(dist,dt*(npc.mode==='investigate'?1.25:.48));npc.x+=dx/dist*s;npc.z+=dz/dist*s;npc.angle=Math.atan2(-dx,-dz)}
-const a=nearest();$('hint').textContent=a?(a.id==='exit'&&fanOn?'':a.label+'  ·  '+('ontouchstart'in window?'USE':'E')):'';$('interactButton').hidden=!a;
-if(!freeTime){freeTime=1;objective('Find the ventilation exit · Explore the workshop');}
+const a=nearest();$('hint').textContent=a?(a.id==='exit'&&fanOn?'Fan spinning · Find the switch':a.label+'  ·  '+('ontouchstart'in window?'USE':'E')):'';$('interactButton').hidden=!a;
+if(!freeTime){freeTime=1;if(settings.hints)objective('Wake up, little hand · Move to explore');}
 }
 function render(dt){const r=canvas.getBoundingClientRect(),q=settings.quality==='low'?.7:settings.quality==='medium'?.9:1.4,dpr=Math.min(window.devicePixelRatio||1,q);let w=Math.max(1,Math.floor(r.width*dpr)),h=Math.max(1,Math.floor(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.14,.25,.30,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(prog);
-let focusX=player.x,focusZ=player.z,focusY=player.y+.75;if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.38;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
+let focusX=player.x-Math.sin(camera.yaw)*.85,focusZ=player.z-Math.cos(camera.yaw)*.85,focusY=player.y+.57;if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
 let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
 function show(name){for(let n of ['menu','pause','settings','complete'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
-function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0});fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('HANDSCAPE · Small Hand. Big Trouble.\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Workshop Awakening.\nOffline-first prototype v0.1.')};
-for(let id of ['quality','volume','sensitivity','shadows','hints'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;store()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
+function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=0;camera.pitch=.56;camera.dist=5.9;camera.manualUntil=0;guide.firstMove=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
+$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('HANDSCAPE · Small Hand. Big Trouble.\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Workshop Awakening.\nOffline-first prototype v0.2.')};
+for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;store()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
 window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='settings')$('settingsBack').click();else pause();return}keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
-let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.7,Math.min(11,camera.dist+Math.sign(e.deltaY)*.6))},{passive:false});
+let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.7,Math.min(11,camera.dist+Math.sign(e.deltaY)*.6))},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();touch.jump=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,moveBasis,blockedAt,colliders,guide,settings,interactions,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
 requestAnimationFrame(tick);
 })();
 </script>
