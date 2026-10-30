@@ -196,50 +196,52 @@ function hand(mesh,dt,ambient=false){
 // Parkour poses are contact-anchored. The wrist flexes; fingers hook over an
 // actual ledge or around the rope. Shimmy motion sequentially regrips digits.
 function gripPose(mesh){
- const swinging=parkour.mode==='swing',pulling=parkour.mode==='mantle';
- const mantleU=pulling?Math.min(1,parkour.timer/.82):0;
- const bend=pulling?smooth01(mantleU):0;
- const pulse=Math.sin(time*3)*.011;
- if(swinging){
-   // Wrist hangs below the fingers while holding the cable overhead.
-   local(mesh,0,.53+pulse,.18,.96,.29,.86,C.skin,0,.29);
-   local(mesh,0,.40+pulse,.47,.76,.46,.54,C.skin,0,.25);
-   local(mesh,0,.40+pulse,.49,.78,.11,.60,C.cuff);
-   local(mesh,0,.23+pulse,.52,.65,.11,.50,C.skinDark);
+ const swing=parkour.mode==='swing',mantle=parkour.mode==='mantle';
+ const u=mantle?clamp(parkour.timer/.98,0,1):0;
+ const pull=smooth01(clamp(u/.43,0,1)),plant=smooth01(clamp((u-.43)/.35,0,1));
+ const recover=smooth01(clamp((u-.78)/.22,0,1));
+ const pulse=Math.sin(time*3)*.008;
+ if(swing){
+   // A single hand encircles the rope: four digits curl across its cylinder,
+   // and the thumb closes from the opposing side. Grip remains in world space.
+   const gy=rope.y-Math.cos(parkour.theta)*rope.length;
+   const gz=rope.z+Math.sin(parkour.theta)*rope.length;
+   const grip=[rope.x,gy,gz], palm=[player.x,player.y+.58,player.z+.14];
+   bone(mesh,palm,[player.x,player.y+.83,player.z+.25],.43,.37,C.skin);
+   bone(mesh,[player.x,player.y+.83,player.z+.25],[player.x,player.y+.32,player.z+.37],.31,.30,C.cuff);
    for(let i=0;i<4;i++){
-     const x=HAND_XS[i],root=toWorld(x,.70,-.24),mid=toWorld(x*.88,.99,-.33);
-     const tip=toWorld(x*.80,1.13,-.38);
-     bone(mesh,root,mid,.19,.20,C.skin);bone(mesh,mid,tip,.16,.17,C.skinLight);
-     bone(mesh,tip,toWorld(x*.80,1.03,-.48),.135,.15,C.skinDark);
+     const xx=grip[0]+(i-1.5)*.13;
+     const root=[palm[0]+(i-1.5)*.16,palm[1]+.12,palm[2]-.23];
+     const mid=[xx,gy-.18,gz+.16],around=[xx,gy+.045,gz+.11],tip=[xx,gy+.06,gz-.075];
+     bone(mesh,root,mid,.16,.16,C.skin);
+     bone(mesh,mid,around,.135,.14,C.skinLight);
+     bone(mesh,around,tip,.115,.12,C.skinDark);
    }
-   bone(mesh,toWorld(-.48,.57,.01),toWorld(-.67,.93,-.17),.24,.23,C.skin);
-   bone(mesh,toWorld(-.67,.93,-.17),toWorld(-.38,1.12,-.45),.19,.18,C.skinLight);
+   bone(mesh,[palm[0]-.43,palm[1],palm[2]],[grip[0]-.32,gy-.18,gz-.12],.20,.20,C.skin);
+   bone(mesh,[grip[0]-.32,gy-.18,gz-.12],[grip[0]-.12,gy+.03,gz-.12],.16,.16,C.skinLight);
    return;
  }
- const shim=parkour.shimmySpeed||0;
- // A dangling wrist naturally tilts toward the ledge as the palm pulls up.
- local(mesh,0,.74+pulse,.07,.98,.30,.89,C.skin,0,-.26-.27*bend);
- local(mesh,0,.89+pulse,.13,.85,.11,.66,C.skinLight,0,-.23);
- local(mesh,0,.65+pulse,.52,.78,.42,.60,C.skin,0,-.20);
- local(mesh,0,.77+pulse,.56,.77,.12,.63,C.cuff);
- local(mesh,0,.81+pulse,.57,.79,.05,.65,C.cuffEdge);
- local(mesh,0,.96+pulse,.57,.65,.075,.50,C.skinDark);
- // Fingertips stay just above the platform surface while the body changes height.
+ const l=parkour.ledge;if(!l)return;
+ const tangent=[-l.nz,l.nx],edge=[parkour.hangX,l.b.top,parkour.hangZ];
+ const inward=[-l.nx,-l.nz],body=[player.x,player.y+.73+pulse,player.z];
+ // A rising wrist and changing palm angle makes pulling visibly different
+ // from hanging. All fingers share the collider's real top edge.
+ const wrist=[body[0]+inward[0]*.12,body[1]+.43+pull*.18,body[2]+inward[1]*.12];
+ bone(mesh,body,wrist,.52,.44,C.skin);
+ bone(mesh,wrist,[wrist[0],wrist[1]+.33*(1-recover),wrist[2]],.33,.32,C.cuff);
  for(let i=0;i<4;i++){
-   const x=HAND_XS[i],resettle=Math.sin(time*9+i*2)*Math.abs(shim)*.034;
-   const root=toWorld(x,.83,-.29);
-   const mid=toWorld(x,.995+resettle,-.54);
-   const tip=toWorld(x,1.065+resettle,-.49-.13*bend);
-   const hook=toWorld(x,1.00+resettle,-.63-.15*bend);
-   bone(mesh,root,mid,.19,.19,C.skin);
-   bone(mesh,mid,tip,.16,.16,C.skinLight);
-   bone(mesh,tip,hook,.14,.15,C.skinDark);
-   mesh.box(hook[0],hook[1],hook[2],.16,.13,.17,C.skinLight);
+   const off=(i-1.5)*.205,shuffle=Math.sin(time*8+i*1.8)*Math.abs(parkour.shimmySpeed||0)*.018;
+   const anchor=[edge[0]+tangent[0]*(off+shuffle),edge[1]+.035,edge[2]+tangent[1]*(off+shuffle)];
+   const root=[body[0]+tangent[0]*off,body[1]+.10,body[2]+tangent[1]*off];
+   const knuckle=[anchor[0]+l.nx*(.19-.11*plant),anchor[1]-.13+.17*pull,anchor[2]+l.nz*(.19-.11*plant)];
+   const hook=[anchor[0]+inward[0]*(.13+.15*plant),anchor[1]-.055,anchor[2]+inward[1]*(.13+.15*plant)];
+   bone(mesh,root,knuckle,.18,.18,C.skin);
+   bone(mesh,knuckle,anchor,.15,.15,C.skinLight);
+   bone(mesh,anchor,hook,.13,.13,C.skinDark);
  }
- // Thumb braces separately against the outside edge and adjusts while shimmying.
- const thumbRoot=toWorld(-.47,.83,.05),thumbMid=toWorld(-.72,.96,-.33),thumbTip=toWorld(-.83,1.038+Math.abs(shim)*.025,-.43);
- bone(mesh,thumbRoot,thumbMid,.24,.23,C.skin);bone(mesh,thumbMid,thumbTip,.18,.18,C.skinLight);
- mesh.box(thumbTip[0],thumbTip[1],thumbTip[2],.20,.16,.20,C.skinDark);
+ const brace=[edge[0]+tangent[0]*(-.48)+l.nx*.11,edge[1]-.12,edge[2]+tangent[1]*(-.48)+l.nz*.11];
+ bone(mesh,[body[0]+tangent[0]*(-.38),body[1],body[2]+tangent[1]*(-.38)],brace,.23,.22,C.skin);
+ bone(mesh,brace,[brace[0]+inward[0]*.14,edge[1]+.03,brace[2]+inward[1]*.14],.17,.17,C.skinLight);
 }
 function robot(mesh,t){const x=npc.x,z=npc.z,bob=Math.sin(t*5)*.038;const rb=(ax,ay,az,w,h,d,col)=>mesh.box(x+ax,ay+bob,z+az,w,h,d,col,npc.angle);rb(0,.48,0,.7,.55,.58,C.teal);rb(0,.89,0,.73,.43,.56,C.iron2);rb(0,1.08,-.32,.57,.22,.1,C.black);rb(-.19,1.09,-.385,.12,.10,.03,C.gold);rb(.19,1.09,-.385,.12,.10,.03,C.gold);rb(0,1.38,0,.08,.31,.08,C.brass);rb(0,1.55,0,.25,.14,.25,C.gold);for(let s of [-1,1]){rb(s*.45,.52,0,.18,.4,.2,C.copper);rb(s*.23,.15,.05,.20,.27,.28,C.iron2)}rb(0,.52,-.34,.18,.16,.05,C.brass)}
 function gizmos(mesh,t){ // Bell, jar and switch are dynamic to make interactions readable
@@ -336,7 +338,7 @@ function startGrip(){
    parkour.mode='hang';parkour.ledge=ledge;
    parkour.hangX=ledge.x;parkour.hangZ=ledge.z;
    parkour.catchFrom=[player.x,player.y,player.z];parkour.catchClock=0;
-   player.x=ledge.x+ledge.nx*.41;player.z=ledge.z+ledge.nz*.41;
+   player.x=ledge.x+ledge.nx*.58;player.z=ledge.z+ledge.nz*.58;
    player.y=ledge.b.top-1.01;
    player.vx=player.vy=player.vz=0;player.onGround=false;
    player.yaw=Math.atan2(ledge.nx,ledge.nz);
@@ -379,13 +381,16 @@ function releaseGrip(launch){
 function startMantle(){
  if(parkour.mode!=='hang')return;
  const l=parkour.ledge;
- parkour.mode='mantle';parkour.timer=0;parkour.shimmySpeed=0;
+ parkour.timer=0;parkour.shimmySpeed=0;
  parkour.start=[player.x,player.y,player.z];
  const inset=.69;
  parkour.finish=[clamp(parkour.hangX-l.nx*inset,l.b.x-l.b.w/2+.30,l.b.x+l.b.w/2-.30),
  l.b.top,
  clamp(parkour.hangZ-l.nz*inset,l.b.z-l.b.d/2+.30,l.b.z+l.b.d/2-.30)];
- playTone(650,.17,'sine');
+ if(blockedAt(parkour.finish[0],parkour.finish[2],parkour.finish[1]+.02)){
+   if(settings.hints)toast('No space to climb onto this ledge');return;
+ }
+ parkour.mode='mantle';playTone(650,.17,'sine');
 }
 function updateParkour(dt,forward,side,basis){
  if(parkour.mode==='hang'){
@@ -403,16 +408,16 @@ function updateParkour(dt,forward,side,basis){
    // A short elastic catch avoids an instant position snap on grip.
    parkour.catchClock=Math.min(.16,(parkour.catchClock||0)+dt);
    const settle=smooth01(parkour.catchClock/.16),from=parkour.catchFrom||[player.x,player.y,player.z];
-   player.x=mix(from[0],parkour.hangX+l.nx*.41,settle);
-   player.z=mix(from[2],parkour.hangZ+l.nz*.41,settle);
+   player.x=mix(from[0],parkour.hangX+l.nx*.58,settle);
+   player.z=mix(from[2],parkour.hangZ+l.nz*.58,settle);
    player.y=mix(from[1],l.b.top-1.01,settle);player.vx=player.vy=player.vz=0;
    if(jumpQueued)startMantle();
  }else if(parkour.mode==='mantle'){
    parkour.timer+=dt;
-   const u=clamp(parkour.timer/.82,0,1);
+   const u=clamp(parkour.timer/.98,0,1);
    // Two real phases: pull the body up, then roll the palm across the ledge.
-   const vertical=u<.60?.83*smooth01(u/.60):.83+.17*smooth01((u-.60)/.40);
-   const horizontal=u<.60?.19*smooth01(u/.60):.19+.81*smooth01((u-.60)/.40);
+   const vertical=u<.48?.92*smooth01(u/.48):.92+.08*smooth01((u-.48)/.52);
+   const horizontal=u<.43?.06*smooth01(u/.43):.06+.94*smooth01((u-.43)/.57);
    player.x=parkour.start[0]+(parkour.finish[0]-parkour.start[0])*horizontal;
    player.z=parkour.start[2]+(parkour.finish[2]-parkour.start[2])*horizontal;
    player.y=parkour.start[1]+(parkour.finish[1]-parkour.start[1])*vertical+.06*Math.sin(u*Math.PI);
