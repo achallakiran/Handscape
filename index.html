@@ -55,7 +55,7 @@ box(1,-2.62,4,12,.04,10,C.red);box(1,-2.59,4,11,.04,9,C.copper);for(let i=-4;i<=
 }
 bench();
 
-// FRANK v0.5-C: workshop dressing is deliberately non-colliding. Core
+// FRANK v0.5-D1: workshop dressing is deliberately non-colliding. Core
 // platform/ledge collision hulls stay unchanged for reliable grip anchors.
 function trimBox(x,y,z,w,d,h=1.0){
  const dark=C.darkWood,brass=C.brass;
@@ -388,18 +388,25 @@ function gripPose(mesh){
  bone(mesh,body,wrist,.52,.44,C.skin);
  bone(mesh,wrist,[wrist[0],wrist[1]+.33*(1-recover),wrist[2]],.33,.32,C.cuff);
  for(let i=0;i<4;i++){
-   const off=(i-1.5)*.205,shuffle=Math.sin(time*8+i*1.8)*Math.abs(parkour.shimmySpeed||0)*.018;
-   const anchor=[edge[0]+tangent[0]*(off+shuffle),edge[1]+.035,edge[2]+tangent[1]*(off+shuffle)];
-   const root=[body[0]+tangent[0]*off,body[1]+.10,body[2]+tangent[1]*off];
-   const knuckle=[anchor[0]+l.nx*(.19-.11*plant),anchor[1]-.13+.17*pull,anchor[2]+l.nz*(.19-.11*plant)];
-   const hook=[anchor[0]+inward[0]*(.13+.15*plant),anchor[1]-.055,anchor[2]+inward[1]*(.13+.15*plant)];
-   bone(mesh,root,knuckle,.18,.18,C.skin);
-   bone(mesh,knuckle,anchor,.15,.15,C.skinLight);
-   bone(mesh,anchor,hook,.13,.13,C.skinDark);
+   const off=(i-1.5)*.205;
+   const speed=Math.abs(parkour.shimmySpeed||0);
+   const phase=(parkour.shimmyPhase||0)+i*Math.PI*.67;
+   const step=speed> .05 ? Math.max(0,Math.sin(phase)) : 0;
+   const advance=step*.14*Math.sign(parkour.shimmySpeed||0);
+   const lift=step*.13;
+   const anchor=[edge[0]+tangent[0]*(off+advance),edge[1]+.15+lift,edge[2]+tangent[1]*(off+advance)];
+   // Outside-facing knuckle, high crossing point, then top-surface pad.
+   const root=[body[0]+tangent[0]*off,body[1]+.12,body[2]+tangent[1]*off];
+   const knuckle=[anchor[0]+l.nx*.31,edge[1]-.10+.15*pull+lift,anchor[2]+l.nz*.31];
+   const crown=[anchor[0]+l.nx*.09,edge[1]+.19+lift,anchor[2]+l.nz*.09];
+   const pad=[anchor[0]+inward[0]*(.16+.13*plant),edge[1]+.13+lift,anchor[2]+inward[1]*(.16+.13*plant)];
+   bone(mesh,root,knuckle,.15,.15,C.skin);
+   bone(mesh,knuckle,crown,.135,.13,C.skinLight);
+   bone(mesh,crown,pad,.105,.105,C.skinDark);
  }
- const brace=[edge[0]+tangent[0]*(-.48)+l.nx*.11,edge[1]-.12,edge[2]+tangent[1]*(-.48)+l.nz*.11];
+ const brace=[edge[0]+tangent[0]*(-.48)+l.nx*.11,edge[1]+.13,edge[2]+tangent[1]*(-.48)+l.nz*.11];
  bone(mesh,[body[0]+tangent[0]*(-.38),body[1],body[2]+tangent[1]*(-.38)],brace,.23,.22,C.skin);
- bone(mesh,brace,[brace[0]+inward[0]*.14,edge[1]+.03,brace[2]+inward[1]*.14],.17,.17,C.skinLight);
+ bone(mesh,brace,[brace[0]+inward[0]*.14,edge[1]+.13,brace[2]+inward[1]*.14],.17,.17,C.skinLight);
 }
 function robot(mesh,t){const x=npc.x,z=npc.z,bob=Math.sin(t*5)*.038;const rb=(ax,ay,az,w,h,d,col)=>mesh.box(x+ax,ay+bob,z+az,w,h,d,col,npc.angle);rb(0,.48,0,.7,.55,.58,C.teal);rb(0,.89,0,.73,.43,.56,C.iron2);rb(0,1.08,-.32,.57,.22,.1,C.black);rb(-.19,1.09,-.385,.12,.10,.03,C.gold);rb(.19,1.09,-.385,.12,.10,.03,C.gold);rb(0,1.38,0,.08,.31,.08,C.brass);rb(0,1.55,0,.25,.14,.25,C.gold);for(let s of [-1,1]){rb(s*.45,.52,0,.18,.4,.2,C.copper);rb(s*.23,.15,.05,.20,.27,.28,C.iron2)}rb(0,.52,-.34,.18,.16,.05,C.brass)}
 function gizmos(mesh,t){ // Bell, jar and switch are dynamic to make interactions readable
@@ -462,25 +469,42 @@ function avoidCameraOcclusion(fx,fy,fz,tx,ty,tz){
 }
 // P1 — deterministic ledge acquisition, hanging, shimmy, mantle, and cable swinging.
 const clamp=(a,l,h)=>Math.max(l,Math.min(h,a));
+// D1: generous edge acquisition. A candidate must have a real outward face,
+// a reachable upper lip and a free hanging location outside the collider.
 function findLedge(){
  if(player.onGround)return null;
  let best=null,score=1e9;
  for(const b of colliders){
-   if(!b.grabbable||b.top-player.y<.22||b.top-player.y>1.63)continue;
-   const x0=b.x-b.w/2,x1=b.x+b.w/2,z0=b.z-b.d/2,z1=b.z+b.d/2;
-   // Keep the character outside the solid box while hooking its upper edge.
-   const faces=[{nx:0,nz:1,x:clamp(player.x,x0+.12,x1-.12),z:z1},
-     {nx:0,nz:-1,x:clamp(player.x,x0+.12,x1-.12),z:z0},
-     {nx:1,nz:0,x:x1,z:clamp(player.z,z0+.12,z1-.12)},
-     {nx:-1,nz:0,x:x0,z:clamp(player.z,z0+.12,z1-.12)}];
-   for(const f of faces){
-     const outward=(player.x-f.x)*f.nx+(player.z-f.z)*f.nz;
-     if(outward<.06||outward>.83)continue;
-     const tangential=Math.abs((player.x-f.x)*(-f.nz)+(player.z-f.z)*f.nx);
-     if(tangential>.47)continue;
-     const dist=Math.abs(outward-.36)+tangential*.5+Math.abs((b.top-player.y)-.90)*.12;
-     if(dist<score){score=dist;best={b,...f,outward};}
+  if(!b.grabbable)continue;
+  const rise=b.top-player.y;
+  if(rise<.16||rise>1.92)continue;
+  const x0=b.x-b.w/2,x1=b.x+b.w/2,z0=b.z-b.d/2,z1=b.z+b.d/2;
+  const margin=.13;
+  const faces=[
+   {nx:0,nz:1,x:clamp(player.x,x0+margin,x1-margin),z:z1},
+   {nx:0,nz:-1,x:clamp(player.x,x0+margin,x1-margin),z:z0},
+   {nx:1,nz:0,x:x1,z:clamp(player.z,z0+margin,z1-margin)},
+   {nx:-1,nz:0,x:x0,z:clamp(player.z,z0+margin,z1-margin)}
+  ];
+  for(const f of faces){
+   const outward=(player.x-f.x)*f.nx+(player.z-f.z)*f.nz;
+   if(outward<-.08||outward>1.12)continue;
+   const tx=-f.nz,tz=f.nx;
+   const tangentOffset=(player.x-f.x)*tx+(player.z-f.z)*tz;
+   if(Math.abs(tangentOffset)>.83)continue;
+   const hx=f.x+f.nx*.72,hz=f.z+f.nz*.72;
+   // Reject a catch if the intended hanging location is occupied by a
+   // different solid obstacle. The source box itself is behind this point.
+   let clear=true;
+   for(const other of colliders){
+    if(other===b)continue;
+    if(other.top<=b.top-1.05||other.y-other.h/2>=b.top-.12)continue;
+    if(Math.abs(hx-other.x)<other.w/2+.22&&Math.abs(hz-other.z)<other.d/2+.22){clear=false;break;}
    }
+   if(!clear)continue;
+   const distance=Math.abs(outward-.58)*.55+Math.abs(tangentOffset)*.65+Math.abs(rise-1.02)*.13;
+   if(distance<score){score=distance;best={b,...f,outward,tx,tz};}
+  }
  }
  return best;
 }
@@ -496,11 +520,11 @@ function startGrip(){
    parkour.mode='hang';parkour.ledge=ledge;
    parkour.hangX=ledge.x;parkour.hangZ=ledge.z;
    parkour.catchFrom=[player.x,player.y,player.z];parkour.catchClock=0;
-   player.x=ledge.x+ledge.nx*.58;player.z=ledge.z+ledge.nz*.58;
+   player.x=ledge.x+ledge.nx*.72;player.z=ledge.z+ledge.nz*.72;
    player.y=ledge.b.top-1.01;
    player.vx=player.vy=player.vz=0;player.onGround=false;
    player.yaw=Math.atan2(ledge.nx,ledge.nz);
-   parkour.firstCatch=true;parkour.gripUntil=0;parkour.shimmySpeed=0;
+   parkour.firstCatch=true;parkour.gripUntil=0;parkour.shimmySpeed=0;parkour.shimmyPhase=0;parkour.fingerOffsets=[0,0,0,0];
    for(const t of toeState){t.planted=false;t.initialized=false;}
    playTone(490,.1,'sine');
    if(settings.hints)objective('Caught it! · JUMP to climb · GRIP to let go');
@@ -519,7 +543,7 @@ function requestGrip(){
  if(state!=='playing')return;
  if(parkour.mode==='hang'||parkour.mode==='swing'){releaseGrip(false);return;}
  if(parkour.mode==='mantle')return;
- parkour.gripUntil=time+.65;
+ parkour.gripUntil=time+.85;
  if(!startGrip()&&player.onGround&&settings.hints)toast('Jump near a golden ledge or the hanging cable, then tap GRIP');
 }
 function releaseGrip(launch){
@@ -559,16 +583,26 @@ function updateParkour(dt,forward,side,basis){
    const shimmy=shimmyAxis*dt*.92;
    parkour.shimmySpeed=shimmyAxis;
    if(Math.abs(shimmy)>.001){
-     const nx=parkour.hangX+tangent[0]*shimmy,nz=parkour.hangZ+tangent[1]*shimmy;
-     parkour.hangX=clamp(nx,l.b.x-l.b.w/2+.15,l.b.x+l.b.w/2-.15);
-     parkour.hangZ=clamp(nz,l.b.z-l.b.d/2+.15,l.b.z+l.b.d/2-.15);
+     const extent=(Math.abs(tangent[0])>0?l.b.w:l.b.d)/2;
+     const center=(Math.abs(tangent[0])>0?l.b.x:l.b.z);
+     const coord=(Math.abs(tangent[0])>0?parkour.hangX:parkour.hangZ);
+     const sign=(Math.abs(tangent[0])>0?tangent[0]:tangent[1]);
+     const next=clamp(coord+sign*shimmy,center-extent+.22,center+extent-.22);
+     const actual=(next-coord)*sign;
+     parkour.hangX+=tangent[0]*actual;
+     parkour.hangZ+=tangent[1]*actual;
+     // Finger offsets represent a short alternating reach, not rigid sliding.
+     parkour.shimmyPhase=(parkour.shimmyPhase||0)+Math.abs(actual)*13;
    }
    // A short elastic catch avoids an instant position snap on grip.
-   parkour.catchClock=Math.min(.16,(parkour.catchClock||0)+dt);
-   const settle=smooth01(parkour.catchClock/.16),from=parkour.catchFrom||[player.x,player.y,player.z];
-   player.x=mix(from[0],parkour.hangX+l.nx*.58,settle);
-   player.z=mix(from[2],parkour.hangZ+l.nz*.58,settle);
-   player.y=mix(from[1],l.b.top-1.01,settle);player.vx=player.vy=player.vz=0;
+   parkour.catchClock=Math.min(.24,(parkour.catchClock||0)+dt);
+   const settle=smooth01(parkour.catchClock/.24),from=parkour.catchFrom||[player.x,player.y,player.z];
+   player.x=mix(from[0],parkour.hangX+l.nx*.72,settle);
+   player.z=mix(from[2],parkour.hangZ+l.nz*.72,settle);
+   player.y=mix(from[1],l.b.top-1.01,settle);
+   const outside=(player.x-parkour.hangX)*l.nx+(player.z-parkour.hangZ)*l.nz;
+   if(outside<.46){player.x+=l.nx*(.46-outside);player.z+=l.nz*(.46-outside);}
+   player.vx=player.vy=player.vz=0;
    if(jumpQueued)startMantle();
  }else if(parkour.mode==='mantle'){
    parkour.timer+=dt;
