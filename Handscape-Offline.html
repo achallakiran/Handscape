@@ -14,7 +14,7 @@
 </head>
 <body>
 <canvas id="game" aria-label="FRANK playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.5-D2</span></section>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.5-D3</span></section>
 <div id="hud" class="hidden"><button id="pauseButton" aria-label="Pause game">Ⅱ</button><button id="cameraButton" aria-label="Change camera angle" title="Camera · C">◉</button><div id="cameraModeLabel" aria-live="polite"></div><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="restartButton" class="menu-btn">↺ Restart Workshop</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
 <section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="cameraMode">Camera view</label><select id="cameraMode"><option value="follow">Follow · Recommended</option><option value="isometric">Isometric</option><option value="side">Side View</option><option value="close">Close-up</option><option value="wide">Wide Explorer</option></select></div><div class="settings-row"><label for="smartCamera">Smart camera during climbing</label><input id="smartCamera" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
@@ -247,9 +247,9 @@ for(let x of [-14,14]){for(let z of [-11,9]){box(x,-1.9,z,2,1.5,2,C.red);box(x,-
 for(let x of [-8,0,8]){box(x,11.5,-3,.1,2,.1,C.black);box(x,10.45,-3,1.5,.5,1.5,C.copper);box(x,10.1,-3,1.12,.15,1.12,C.gold)}
 // Ambient flying motes are rendered dynamically.
 const worldGpu=gpu(world);
-const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
+const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0,landImpact:0,takeoff:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
 const rope={x:3.7,y:3.35,z:.85,length:1.85};
-const parkour={mode:'none',ledge:null,hangX:0,hangZ:0,timer:0,start:null,finish:null,theta:0,omega:0,gripUntil:0,firstCatch:false,firstMantle:false,firstSwing:false};
+const parkour={mode:'none',ledge:null,hangX:0,hangZ:0,timer:0,start:null,finish:null,theta:0,omega:0,gripUntil:0,firstCatch:false,firstMantle:false,firstSwing:false,gripDigits:[],gripOrigin:null,gripStepCooldown:0,gripStepIndex:0,shimmySpeed:0,shimmyPhase:0};
 let jumpQueued=false;
 let settings={quality:'high',volume:70,sensitivity:60,shadows:true,hints:true,followCamera:true,cameraMode:'follow',smartCamera:true};try{let loaded=JSON.parse(localStorage.getItem('handscape-settings')||'null');if(loaded)settings={...settings,...loaded}}catch(e){}if(!['follow','isometric','side','close','wide'].includes(settings.cameraMode))settings.cameraMode='follow';function store(){try{localStorage.setItem('handscape-settings',JSON.stringify(settings))}catch(e){}}
 $('quality').value=settings.quality;$('volume').value=settings.volume;$('sensitivity').value=settings.sensitivity;$('shadows').checked=settings.shadows;$('hints').checked=settings.hints;$('followCamera').checked=settings.followCamera;$('cameraMode').value=settings.cameraMode;$('smartCamera').checked=settings.smartCamera;
@@ -309,29 +309,36 @@ function digitTarget(i,moving,phase,bob){
  const thumb=i===4,x=thumb?-.89:HAND_XS[i],length=thumb?.76:HAND_LENGTHS[i];
  const zz=thumb?-.33:-1.08-(length-.98)*.27;
  const rest=toWorld(x,.075,zz),toe=toeState[i];
+ // Ground-aware toe height: stepping onto a prop no longer puts the fingertip
+ // inside its top. Reuse the same collision-height query as the player.
+ const contactY=clamp(groundAt(rest[0],rest[2],player.y)+.065,player.y-.19,player.y+.28);
  if(!moving){toe.planted=false;toe.initialized=false;toe.fromX=rest[0];toe.fromZ=rest[2];
-   if(!player.onGround)return toWorld(x,thumb?.44:.39,thumb?-.10:-.80);
-   return [rest[0],rest[1]+(thumb?.012*Math.sin(time*2.5):0),rest[2]];
+   if(!player.onGround){const reach=clamp(player.vy/7,-.12,.17);return toWorld(x,thumb?.46:.42,thumb?-.10:-.80-reach);}
+   return [rest[0],contactY+(thumb?.012*Math.sin(time*2.5):0),rest[2]];
  }
  const ph=((phase/(Math.PI*2)+HAND_GAIT[i])%1+1)%1;
- if(!toe.initialized){toe.initialized=true;toe.planted=false;toe.x=rest[0];toe.y=rest[1];toe.z=rest[2];toe.fromX=rest[0];toe.fromZ=rest[2];}
- if(ph<.59){
-   if(!toe.planted){toe.x=rest[0];toe.y=rest[1];toe.z=rest[2];toe.planted=true;toe.steps++;}
+ if(!toe.initialized){toe.initialized=true;toe.planted=false;toe.x=rest[0];toe.y=contactY;toe.z=rest[2];toe.fromX=rest[0];toe.fromZ=rest[2];}
+ // A finger maintains its real WORLD position during the support stroke.
+ if(ph<.61){
+   if(!toe.planted){toe.x=rest[0];toe.y=contactY;toe.z=rest[2];toe.planted=true;toe.steps++;}
    const stretch=Math.hypot(toe.x-rest[0],toe.z-rest[2]);
-   if(stretch>.56){const correction=Math.min(1,(stretch-.56)*.48);toe.x=mix(toe.x,rest[0],correction);toe.z=mix(toe.z,rest[2],correction);}
+   if(stretch>.55){const correction=Math.min(1,(stretch-.55)*.55);toe.x=mix(toe.x,rest[0],correction);toe.z=mix(toe.z,rest[2],correction);}
    return [toe.x,toe.y,toe.z];
  }
- if(toe.planted){toe.fromX=toe.x;toe.fromZ=toe.z;toe.planted=false;}
- const u=(ph-.59)/.41,e=smooth01(u);
- const ahead=toWorld(x,.077,zz-(thumb?.22:.27));
- return [mix(toe.fromX,ahead[0],e),rest[1]+Math.sin(u*Math.PI)*(thumb?.28:.29),mix(toe.fromZ,ahead[2],e)];
+ if(toe.planted){toe.fromX=toe.x;toe.fromZ=toe.z;toe.fromY=toe.y;toe.planted=false;}
+ const u=(ph-.61)/.39,e=smooth01(u);
+ const lengthStep=clamp(Math.hypot(player.vx,player.vz)*.085,.17,.34);
+ const ahead=toWorld(x,.077,zz-lengthStep);
+ const landingY=clamp(groundAt(ahead[0],ahead[2],player.y)+.065,player.y-.19,player.y+.28);
+ const lift=Math.sin(u*Math.PI)*(thumb?.24:.29);
+ return [mix(toe.fromX,ahead[0],e),mix(toe.fromY??contactY,landingY,e)+lift,mix(toe.fromZ,ahead[2],e)];
 }
 function hand(mesh,dt,ambient=false){
  if(parkour.mode!=='none'){gripPose(mesh);return;}
  const speed=Math.hypot(player.vx,player.vz),moving=speed>.16&&player.onGround;
  const phase=player.walking;
  // Headless, faceless character acting: subtle breathing/curiosity during idle.
- const bob=moving?(.018*Math.sin(phase*2)-.015*Math.abs(Math.sin(phase))):(.011*Math.sin(time*2.1));
+ const bob=(moving?(.018*Math.sin(phase*2)-.015*Math.abs(Math.sin(phase))):(.011*Math.sin(time*2.1)))-.115*(player.landImpact||0)+.09*(player.takeoff||0);
  walkingBody(mesh,bob,speed);
  for(let i=0;i<5;i++){
    const thumb=i===4,x=thumb?-.89:HAND_XS[i],tip=digitTarget(i,moving,phase,bob);
@@ -353,10 +360,72 @@ function hand(mesh,dt,ambient=false){
 }
 // Parkour poses are contact-anchored. The wrist flexes; fingers hook over an
 // actual ledge or around the rope. Shimmy motion sequentially regrips digits.
+// D3: Individual grip pads are anchored to the ledge in WORLD SPACE. Each
+// digit takes a separate short step; at least three remain planted at all times.
+// A local scalar along the edge is sufficient because ledges are axis-aligned.
+const GRIP_OFFSETS=[-.315,-.105,.105,.315];
+function gripExtent(l){return (Math.abs(l.nx)>0?l.b.d:l.b.w)/2;}
+function gripAlong(l,x,z){return (x-l.x)*(-l.nz)+(z-l.z)*l.nx;}
+function gripPoint(l,along){return [l.x-l.nz*along,l.b.top,l.z+l.nx*along];}
+function gripInit(l){
+ parkour.gripOrigin=[l.x,l.z];parkour.gripDigits=GRIP_OFFSETS.map((offset,i)=>({
+   along:clamp(offset,-gripExtent(l)+.10,gripExtent(l)-.10),from:0,to:0,step:1,
+   duration:.19+(i%2)*.035,lift:0,stepping:false,steps:0
+ }));
+ parkour.gripStepCooldown=0;parkour.gripStepIndex=0;
+}
+function gripPadState(i){
+ const l=parkour.ledge,d=parkour.gripDigits[i];if(!l||!d)return null;
+ const t=d.stepping?smooth01(d.step):1;
+ const along=d.stepping?mix(d.from,d.to,t):d.along;
+ const lift=d.stepping?Math.sin(d.step*Math.PI)*.21:0;
+ const p=gripPoint(l,along);return {p,along,lift,stepping:d.stepping};
+}
+function updateGripDigits(dt,shimmyAxis){
+ const l=parkour.ledge;if(!l||parkour.gripDigits.length!==4)return;
+ const extent=gripExtent(l),left=-extent+.10,right=extent-.10;
+ const along=gripAlong(l,parkour.hangX,parkour.hangZ);
+ parkour.gripStepCooldown=Math.max(0,parkour.gripStepCooldown-dt);
+ for(const d of parkour.gripDigits){
+   if(!d.stepping)continue;
+   d.step=Math.min(1,d.step+dt/d.duration);
+   if(d.step>=1){d.along=d.to;d.stepping=false;d.lift=0;}
+ }
+ if(parkour.gripStepCooldown>0||parkour.gripDigits.some(d=>d.stepping))return;
+ // Reposition the MOST stretched digit first, including after movement stops.
+ // Tie-break towards the leading finger; this avoids endlessly stepping a
+ // single digit while the other three drag behind the body.
+ const errors=parkour.gripDigits.map((d,i)=>({i,delta:clamp(along+GRIP_OFFSETS[i],left,right)-d.along}));
+ errors.sort((a,b)=>Math.abs(b.delta)-Math.abs(a.delta));
+ const candidate=errors[0];
+ if(!candidate||Math.abs(candidate.delta)<.14)return;
+ const direction=Math.sign(candidate.delta);
+ const d=parkour.gripDigits[candidate.i];
+ const target=clamp(along+GRIP_OFFSETS[candidate.i]+direction*.045,left,right);
+ if(Math.abs(target-d.along)<.075)return;
+ d.from=d.along;d.to=target;d.step=0;d.stepping=true;d.steps++;
+ parkour.gripStepIndex=candidate.i;parkour.gripStepCooldown=.055;
+}
+// Collision check for pull-over: the climbed box SUPPORTS the hand; it should
+// not be treated as a blocking obstacle. Verify foot room and the swept path.
+function mantleClearance(l,finish){
+ const b=l.b,margin=.29;
+ if(b.w<margin*2+.08||b.d<margin*2+.08)return false;
+ for(const other of colliders){
+   if(other===b)continue;
+   if(other.y-other.h/2>=b.top+.90 || other.top<=b.top+.025)continue;
+   for(const a of [.75,1]){
+     const x=mix(parkour.hangX+l.nx*.72,finish[0],a);
+     const z=mix(parkour.hangZ+l.nz*.72,finish[2],a);
+     if(Math.abs(x-other.x)<other.w/2+margin&&Math.abs(z-other.z)<other.d/2+margin)return false;
+   }
+ }
+ return true;
+}
 function gripPose(mesh){
  const swing=parkour.mode==='swing',mantle=parkour.mode==='mantle';
- const u=mantle?clamp(parkour.timer/.98,0,1):0;
- const pull=smooth01(clamp(u/.43,0,1)),plant=smooth01(clamp((u-.43)/.35,0,1));
+ const u=mantle?clamp(parkour.timer/1.12,0,1):0;
+ const pull=smooth01(clamp((u-.10)/.5,0,1)),plant=smooth01(clamp((u-.63)/.3,0,1));
  const recover=smooth01(clamp((u-.78)/.22,0,1));
  const pulse=Math.sin(time*3)*.008;
  if(swing){
@@ -380,33 +449,39 @@ function gripPose(mesh){
    return;
  }
  const l=parkour.ledge;if(!l)return;
- const tangent=[-l.nz,l.nx],edge=[parkour.hangX,l.b.top,parkour.hangZ];
- const inward=[-l.nx,-l.nz],body=[player.x,player.y+.73+pulse,player.z];
- // A rising wrist and changing palm angle makes pulling visibly different
- // from hanging. All fingers share the collider's real top edge.
- const wrist=[body[0]+inward[0]*.12,body[1]+.43+pull*.18,body[2]+inward[1]*.12];
- bone(mesh,body,wrist,.52,.44,C.skin);
- bone(mesh,wrist,[wrist[0],wrist[1]+.33*(1-recover),wrist[2]],.33,.32,C.cuff);
+ const tangent=[-l.nz,l.nx],inward=[-l.nx,-l.nz];
+ const edge=[parkour.hangX,l.b.top,parkour.hangZ];
+ const body=[player.x,player.y+.73+pulse,player.z];
+ const ascent=smooth01(clamp((u-.12)/.47,0,1));
+ // The wrist extends under load before the palm climbs onto the object.
+ const wrist=[body[0]+inward[0]*(.06+ascent*.12),body[1]+.39+ascent*.16,body[2]+inward[1]*(.06+ascent*.12)];
+ const knuckleBody=[wrist[0]+inward[0]*.055,wrist[1]+.14,wrist[2]+inward[1]*.055];
+ bone(mesh,body,wrist,.51,.43,C.skin);
+ bone(mesh,wrist,knuckleBody,.34,.32,C.cuff);
+ // A visible stitched end on the raised wrist; positions are contact-driven.
+ mesh.box(knuckleBody[0],knuckleBody[1]+.05,knuckleBody[2],.31,.095,.29,C.skinDark);
  for(let i=0;i<4;i++){
-   const off=(i-1.5)*.205;
-   const speed=Math.abs(parkour.shimmySpeed||0);
-   const phase=(parkour.shimmyPhase||0)+i*Math.PI*.67;
-   const step=speed> .05 ? Math.max(0,Math.sin(phase)) : 0;
-   const advance=step*.14*Math.sign(parkour.shimmySpeed||0);
-   const lift=step*.13;
-   const anchor=[edge[0]+tangent[0]*(off+advance),edge[1]+.15+lift,edge[2]+tangent[1]*(off+advance)];
-   // Outside-facing knuckle, high crossing point, then top-surface pad.
-   const root=[body[0]+tangent[0]*off,body[1]+.12,body[2]+tangent[1]*off];
-   const knuckle=[anchor[0]+l.nx*.31,edge[1]-.10+.15*pull+lift,anchor[2]+l.nz*.31];
-   const crown=[anchor[0]+l.nx*.09,edge[1]+.19+lift,anchor[2]+l.nz*.09];
-   const pad=[anchor[0]+inward[0]*(.16+.13*plant),edge[1]+.13+lift,anchor[2]+inward[1]*(.16+.13*plant)];
-   bone(mesh,root,knuckle,.15,.15,C.skin);
-   bone(mesh,knuckle,crown,.135,.13,C.skinLight);
-   bone(mesh,crown,pad,.105,.105,C.skinDark);
+   const contact=gripPadState(i);if(!contact)continue;
+   const p=contact.p,lift=contact.lift;
+   const root=[body[0]+tangent[0]*GRIP_OFFSETS[i],body[1]+.12,body[2]+tangent[1]*GRIP_OFFSETS[i]];
+   // A hook approaches from OUTSIDE the wall, crests the lip, then rests on
+   // top. The centers of the top segments stay above top+clearance.
+   const knuckle=[p[0]+l.nx*.30,l.b.top-.085+.13*ascent+lift*.74,p[2]+l.nz*.30];
+   const crown=[p[0]+l.nx*.085,l.b.top+.205+lift,p[2]+l.nz*.085];
+   const pad=[p[0]+inward[0]*(.185+.07*plant),l.b.top+.12+lift,p[2]+inward[1]*(.185+.07*plant)];
+   // Support fingers stay pinned. Only the active finger rises and regrips.
+   bone(mesh,root,knuckle,.153,.155,C.skin);
+   bone(mesh,knuckle,crown,.14,.145,C.skinLight);
+   bone(mesh,crown,pad,.112,.109,C.skinDark);
+   mesh.box(pad[0],pad[1]+.017,pad[2],.12,.08,.12,C.skinLight);
+   // Small raised nails let the individual fingers read clearly at distance.
+   mesh.box(pad[0],pad[1]+.068,pad[2],.085,.022,.085,C.cream);
  }
- const brace=[edge[0]+tangent[0]*(-.48)+l.nx*.11,edge[1]+.13,edge[2]+tangent[1]*(-.48)+l.nz*.11];
- bone(mesh,[body[0]+tangent[0]*(-.38),body[1],body[2]+tangent[1]*(-.38)],brace,.23,.22,C.skin);
- bone(mesh,brace,[brace[0]+inward[0]*.14,edge[1]+.13,brace[2]+inward[1]*.14],.17,.17,C.skinLight);
+ // The thumb braces the outer lip on the opposite side, not inside the wall.
+ const brace=[edge[0]+tangent[0]*(-.47)+l.nx*.14,l.b.top+.16,edge[2]+tangent[1]*(-.47)+l.nz*.14];
+ const thumb=[brace[0]+inward[0]*.16,l.b.top+.12,brace[2]+inward[1]*.16];
+ bone(mesh,[body[0]+tangent[0]*(-.37),body[1],body[2]+tangent[1]*(-.37)],brace,.22,.21,C.skin);
+ bone(mesh,brace,thumb,.15,.15,C.skinLight);
 }
 function robot(mesh,t){const x=npc.x,z=npc.z,bob=Math.sin(t*5)*.038;const rb=(ax,ay,az,w,h,d,col)=>mesh.box(x+ax,ay+bob,z+az,w,h,d,col,npc.angle);rb(0,.48,0,.7,.55,.58,C.teal);rb(0,.89,0,.73,.43,.56,C.iron2);rb(0,1.08,-.32,.57,.22,.1,C.black);rb(-.19,1.09,-.385,.12,.10,.03,C.gold);rb(.19,1.09,-.385,.12,.10,.03,C.gold);rb(0,1.38,0,.08,.31,.08,C.brass);rb(0,1.55,0,.25,.14,.25,C.gold);for(let s of [-1,1]){rb(s*.45,.52,0,.18,.4,.2,C.copper);rb(s*.23,.15,.05,.20,.27,.28,C.iron2)}rb(0,.52,-.34,.18,.16,.05,C.brass)}
 function gizmos(mesh,t){ // Bell, jar and switch are dynamic to make interactions readable
@@ -606,7 +681,7 @@ function startGrip(){
    player.y=ledge.b.top-1.01;
    player.vx=player.vy=player.vz=0;player.onGround=false;
    player.yaw=Math.atan2(ledge.nx,ledge.nz);
-   parkour.firstCatch=true;parkour.gripUntil=0;parkour.shimmySpeed=0;parkour.shimmyPhase=0;parkour.fingerOffsets=[0,0,0,0];
+   parkour.firstCatch=true;parkour.gripUntil=0;parkour.shimmySpeed=0;parkour.shimmyPhase=0;gripInit(ledge);
    for(const t of toeState){t.planted=false;t.initialized=false;}
    playTone(490,.1,'sine');
    if(settings.hints)objective('Caught it! · JUMP to climb · GRIP to let go');
@@ -640,21 +715,22 @@ function releaseGrip(launch){
    player.x+=(face?.nx||0)*.17;player.z+=(face?.nz||0)*.17;
    player.vx=(face?.nx||0)*.5;player.vz=(face?.nz||0)*.5;player.vy=-.85;
  }
- parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;player.onGround=false;
+ parkour.mode='none';parkour.ledge=null;parkour.gripDigits=[];parkour.gripUntil=0;player.onGround=false;
 }
 function startMantle(){
- if(parkour.mode!=='hang')return;
+ if(parkour.mode!=='hang')return false;
  const l=parkour.ledge;
- parkour.timer=0;parkour.shimmySpeed=0;
- parkour.start=[player.x,player.y,player.z];
- const inset=.69;
- parkour.finish=[clamp(parkour.hangX-l.nx*inset,l.b.x-l.b.w/2+.30,l.b.x+l.b.w/2-.30),
- l.b.top,
- clamp(parkour.hangZ-l.nz*inset,l.b.z-l.b.d/2+.30,l.b.z+l.b.d/2-.30)];
- if(blockedAt(parkour.finish[0],parkour.finish[2],parkour.finish[1]+.02)){
-   if(settings.hints)toast('No space to climb onto this ledge');return;
+ const inset=.74;
+ const minX=l.b.x-l.b.w/2+.33,maxX=l.b.x+l.b.w/2-.33;
+ const minZ=l.b.z-l.b.d/2+.33,maxZ=l.b.z+l.b.d/2-.33;
+ if(minX>maxX||minZ>maxZ){if(settings.hints)toast('Ledge is too narrow to climb');return false;}
+ const finish=[clamp(parkour.hangX-l.nx*inset,minX,maxX),l.b.top,clamp(parkour.hangZ-l.nz*inset,minZ,maxZ)];
+ if(!mantleClearance(l,finish)){
+   if(settings.hints)toast('No room to pull onto this ledge');return false;
  }
- parkour.mode='mantle';playTone(650,.17,'sine');
+ parkour.timer=0;parkour.shimmySpeed=0;
+ parkour.start=[player.x,player.y,player.z];parkour.finish=finish;
+ parkour.mode='mantle';playTone(650,.17,'sine');return true;
 }
 function updateParkour(dt,forward,side,basis){
  if(parkour.mode==='hang'){
@@ -662,41 +738,39 @@ function updateParkour(dt,forward,side,basis){
    const desiredX=forward*basis.forward[0]+side*basis.right[0];
    const desiredZ=forward*basis.forward[1]+side*basis.right[1];
    const shimmyAxis=desiredX*tangent[0]+desiredZ*tangent[1];
-   const shimmy=shimmyAxis*dt*.92;
+   const shimmy=shimmyAxis*dt*.80;
    parkour.shimmySpeed=shimmyAxis;
-   if(Math.abs(shimmy)>.001){
-     const extent=(Math.abs(tangent[0])>0?l.b.w:l.b.d)/2;
-     const center=(Math.abs(tangent[0])>0?l.b.x:l.b.z);
-     const coord=(Math.abs(tangent[0])>0?parkour.hangX:parkour.hangZ);
-     const sign=(Math.abs(tangent[0])>0?tangent[0]:tangent[1]);
-     const next=clamp(coord+sign*shimmy,center-extent+.22,center+extent-.22);
-     const actual=(next-coord)*sign;
+   if(Math.abs(shimmy)>.0005){
+     const extent=gripExtent(l),coord=gripAlong(l,parkour.hangX,parkour.hangZ);
+     // Keep the outer pad supported as the hand approaches the ledge end.
+     const next=clamp(coord+shimmy,-extent+.34,extent-.34);
+     const actual=next-coord;
      parkour.hangX+=tangent[0]*actual;
      parkour.hangZ+=tangent[1]*actual;
-     // Finger offsets represent a short alternating reach, not rigid sliding.
      parkour.shimmyPhase=(parkour.shimmyPhase||0)+Math.abs(actual)*13;
    }
-   // A short elastic catch avoids an instant position snap on grip.
+   updateGripDigits(dt,shimmyAxis);
    parkour.catchClock=Math.min(.24,(parkour.catchClock||0)+dt);
    const settle=smooth01(parkour.catchClock/.24),from=parkour.catchFrom||[player.x,player.y,player.z];
    player.x=mix(from[0],parkour.hangX+l.nx*.72,settle);
    player.z=mix(from[2],parkour.hangZ+l.nz*.72,settle);
    player.y=mix(from[1],l.b.top-1.01,settle);
    const outside=(player.x-parkour.hangX)*l.nx+(player.z-parkour.hangZ)*l.nz;
-   if(outside<.46){player.x+=l.nx*(.46-outside);player.z+=l.nz*(.46-outside);}
+   if(outside<.48){player.x+=l.nx*(.48-outside);player.z+=l.nz*(.48-outside);}
    player.vx=player.vy=player.vz=0;
    if(jumpQueued)startMantle();
  }else if(parkour.mode==='mantle'){
    parkour.timer+=dt;
-   const u=clamp(parkour.timer/.98,0,1);
-   // Two real phases: pull the body up, then roll the palm across the ledge.
-   const vertical=u<.48?.92*smooth01(u/.48):.92+.08*smooth01((u-.48)/.52);
-   const horizontal=u<.43?.06*smooth01(u/.43):.06+.94*smooth01((u-.43)/.57);
-   player.x=parkour.start[0]+(parkour.finish[0]-parkour.start[0])*horizontal;
-   player.z=parkour.start[2]+(parkour.finish[2]-parkour.start[2])*horizontal;
-   player.y=parkour.start[1]+(parkour.finish[1]-parkour.start[1])*vertical+.06*Math.sin(u*Math.PI);
+   const u=clamp(parkour.timer/1.12,0,1);
+   // SUPPORT -> PULL UP -> REACH OVER -> PLANT -> RECOVER.
+   // The root clears the surface BEFORE travelling through the solid's face.
+   const vertical=smooth01(clamp((u-.10)/.50,0,1));
+   const horizontal=smooth01(clamp((u-.60)/.36,0,1));
+   player.x=mix(parkour.start[0],parkour.finish[0],horizontal);
+   player.z=mix(parkour.start[2],parkour.finish[2],horizontal);
+   player.y=mix(parkour.start[1],parkour.finish[1]+.055,vertical)-.055*smooth01(clamp((u-.94)/.06,0,1));
    player.vx=player.vy=player.vz=0;
-   if(u>=1){parkour.mode='none';parkour.ledge=null;parkour.firstMantle=true;player.onGround=true;
+   if(u>=1){parkour.mode='none';parkour.ledge=null;parkour.gripDigits=[];parkour.firstMantle=true;player.onGround=true;player.landImpact=.28;
      if(settings.hints)objective(bellRung?'Nice climb · Find the fan switch':'Nice climb · Find the bell');
      for(const t of toeState){t.planted=false;t.initialized=false;}
    }
@@ -728,7 +802,7 @@ function updateGameplayFeedback(){
 const guide={steps:0,firstMove:false};
 let last=0;function tick(ms){let dt=Math.min(.033,(ms-last)/1000||.016);last=ms;time+=dt;if(state==='playing')update(dt);else if(state==='menu')player.walking+=dt*.85;render(dt);requestAnimationFrame(tick)}
 function update(dt){
-  timeSinceBell+=dt;
+  timeSinceBell+=dt;player.landImpact=Math.max(0,(player.landImpact||0)-dt*3.4);player.takeoff=Math.max(0,(player.takeoff||0)-dt*4.5);
   let forward=(keys.has('w')||keys.has('arrowup')?1:0)-(keys.has('s')||keys.has('arrowdown')?1:0)-touch.y;
   let side=(keys.has('d')||keys.has('arrowright')?1:0)-(keys.has('a')||keys.has('arrowleft')?1:0)+touch.x;
   let mag=Math.hypot(forward,side);if(mag>1){forward/=mag;side/=mag;mag=1;}
@@ -752,14 +826,14 @@ function update(dt){
       player.walking+=dt*motion*4.8;
       if(!guide.firstMove&&motion>.8){guide.firstMove=true;if(settings.hints)objective('Jump toward a golden ledge · Tap GRIP to catch');}
     }else player.turnLean*=.82;
-    if(jumpQueued&&player.onGround){player.vy=5.0;player.onGround=false;playTone(310,.09,'triangle');}
+    if(jumpQueued&&player.onGround){player.vy=5.0;player.onGround=false;player.takeoff=1;player.landImpact=0;for(const t of toeState){t.planted=false;t.initialized=false;}playTone(310,.09,'triangle');}
     jumpQueued=false;
     let oldY=player.y;player.vy-=15*dt;player.y+=player.vy*dt;
     let support=groundAt(player.x,player.z,oldY);
-    if(player.vy<=0&&player.y<=support&&oldY>=support-.23){player.y=support;player.vy=0;player.onGround=true;}
+    if(player.vy<=0&&player.y<=support&&oldY>=support-.23){if(!player.onGround&&player.vy<-1.4)player.landImpact=clamp(-player.vy/9,.15,1);player.y=support;player.vy=0;player.onGround=true;}
     else player.onGround=false;
     if(parkour.gripUntil>time&&!player.onGround)startGrip();
-    if(player.y< -1.65){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});parkour.mode='none';parkour.gripUntil=0;
+    if(player.y< -1.65){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,onGround:true});parkour.mode='none';parkour.gripDigits=[];parkour.gripUntil=0;
       for(const t of toeState){t.planted=false;t.initialized=false;}toast('Back on the workbench!');}
     // Camera tracking is handled in cameraTargets(), independent from movement physics.
   }
@@ -773,15 +847,15 @@ const framing=computeCamera(dt);eye.set([camera.x,camera.y,camera.z]);lookAt(vie
 let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
 function show(name){for(let n of ['menu','pause','settings','complete'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
-function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=CAMERA_MODES[settings.cameraMode].yaw??0;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;guide.firstMove=false;parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;parkour.shimmySpeed=0;parkour.catchFrom=null;parkour.catchClock=0;jumpQueued=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing')cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline-first prototype v0.5-D2.')};
+function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=CAMERA_MODES[settings.cameraMode].yaw??0;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;guide.firstMove=false;parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;parkour.shimmySpeed=0;parkour.gripDigits=[];parkour.catchFrom=null;parkour.catchClock=0;player.landImpact=0;player.takeoff=0;jumpQueued=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
+$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing')cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline-first prototype v0.5-D3.')};
 for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera','smartCamera'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;settings.smartCamera=$('smartCamera').checked;store()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
 window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='settings')$('settingsBack').click();else pause();return}if(k===' '&&!keys.has(k))jumpQueued=true;if(k==='g'&&!keys.has(k)&&state==='playing')requestGrip();if(k==='c'&&!keys.has(k)&&state==='playing')cycleCamera();keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
 let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.4,Math.min(15,camera.dist+Math.sign(e.deltaY)*.6));camera.manualUntil=time+7},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();jumpQueued=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('gripButton').addEventListener('pointerdown',e=>{e.preventDefault();requestGrip();$('gripButton').classList.add('pressed')});for(const s of ['pointerup','pointercancel','pointerleave'])$('gripButton').addEventListener(s,()=>$('gripButton').classList.remove('pressed'));$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint};
 requestAnimationFrame(tick);
 })();
 </script>
