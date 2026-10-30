@@ -169,6 +169,22 @@ function moveSolid(dx,dz){
   if(z<8.45&&z>-8.45&&!blockedAt(player.x,z,player.y)){player.z=z;}else player.vz=0;
 }
 function moveBasis(yaw){return {forward:[-Math.sin(yaw),-Math.cos(yaw)],right:[Math.cos(yaw),-Math.sin(yaw)]};}
+// Keep large solid objects from blocking the player. The camera moves inward
+// rather than x-raying furniture; small decorative props are deliberately ignored.
+function avoidCameraOcclusion(fx,fy,fz,tx,ty,tz){
+  const dx=tx-fx,dy=ty-fy,dz=tz-fz;let allowed=1;
+  for(const b of colliders){
+    const min=[b.x-b.w/2-.22,b.y-b.h/2-.22,b.z-b.d/2-.22],max=[b.x+b.w/2+.22,b.y+b.h/2+.22,b.z+b.d/2+.22];
+    let t0=0,t1=1,hit=true;
+    for(const [origin,dir,lo,hi] of [[fx,dx,min[0],max[0]],[fy,dy,min[1],max[1]],[fz,dz,min[2],max[2]]]){
+      if(Math.abs(dir)<1e-6){if(origin<lo||origin>hi){hit=false;break;}}else{
+        let a=(lo-origin)/dir,b=(hi-origin)/dir;if(a>b)[a,b]=[b,a];t0=Math.max(t0,a);t1=Math.min(t1,b);if(t0>t1){hit=false;break;}
+      }
+    }
+    if(hit&&t0>.06)allowed=Math.min(allowed,Math.max(.26,t0-.045));
+  }
+  return [fx+dx*allowed,fy+dy*allowed,fz+dz*allowed];
+}
 const guide={steps:0,firstMove:false};
 let last=0;function tick(ms){let dt=Math.min(.033,(ms-last)/1000||.016);last=ms;time+=dt;if(state==='playing')update(dt);else if(state==='menu')player.walking+=dt*.85;render(dt);requestAnimationFrame(tick)}
 function update(dt){
@@ -210,7 +226,7 @@ const a=nearest();$('hint').textContent=a?(a.id==='exit'&&fanOn?'Fan spinning ·
 if(!freeTime){freeTime=1;if(settings.hints)objective('Wake up, little hand · Move to explore');}
 }
 function render(dt){const r=canvas.getBoundingClientRect(),q=settings.quality==='low'?.7:settings.quality==='medium'?.9:1.4,dpr=Math.min(window.devicePixelRatio||1,q);let w=Math.max(1,Math.floor(r.width*dpr)),h=Math.max(1,Math.floor(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.14,.25,.30,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(prog);
-let focusX=player.x-Math.sin(camera.yaw)*.85,focusZ=player.z-Math.cos(camera.yaw)*.85,focusY=player.y+.57;if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
+let focusX=player.x-Math.sin(camera.yaw)*.85,focusZ=player.z-Math.cos(camera.yaw)*.85,focusY=player.y+.57;if(state==='menu'){camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;focusX=-2.0;focusZ=1.2;focusY=1.2;}let cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);let tx=focusX+Math.sin(camera.yaw)*camera.dist*cp,ty=focusY+camera.dist*sp,tz=focusZ+Math.cos(camera.yaw)*camera.dist*cp;if(state==='playing'){[tx,ty,tz]=avoidCameraOcclusion(focusX,focusY,focusZ,tx,ty,tz);}let damp=1-Math.exp(-dt*(state==='menu'?2:7));camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[focusX,focusY,focusZ]);perspective(proj,Math.PI/3,w/h,.08,86);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
 let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
 function show(name){for(let n of ['menu','pause','settings','complete'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
@@ -222,7 +238,7 @@ let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();touch.jump=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,moveBasis,blockedAt,colliders,guide,settings,interactions,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;}};
 requestAnimationFrame(tick);
 })();
 </script>
