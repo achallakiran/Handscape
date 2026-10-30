@@ -14,7 +14,7 @@
 </head>
 <body>
 <canvas id="game" aria-label="FRANK playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.5-D3</span></section>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Begin Adventure</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.5-D4</span></section>
 <div id="hud" class="hidden"><button id="pauseButton" aria-label="Pause game">Ⅱ</button><button id="cameraButton" aria-label="Change camera angle" title="Camera · C">◉</button><div id="cameraModeLabel" aria-live="polite"></div><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="restartButton" class="menu-btn">↺ Restart Workshop</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
 <section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="cameraMode">Camera view</label><select id="cameraMode"><option value="follow">Follow · Recommended</option><option value="isometric">Isometric</option><option value="side">Side View</option><option value="close">Close-up</option><option value="wide">Wide Explorer</option></select></div><div class="settings-row"><label for="smartCamera">Smart camera during climbing</label><input id="smartCamera" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
@@ -24,10 +24,41 @@
 (()=>{'use strict';
 const $=id=>document.getElementById(id),canvas=$('game');let gl=canvas.getContext('webgl',{antialias:true,alpha:false,powerPreference:'high-performance'});
 if(!gl){$('menu').innerHTML='<div class="menu-panel"><h1>FRANK</h1><p>WebGL is required. Please enable hardware-accelerated graphics or use a browser that supports WebGL.</p></div>';return;}
-const vert=`attribute vec3 aPos;attribute vec3 aCol;attribute vec3 aNorm;uniform mat4 uView,uProj;uniform float uWarm;varying vec3 vCol;varying float vFog;varying float vHeight;void main(){vec4 w=vec4(aPos,1.);vec3 n=normalize(aNorm);float light=max(.0,dot(n,normalize(vec3(.65,1.,.55))));float fill=max(.0,dot(n,normalize(vec3(-.7,.45,-.3))));float illum=.49+light*.49+fill*.12;vCol=aCol*illum*vec3(1.02,.98,.94)+aCol*vec3(.045,.026,.012)*uWarm;vec4 v=uView*w;vFog=clamp((-v.z-11.)/28.,0.,.7);vHeight=aPos.y;gl_Position=uProj*v;}`;
-const frag=`precision mediump float;varying vec3 vCol;varying float vFog;varying float vHeight;void main(){vec3 c=mix(vCol,vec3(.23,.30,.27),vFog*.42);gl_FragColor=vec4(pow(c,vec3(.92)),1.);}`;
+// D4: baked-feel multi-source lighting. No texture lookups or network assets.
+// Calculated per vertex, so the higher-quality light stays lightweight on phones.
+const vert=`attribute vec3 aPos;attribute vec3 aCol;attribute vec3 aNorm;
+uniform mat4 uView,uProj;uniform float uWarm,uDetail;
+varying vec3 vCol;varying float vFog;varying float vHeight;
+void main(){
+  vec3 n=normalize(aNorm);
+  vec3 key=normalize(vec3(.64,1.,.46));
+  float sun=max(0.,dot(n,key));
+  float bounce=max(0.,dot(n,normalize(vec3(-.72,.49,-.28))));
+  vec3 lamp=vec3(6.,3.05,-4.7);
+  vec3 bulb=vec3(-8.,9.8,-3.);
+  vec3 overhead=vec3(1.5,9.9,-3.);
+  vec3 d0=lamp-aPos, d1=bulb-aPos,d2=overhead-aPos;
+  float l0=max(0.,dot(n,normalize(d0)))/(1.+dot(d0,d0)*.07);
+  float l1=max(0.,dot(n,normalize(d1)))/(1.+dot(d1,d1)*.038);
+  float l2=max(0.,dot(n,normalize(d2)))/(1.+dot(d2,d2)*.045);
+  vec3 ambient=vec3(.48,.51,.54)+vec3(.37,.34,.30)*sun+vec3(.11,.13,.15)*bounce;
+  vec3 practical=(vec3(1.,.69,.35)*l0*.91+vec3(.97,.73,.48)*l1*.47+vec3(.99,.77,.50)*l2*.38)*uWarm;
+  // Restrained edge highlights make solid voxel surfaces more legible.
+  vec3 coolRim=vec3(.072,.11,.13)*max(0.,dot(n,normalize(vec3(-.5,.5,.67))))*uDetail;
+  vCol=aCol*(ambient+practical+coolRim);
+  vec4 v=uView*vec4(aPos,1.);
+  vFog=clamp((-v.z-12.)/32.,0.,.72);vHeight=aPos.y;
+  gl_Position=uProj*v;
+}`;
+const frag=`precision mediump float;
+varying vec3 vCol;varying float vFog;varying float vHeight;
+void main(){
+ vec3 fog=vec3(.18,.25,.255)+vec3(.027,.013,-.005)*clamp(vHeight/12.,0.,1.);
+ vec3 c=mix(vCol,fog,vFog*.44);
+ gl_FragColor=vec4(pow(max(c,vec3(0.)),vec3(.94)),1.);
+}`;
 function shader(type,src){let s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))console.error(gl.getShaderInfoLog(s));return s;}
-const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vert));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,frag));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))console.error(gl.getProgramInfoLog(prog));gl.useProgram(prog);const att={p:gl.getAttribLocation(prog,'aPos'),c:gl.getAttribLocation(prog,'aCol'),n:gl.getAttribLocation(prog,'aNorm')},uni={view:gl.getUniformLocation(prog,'uView'),proj:gl.getUniformLocation(prog,'uProj'),warm:gl.getUniformLocation(prog,'uWarm')};gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
+const prog=gl.createProgram();gl.attachShader(prog,shader(gl.VERTEX_SHADER,vert));gl.attachShader(prog,shader(gl.FRAGMENT_SHADER,frag));gl.linkProgram(prog);if(!gl.getProgramParameter(prog,gl.LINK_STATUS))console.error(gl.getProgramInfoLog(prog));gl.useProgram(prog);const att={p:gl.getAttribLocation(prog,'aPos'),c:gl.getAttribLocation(prog,'aCol'),n:gl.getAttribLocation(prog,'aNorm')},uni={view:gl.getUniformLocation(prog,'uView'),proj:gl.getUniformLocation(prog,'uProj'),warm:gl.getUniformLocation(prog,'uWarm'),detail:gl.getUniformLocation(prog,'uDetail')};gl.enable(gl.DEPTH_TEST);gl.depthFunc(gl.LEQUAL);
 const C={wood:'#50372d',wood2:'#78513b',wood3:'#a37b53',darkWood:'#46352c',wall:'#39453d',wall2:'#49574b',plaster:'#9aa497',floor:'#4b3d35',floor2:'#625044',iron:'#536267',iron2:'#899b9c',brass:'#d7a052',gold:'#efc77b',teal:'#507f6b',tealLight:'#8bb79a',copper:'#b86d48',red:'#af5e4b',navy:'#374a5a',cream:'#e2d4b2',paper:'#d9bd86',skin:'#a8cda0',skinLight:'#c7e0ae',skinDark:'#63896c',cuff:'#52614d',cuffEdge:'#a58a63',black:'#24363a',glow:'#ffe3a2',green:'#78a46c'};
 function color(h){h=h.replace('#','');return [parseInt(h.slice(0,2),16)/255,parseInt(h.slice(2,4),16)/255,parseInt(h.slice(4,6),16)/255]}
 const faces=[{n:[1,0,0],v:[[1,-1,-1],[1,-1,1],[1,1,1],[1,1,-1]]},{n:[-1,0,0],v:[[-1,-1,1],[-1,-1,-1],[-1,1,-1],[-1,1,1]]},{n:[0,1,0],v:[[-1,1,-1],[1,1,-1],[1,1,1],[-1,1,1]]},{n:[0,-1,0],v:[[-1,-1,1],[1,-1,1],[1,-1,-1],[-1,-1,-1]]},{n:[0,0,1],v:[[1,-1,1],[-1,-1,1],[-1,1,1],[1,1,1]]},{n:[0,0,-1],v:[[-1,-1,-1],[1,-1,-1],[1,1,-1],[-1,1,-1]]}];
@@ -246,6 +277,160 @@ for(let x of [-14,14]){for(let z of [-11,9]){box(x,-1.9,z,2,1.5,2,C.red);box(x,-
 // Hanging lights
 for(let x of [-8,0,8]){box(x,11.5,-3,.1,2,.1,C.black);box(x,10.45,-3,1.5,.5,1.5,C.copper);box(x,10.1,-3,1.12,.15,1.12,C.gold)}
 // Ambient flying motes are rendered dynamically.
+// ---- D4: tactile, batched, procedural material details -------------------
+// This is decorative static geometry only. All original collision hulls remain
+// authoritative, so visual refinements cannot invalidate jumping and grabbing.
+const woodTints=['#75513c','#865a40','#916748','#76503a','#9a6d4b','#80573c'];
+const darkGrain=['#563a30','#684533','#604332','#4e392f'];
+const brightGrain=['#b08358','#a47d53','#ac815c'];
+function patinaPlate(x,y,z,w,h,col=C.brass){
+ box(x,y,z,w,h,.06,C.iron);
+ box(x,y+.012,z+.036,w*.91,h*.83,.017,col);
+ for(const sx of [-1,1])for(const sy of [-1,1]){
+  box(x+sx*w*.42,y+sy*h*.37,z+.054,.047,.047,.026,C.gold);
+ }
+ box(x-w*.25,y+h*.14,z+.055,w*.36,.023,.019,C.gold);
+}
+function timberBoards(){
+ // Every full-width board is jointed into smaller segments. Thin grain lines
+ // and irregular joins provide readable texture without loading image assets.
+ const starts=[-11.45,-4.2,3.15,11.45];
+ for(let i=0;i<17;i++){
+   const z=-7.95+i*.97;
+   for(let k=0;k<3;k++){
+     const left=starts[k]+((i*11+k*7)%5)*.09;
+     const right=starts[k+1]-((i*5+k*3)%4)*.09;
+     let w=right-left-.045;
+     if(w<=0)continue;
+     const x=(left+right)*.5;
+     box(x,.012,z,w,.022,.915,woodTints[(i*3+k)%woodTints.length]);
+     box(x,.026,z-.434,w*.985,.013,.023,C.darkWood);
+     box(x,.027,z+.432,w*.985,.012,.020,brightGrain[(i+k)%3]);
+     for(let j=0;j<4;j++){
+       const xx=left+.24+(j+.23)*w/4;
+       const zg=z-.28+((i*17+j*29+k*13)%50)/100;
+       const len=Math.min(.40+(i+j+k)%5*.22,right-xx-.13);
+       if(len>.12)box(xx+len*.5,.027,zg,len,.012,.014,j%3?darkGrain[(i+j)%4]:brightGrain[(j+k)%3]);
+     }
+     // Short perpendicular board-joint scratches near a handful of seams.
+     if((i+k)%4===0){
+       box(right-.12,.030,z+.08,.02,.015,.36,C.darkWood);
+       box(right-.24,.031,z+.08,.026,.015,.24,C.wood3);
+     }
+   }
+ }
+}
+function agedToolbox(){
+ const x=-8.5,z=-3.85;
+ // Hammered iron corner braces and paint worn into exposed copper edges.
+ for(const dx of [-1,1]){
+  for(const dz of [-1,1]){
+   box(x+dx*1.64,.58,z+dz*1.09,.08,.94,.09,C.iron2);
+   for(let i=0;i<3;i++)box(x+dx*1.651,.28+i*.29,z+dz*1.092,.028,.055,.04,C.brass);
+  }
+ }
+ for(let k=0;k<6;k++){
+  const xx=x-1.47+k*.55;
+  box(xx,.81,z+1.157,.28,.015,.018,k%3?C.copper:C.iron2);
+  box(xx,.32,z+1.165,.22,.02,.018,k%2?C.darkWood:C.copper);
+ }
+ patinaPlate(x,.64,z+1.195,.88,.29,C.copper);
+}
+function carvedCrate(x,y,z,w,h,d){
+ // Raised hardwood construction, no changes to the playable collider.
+ const front=z+d/2+.016;
+ for(const sx of [-1,1]){
+  box(x+sx*(w/2-.08),y,z+d/2+.032,.13,h*.91,.075,C.darkWood);
+  for(let j=0;j<3;j++)box(x+sx*(w/2-.08),y-h*.36+j*h*.36,front+.07,.055,.055,.05,C.gold);
+ }
+ for(let k=0;k<4;k++){
+  box(x,y-h*.31+k*h*.19,front+.026,w*.85,.025,.017,k%2?C.wood3:C.darkWood);
+ }
+ world.box(x,y,front+.061,w*.68,.075,.05,C.wood3,0,0,.34);
+ world.box(x,y,front+.067,w*.68,.063,.046,C.wood3,0,0,-.34);
+}
+function instrumentChestFinish(){
+ // Antique stitched-instrument chest, a strong recognizable tutorial landmark.
+ const x=-4.2,z=1.45;
+ box(x,.70,z+.056,1.96,.09,.046,C.darkWood);
+ for(let j=0;j<3;j++){
+   const yy=.35+j*.36;
+   box(x,yy,z+.077,1.8,.028,.022,C.wood3);
+   for(let k=0;k<5;k++){
+     let xx=x-.74+k*.37;
+     box(xx,yy+.11,z+.083,.075,.025,.019,(k+j)%3?C.brass:C.iron2);
+   }
+ }
+ patinaPlate(x,.99,z+.108,.75,.23,C.brass);
+ for(const xx of [-5.14,-3.26]){
+  box(xx,.72,z+.11,.08,1.09,.065,C.iron2);
+  for(let yy of [.28,.72,1.1])box(xx,yy,z+.15,.060,.063,.036,C.gold);
+ }
+}
+function antiqueBrassAndGlass(){
+ // Glass is intentionally suggested by sparse edge reflections and clear fluid,
+ // rather than an opaque solid-colored rectangular panel.
+ for(let i=0;i<4;i++){
+   const x=-8.8+i*.95,z=-13.45;
+   box(x-.19,1.16,z+.367,.034,.49,.022,C.cream);
+   box(x+.18,1.07,z+.375,.019,.35,.017,C.tealLight);
+   box(x,1.08,z+.345,.35,.09,.017,[C.tealLight,C.gold,C.green,C.teal][i]);
+   box(x,1.20,z+.37,.24,.016,.015,C.cream);
+   box(x-.19,.83,z+.37,.06,.06,.022,C.gold);
+ }
+ // Four old copper pipes with narrow seams and dull riveted clamps.
+ for(let i=0;i<4;i++){
+  const x=7.2+i*.64;
+  for(let j=0;j<4;j++){
+   let y=2.2+j*.49;
+   box(x,y,-12.30,.22,.075,.22,j%3?C.copper:C.brass);
+   box(x+.08,y+.05,-12.18,.032,.026,.035,C.gold);
+  }
+ }
+ // Light shade inner amber reflector; small facets make the bulb believable.
+ for(let k=0;k<6;k++){
+  const a=k*Math.PI/3;
+  box(6+Math.cos(a)*.50,2.68,-4.7+Math.sin(a)*.49,.18,.055,.16,k%2?C.gold:C.cream,a);
+ }
+ box(6,2.625,-4.7,.65,.045,.58,'#fff1b8');
+ // Aged cabinet doors and scuffed drawer handles on the back wall.
+ for(const x of [-12.1,10.3]){
+   for(let j=0;j<3;j++){
+    const y=.45+j*(5.8-.8)/3+.22;
+    for(let dx of [-.5,.5]){
+      const px=x+dx;
+      box(px,y,-13.0,.48,.013,.018,C.darkWood);
+      box(px,y-.04,-12.975,.23,.03,.026,C.brass);
+    }
+   }
+ }
+}
+function wallCraftDetails(){
+ // Riveted iron-and-wood seam plates, cracks and asymmetrical carved trim.
+ for(let k=0;k<14;k++){
+  const x=-15.1+k*2.2,y=10.68+(k%3)*.06;
+  box(x,y,-14.75,.62,.045,.048,k%3?C.wood3:C.brass);
+  for(const dx of [-.21,.21])box(x+dx,y+.022,-14.712,.055,.048,.04,C.iron2);
+ }
+ for(let i=0;i<20;i++){
+  const x=-15.2+i*1.55,y=7.2+(i*7%8)*.34;
+  box(x,y,-15.045,.025,.12+(i%3)*.07,.017,i%2?C.darkWood:C.wall2,.15+(i%5)*.12);
+ }
+ // Tiny floor grit at the workbench edges, sparse enough to read as purposeful.
+ for(let i=0;i<52;i++){
+  let x=-10.75+(i*137%218)*.10;
+  let z=(i%2?1:-1)*(7.82+(i%5)*.13);
+  box(x,.046,z,.08+(i%3)*.032,.026,.055,(i%4?C.wood3:C.iron2),(i%7)*.19);
+ }
+}
+function realismEnvironment(){
+ timberBoards();agedToolbox();instrumentChestFinish();
+ carvedCrate(1.1,.48,-5.1,1.65,.96,1.65);
+ carvedCrate(-.5,.47,-6.5,1.45,.94,1.45);
+ antiqueBrassAndGlass();wallCraftDetails();
+}
+realismEnvironment();
+// -------------------------------------------------------------------------
 const worldGpu=gpu(world);
 const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0,landImpact:0,takeoff:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
 const rope={x:3.7,y:3.35,z:.85,length:1.85};
@@ -300,6 +485,12 @@ function walkingBody(mesh,bob,speed){
  local(mesh,weighted,1.995+bob,.61,.69,.075,.57,C.skinDark);
  local(mesh,weighted,2.04+bob,.61,.56,.022,.46,C.skinLight);
  local(mesh,weighted,1.73+bob,.955,.18,.22,.065,C.tealLight);
+ // Individual facet patches soften the rectangular outline while preserving voxels.
+ if(settings.quality!=='low')for(const side of [-1,1]){
+   local(mesh,weighted+side*.465,1.23+bob,.10,.14,.16,.49,C.skinDark,0,-.43);
+   local(mesh,weighted+side*.408,1.34+bob,.20,.10,.14,.34,C.skinLight,0,-.36);
+   local(mesh,weighted+side*.29,1.80+bob,.87,.12,.15,.14,C.skinLight);
+ }
  // Knuckles are distinct from the palm, helping each finger read as a limb.
  for(let i=0;i<4;i++)local(mesh,HAND_XS[i]+weighted,.983+bob,-.40,.175,.12,.235,i===1?C.skinLight:C.skin);
 }
@@ -333,6 +524,43 @@ function digitTarget(i,moving,phase,bob){
  const lift=Math.sin(u*Math.PI)*(thumb?.24:.29);
  return [mix(toe.fromX,ahead[0],e),mix(toe.fromY??contactY,landingY,e)+lift,mix(toe.fromZ,ahead[2],e)];
 }
+// D4: tiny geometric skin details are supplementary, never control the silhouette.
+// They inherit the real articulated skeleton and vanish on the Performance preset.
+function fingerSurface(mesh,i,thumb,root,joint1,joint2,tip){
+ if(settings.quality==='low')return;
+ const width=thumb?.19:.15;
+ const ring=(p,shade,scale)=>mesh.box(p[0],p[1]+width*.12,p[2],width*scale,width*.32,width*.85,shade,player.yaw);
+ ring(joint1,C.skinLight,1.25);
+ ring(joint2,C.skin,1.10);
+ if(settings.quality==='high'){
+  // A small crease at each joint, rather than smooth toy-like tubes.
+  for(let k=0;k<2;k++){
+   const p=mix3(joint1,joint2,.14+k*.14);
+   mesh.box(p[0],p[1]+width*.18,p[2],width*.64,.018,.024,k?C.skinDark:C.skinLight,player.yaw);
+  }
+  const p=mix3(joint2,tip,.77);
+  mesh.box(p[0],p[1]+.083,p[2],thumb?.09:.074,.014,.065,C.cream,player.yaw);
+ }
+}
+function handSurfaceStitches(mesh,bob,speed){
+ if(settings.quality==='low')return;
+ // Top of the upright wrist: stacked soft facets make it feel assembled by hand.
+ for(let k=0;k<7;k++){
+  let a=k*Math.PI*2/7;
+  local(mesh,Math.cos(a)*.355,1.876+bob,.61+Math.sin(a)*.30,.10,.024,.10,k%3?C.skinLight:C.skinDark,a);
+ }
+ // Fine alternating repair threads across the palm, deliberately non-graphic.
+ if(settings.quality==='high'){
+  for(let i=0;i<8;i++){
+    let x=-.32+i*.09;
+    local(mesh,x,1.341+bob,-.055-.027*i,.028,.024,.091,i%2?C.cuffEdge:C.skinDark,0,-.50,i%2?.22:-.22);
+  }
+  for(let i=0;i<13;i++){
+    let a=i*2.39996, r=.21*Math.sqrt((i+1)/14);
+    local(mesh,Math.cos(a)*r,1.385+bob,.16+Math.sin(a)*r*.9,.032,.021,.048,i%3?C.skinLight:C.skinDark,0,-.5);
+  }
+ }
+}
 function hand(mesh,dt,ambient=false){
  if(parkour.mode!=='none'){gripPose(mesh);return;}
  const speed=Math.hypot(player.vx,player.vz),moving=speed>.16&&player.onGround;
@@ -340,6 +568,7 @@ function hand(mesh,dt,ambient=false){
  // Headless, faceless character acting: subtle breathing/curiosity during idle.
  const bob=(moving?(.018*Math.sin(phase*2)-.015*Math.abs(Math.sin(phase))):(.011*Math.sin(time*2.1)))-.115*(player.landImpact||0)+.09*(player.takeoff||0);
  walkingBody(mesh,bob,speed);
+ handSurfaceStitches(mesh,bob,speed);
  for(let i=0;i<5;i++){
    const thumb=i===4,x=thumb?-.89:HAND_XS[i],tip=digitTarget(i,moving,phase,bob);
    const root=thumb?toWorld(-.485,1.13+bob,.22):toWorld(HAND_XS[i],.975+bob,-.435);
@@ -353,6 +582,7 @@ function hand(mesh,dt,ambient=false){
    bone(mesh,root,joint1,thumb?.245:.185,thumb?.23:.20,C.skin);
    bone(mesh,joint1,joint2,thumb?.21:.17,thumb?.20:.18,C.skinLight);
    bone(mesh,joint2,tip,thumb?.17:.15,thumb?.17:.16,C.skinDark);
+   fingerSurface(mesh,i,thumb,root,joint1,joint2,tip);
    mesh.box(tip[0],tip[1]+.044,tip[2],thumb?.20:.17,.13,thumb?.21:.18,C.skinLight);
    // Nail blocks create a readable contact direction without realistic detail.
    const nail=mix3(joint2,tip,.75);mesh.box(nail[0],nail[1]+.055,nail[2],thumb?.13:.115,.024,.13,C.cream);
@@ -460,6 +690,10 @@ function gripPose(mesh){
  bone(mesh,wrist,knuckleBody,.34,.32,C.cuff);
  // A visible stitched end on the raised wrist; positions are contact-driven.
  mesh.box(knuckleBody[0],knuckleBody[1]+.05,knuckleBody[2],.31,.095,.29,C.skinDark);
+ if(settings.quality!=='low')for(let i=0;i<5;i++){
+   const a=i*2.14;
+   mesh.box(knuckleBody[0]+Math.cos(a)*.10,knuckleBody[1]+.115,knuckleBody[2]+Math.sin(a)*.09,.025,.024,.074,i%2?C.cuffEdge:C.skinLight);
+ }
  for(let i=0;i<4;i++){
    const contact=gripPadState(i);if(!contact)continue;
    const p=contact.p,lift=contact.lift;
@@ -472,6 +706,7 @@ function gripPose(mesh){
    // Support fingers stay pinned. Only the active finger rises and regrips.
    bone(mesh,root,knuckle,.153,.155,C.skin);
    bone(mesh,knuckle,crown,.14,.145,C.skinLight);
+   if(settings.quality!=='low')mesh.box(crown[0],crown[1]+.024,crown[2],.126,.044,.116,C.skinLight);
    bone(mesh,crown,pad,.112,.109,C.skinDark);
    mesh.box(pad[0],pad[1]+.017,pad[2],.12,.08,.12,C.skinLight);
    // Small raised nails let the individual fingers read clearly at distance.
@@ -842,20 +1077,38 @@ npc.timer-=dt;if(npc.mode==='investigate'&&npc.timer<=0){npc.mode='patrol';npc.t
   updateGameplayFeedback();
   if(!freeTime){freeTime=1;if(settings.hints)objective('The workshop awakens · Explore with WASD or the joystick');}
 }
+// D4: motes exist in world space and drift gently. They are decorative only.
+const MOTES=Array.from({length:38},(_,i)=>({
+ x:-10.2+(i*47%103)*.196,
+ y:1.00+(i*71%80)*.096,
+ z:-7.4+(i*31%137)*.10,
+ phase:i*2.27,
+ speed:.45+(i%7)*.075,
+ size:.016+(i%4)*.008
+}));
+function atmosphericMotes(mesh,t){
+ if(settings.quality==='low')return;
+ const count=settings.quality==='medium'?15:38;
+ for(let i=0;i<count;i++){
+   const m=MOTES[i],a=m.phase+t*m.speed;
+   const x=m.x+Math.sin(a)*.18,y=m.y+Math.cos(a*.55)*.14,z=m.z+Math.sin(a*.73)*.15;
+   mesh.box(x,y,z,m.size,m.size,m.size,i%4?'#c5ae7d':'#e9d4a6');
+ }
+}
 function render(dt){const r=canvas.getBoundingClientRect(),q=settings.quality==='low'?.7:settings.quality==='medium'?.9:1.4,dpr=Math.min(window.devicePixelRatio||1,q);let w=Math.max(1,Math.floor(r.width*dpr)),h=Math.max(1,Math.floor(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.10,.15,.14,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(prog);
-const framing=computeCamera(dt);eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[framing.focusX,framing.focusY,framing.focusZ]);perspective(proj,framing.fov,w/h,.08,96);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:0);draw(worldViewGpu);
-let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
+const framing=computeCamera(dt);eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[framing.focusX,framing.focusY,framing.focusZ]);perspective(proj,framing.fov,w/h,.08,96);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:.35);gl.uniform1f(uni.detail,settings.quality==='low'?.3:settings.quality==='medium'?.75:1);draw(worldViewGpu);
+let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);atmosphericMotes(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
 function show(name){for(let n of ['menu','pause','settings','complete'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
 function start(){Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});camera.yaw=CAMERA_MODES[settings.cameraMode].yaw??0;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;guide.firstMove=false;parkour.mode='none';parkour.ledge=null;parkour.gripUntil=0;parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;parkour.shimmySpeed=0;parkour.gripDigits=[];parkour.catchFrom=null;parkour.catchClock=0;player.landImpact=0;player.takeoff=0;jumpQueued=false;for(const t of toeState){t.planted=false;t.initialized=false;}camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;fanOn=true;jarDown=false;bellRung=false;freeTime=0;state='playing';show('none');playTone(610,.2)}function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing')cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline-first prototype v0.5-D3.')};
+$('startButton').onclick=start;$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('restartButton').onclick=start;$('playAgain').onclick=start;$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing')cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline-first prototype v0.5-D4.')};
 for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera','smartCamera'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;settings.smartCamera=$('smartCamera').checked;store()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
 window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='settings')$('settingsBack').click();else pause();return}if(k===' '&&!keys.has(k))jumpQueued=true;if(k==='g'&&!keys.has(k)&&state==='playing')requestGrip();if(k==='c'&&!keys.has(k)&&state==='playing')cycleCamera();keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
 let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.4,Math.min(15,camera.dist+Math.sign(e.deltaY)*.6));camera.manualUntil=time+7},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();jumpQueued=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('gripButton').addEventListener('pointerdown',e=>{e.preventDefault();requestGrip();$('gripButton').classList.add('pressed')});for(const s of ['pointerup','pointercancel','pointerleave'])$('gripButton').addEventListener(s,()=>$('gripButton').classList.remove('pressed'));$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint};
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint,worldTriangleCount:world.count,atmosphericMotes,realismEnvironment};
 requestAnimationFrame(tick);
 })();
 </script>
