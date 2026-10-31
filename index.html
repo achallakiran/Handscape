@@ -60,7 +60,7 @@
 </head>
 <body>
 <canvas id="game" aria-label="FRANK playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Continue Adventure</button><button id="stageMenuButton" class="menu-btn">▦ Choose Stage</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.6-B · Workshop Reimagined</span></section>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Continue Adventure</button><button id="stageMenuButton" class="menu-btn">▦ Choose Stage</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.6-C1 · New Platforming Route</span></section>
 <div id="hud" class="hidden"><div id="journeyHud" aria-live="polite"><span id="heartDisplay" aria-label="Lives">♥ ♥ ♥</span><span id="journeyText">01 · WORKSHOP<br>STARTING THREAD</span></div><div id="checkpointToast" aria-live="polite"></div><div id="questGoal" aria-live="polite">A mysterious diagram lies nearby.</div><div id="mouseScore" class="hidden" aria-live="polite"></div><button id="pauseButton" aria-label="Pause game">Ⅱ</button><button id="cameraButton" aria-label="Change camera angle" title="Camera · C">◉</button><div id="cameraModeLabel" aria-live="polite"></div><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="checkpointButton" class="menu-btn">↩ Return to Checkpoint</button><button id="restartButton" class="menu-btn">↺ Restart Stage</button><button id="pauseStageButton" class="menu-btn">▦ Stage Selection</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
 <section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="difficulty">Adventure difficulty</label><select id="difficulty"><option value="story">Story · Unlimited retries</option><option value="adventure">Adventure · 3 hearts</option><option value="challenge">Challenge · Fewer checkpoints</option></select></div><div class="settings-row"><label for="cameraMode">Camera view</label><select id="cameraMode"><option value="follow">Follow · Recommended</option><option value="isometric">Isometric</option><option value="side">Side View</option><option value="close">Close-up</option><option value="wide">Wide Explorer</option></select></div><div class="settings-row"><label for="smartCamera">Smart camera during climbing</label><input id="smartCamera" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
@@ -127,7 +127,13 @@ class Mesh{constructor(){this.a=[];this.count=0;}box(x,y,z,w,h,d,hex,ry=0,rx=0,r
 function gpu(mesh,dynamic=false){const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(mesh.a),dynamic?gl.DYNAMIC_DRAW:gl.STATIC_DRAW);return {buffer:b,count:mesh.count}}
 function draw(g){gl.bindBuffer(gl.ARRAY_BUFFER,g.buffer);const stride=9*4;for(const [k,idx] of [['p',0],['c',3],['n',6]]){gl.enableVertexAttribArray(att[k]);gl.vertexAttribPointer(att[k],3,gl.FLOAT,false,stride,idx*4)}gl.drawArrays(gl.TRIANGLES,0,g.count)}
 const world=new Mesh(),colliders=[];let props=[];function box(x,y,z,w,h,d,c,rot=0,solid=false){world.box(x,y,z,w,h,d,c,rot);if(solid&&rot===0)colliders.push({x,y,z,w,h,d,top:y+h/2,grabbable:y+h/2>=.54});}function placeObj(id,x,y,z,type){props.push({id,x,y,z,type,used:false});}
-function bench(){box(0,-.27,0,24,.54,18,C.wood2);box(0,.035,-8.7,24,.14,.3,C.brass);box(0,.035,8.7,24,.14,.3,C.brass);box(-11.65,.035,0,.3,.14,18,C.brass);box(11.65,.035,0,.3,.14,18,C.brass);for(let x of [-10,10])for(let z of [-7,7])box(x,-1.9,z,1,3.2,1,C.darkWood);for(let z of [-6.5,-2.5,1.5,5.5]){box(-10.2,-.56,z,1,.18,.12,C.wood3);box(10.2,-.56,z,1,.18,.12,C.wood3)}box(0,-2.76,0,37,.18,31,C.floor);for(let x=-17;x<=17;x+=2)box(x,-2.64,0,.038,.018,31,C.floor2);
+function bench(){
+// The tabletop is now four joined pieces around a real dropped-out hatch.
+// C1 gap x -7.25..-5.55, z -3.15..-1.55: falling goes through to the floor.
+box(-9.625,-.27,0,4.75,.54,18,C.wood2);
+box(3.225,-.27,0,17.55,.54,18,C.wood2);
+box(-6.40,-.27,-6.075,1.70,.54,5.85,C.wood2);
+box(-6.40,-.27,3.725,1.70,.54,10.55,C.wood2);box(0,.035,-8.7,24,.14,.3,C.brass);box(0,.035,8.7,24,.14,.3,C.brass);box(-11.65,.035,0,.3,.14,18,C.brass);box(11.65,.035,0,.3,.14,18,C.brass);for(let x of [-10,10])for(let z of [-7,7])box(x,-1.9,z,1,3.2,1,C.darkWood);for(let z of [-6.5,-2.5,1.5,5.5]){box(-10.2,-.56,z,1,.18,.12,C.wood3);box(10.2,-.56,z,1,.18,.12,C.wood3)}box(0,-2.76,0,37,.18,31,C.floor);for(let x=-17;x<=17;x+=2)box(x,-2.64,0,.038,.018,31,C.floor2);
 box(0,5.0,-16,.42,16,38,C.wall);box(-18,5.0,0,.42,16,36,C.wall2);box(18,5.0,0,.42,16,36,C.wall2);box(0,12.8,-2,37,.45,35,C.darkWood);
 // Structural beams, trim and warm window
 for(const x of [-16,-8,0,8,16]){box(x,5.7,-15.56,.28,12.7,.23,C.darkWood);box(x,-.06,-15.38,.75,.6,.35,C.brass)}box(0,11.55,-15.57,36,.36,.38,C.wood3);
@@ -376,20 +382,22 @@ function timberBoards(){
      const right=starts[k+1]-((i*5+k*3)%4)*.09;
      let w=right-left-.045;
      if(w<=0)continue;
-     const x=(left+right)*.5;
-     box(x,.012,z,w,.022,.915,woodTints[(i*3+k)%woodTints.length]);
-     box(x,.026,z-.434,w*.985,.013,.023,C.darkWood);
-     box(x,.027,z+.432,w*.985,.012,.020,brightGrain[(i+k)%3]);
-     for(let j=0;j<4;j++){
-       const xx=left+.24+(j+.23)*w/4;
-       const zg=z-.28+((i*17+j*29+k*13)%50)/100;
-       const len=Math.min(.40+(i+j+k)%5*.22,right-xx-.13);
-       if(len>.12)box(xx+len*.5,.027,zg,len,.012,.014,j%3?darkGrain[(i+j)%4]:brightGrain[(j+k)%3]);
-     }
-     // Short perpendicular board-joint scratches near a handful of seams.
-     if((i+k)%4===0){
-       box(right-.12,.030,z+.08,.02,.015,.36,C.darkWood);
-       box(right-.24,.031,z+.08,.026,.015,.24,C.wood3);
+     // Hide the grain as well as the tabletop under the bridge gap.
+     const holes=(i===5||i===6) && left<-5.55 && right>-7.25;
+     const slices=holes?[[left,Math.min(right,-7.25)],[Math.max(left,-5.55),right]]:[[left,right]];
+     for(const [a,b] of slices){
+       const width=b-a-.045;if(width<=.07)continue;
+       const x=(a+b)*.5;
+       box(x,.012,z,width,.022,.915,woodTints[(i*3+k)%woodTints.length]);
+       box(x,.026,z-.434,width*.985,.013,.023,C.darkWood);
+       box(x,.027,z+.432,width*.985,.012,.020,brightGrain[(i+k)%3]);
+       for(let j=0;j<4;j++){
+         const xx=a+.14+(j+.12)*width/4;
+         const zg=z-.28+((i*17+j*29+k*13)%50)/100;
+         const len=Math.min(.22+(i+j+k)%4*.18,b-xx-.1);
+         if(len>.12)box(xx+len*.5,.027,zg,len,.012,.014,j%3?darkGrain[(i+j)%4]:brightGrain[(j+k)%3]);
+       }
+       if((i+k)%4===0){box(b-.12,.030,z+.08,.02,.015,.36,C.darkWood);}
      }
    }
  }
@@ -504,7 +512,164 @@ function realismEnvironment(){
  antiqueBrassAndGlass();wallCraftDetails();
 }
 realismEnvironment();
-// -------------------------------------------------------------------------
+
+// ---- v0.6-C1: The Workshop Awakening -- ACTUAL spatial level rebuild ----
+// Author collision-enabled platforms first. Decorative details never govern physics.
+const STAGE1_ROUTE=[];
+function stageDeck(name,x,top,z,w,d,t=.20,shade=C.wood3){
+  box(x,top-t/2,z,w,t,d,shade,0,true);
+  const hull=colliders[colliders.length-1];hull.stageRoute=name;
+  STAGE1_ROUTE.push({name,x,y:top,z,w,d});
+  // Deliberately obvious handhold: a continuous brass-colored lip.
+  box(x,top+.045,z+d/2+.037,w*.90,.078,.09,C.gold);
+  box(x,top+.045,z-d/2-.037,w*.90,.07,.08,C.brass);
+  for(const sx of [-1,1])box(x+sx*(w*.46),top-.17,z,.095,.28,d*.90,C.darkWood);
+  for(let i=0;i<Math.max(2,Math.floor(w/.42));i++){
+    let xx=x-w*.42+i*(w*.84/Math.max(1,Math.floor(w/.42)-1));
+    box(xx,top+.02,z+d/2+.085,.045,.042,.034,i%3?C.brass:C.cream);
+  }
+  return hull;
+}
+function stageRail(x,z,span,alongX=true){
+ const n=Math.max(2,Math.ceil(span/.75));
+ for(let i=0;i<=n;i++){
+  const p=-span/2+(i/n)*span;
+  const xx=x+(alongX?p:0),zz=z+(alongX?0:p);
+  box(xx,.05,zz,.12,.065,.12,i%2?C.brass:C.gold);
+  if(i<n){
+    const mid=p+span/n/2;
+    box(x+(alongX?mid:0),.035,z+(alongX?0:mid),alongX?span/n*.60:.055,.018,alongX?.055:span/n*.60,C.gold);
+  }
+ }
+}
+function stagePillar(x,z,top=2.9){
+ box(x,top/2,z,.22,top,.22,C.darkWood);
+ box(x,top-.04,z,.38,.13,.34,C.brass);
+ box(x,.19,z,.39,.38,.39,C.iron);
+ for(let yy=.45;yy<top-.2;yy+=.55)box(x,yy,z+.13,.14,.065,.028,C.copper);
+}
+function stageOneSpatialWorld(){
+ // 1. Clearly recognizable START TABLE: desk lamp, lit paper and small steps.
+ // The existing large Frank schematic remains the canonical interactive object.
+ for(const [x,z,w,d] of [[-5.9,2.36,.58,.65],[-6.9,2.61,.69,.76]]){
+   box(x,.035,z,w,.045,d,C.wood3);
+   for(const xx of [-1,1])box(x+xx*w*.47,.066,z,.075,.055,d*.83,C.brass);
+ }
+ stageDeck('first-hop',-5.65,.51,1.98,1.18,.90,.22,C.wood2);
+ stageDeck('drawer-handle',-7.10,.92,2.08,1.08,.82,.20,C.wood3);
+ // An actual protruding drawer and grip bar -- leads toward the moving crate.
+ box(-7.1,.46,2.08,1.23,.78,1.01,C.darkWood,0,true);
+ box(-7.1,.59,2.60,1.28,.46,.13,C.wood3);
+ box(-7.1,.62,2.73,.62,.12,.12,C.brass);
+ for(let dx of [-.50,.50])box(-7.10+dx,.59,2.72,.075,.33,.075,C.iron2);
+ // Sightline arches guide the player to the west-hand crate bay.
+ stagePillar(-10.8,3.6,2.95);stagePillar(-7.95,4.25,2.95);
+ box(-9.38,2.93,3.92,3.12,.20,.22,C.wood2);
+ box(-9.38,2.74,3.98,2.83,.09,.12,C.brass);
+ // A brass-bound crate track, clear from the sketch and obvious at ground level.
+ stageRail(-9.65,.75,3.77,false);stageRail(-8.22,.75,3.77,false);
+ for(let i=0;i<7;i++){
+  let z=2.35-i*.51;
+  box(-8.96,.058,z,.47,.018,.055,i%2?C.gold:C.copper);
+ }
+ // The socket is a framed mechanical recess, not just a flat painted rectangle.
+ for(let x of [-9.70,-8.20]){
+  box(x,.08,-1.20,.12,.12,1.77,C.brass);
+  for(let z of [-1.96,-.44])box(x,.155,z,.15,.035,.21,C.gold);
+ }
+ box(-8.95,.06,-1.20,1.32,.025,1.30,C.iron);
+ for(let z of [-1.92,-.48])box(-8.95,.103,z,1.52,.10,.12,C.gold);
+ // A visible crank housing connects the crate socket to the hinged crossing.
+ box(-7.95,.48,-1.78,.61,.84,.68,C.iron);
+ box(-7.95,.94,-1.78,.84,.13,.76,C.brass);
+ for(let yy of [.27,.52,.76])box(-7.63,yy,-1.78,.16,.095,.60,C.copper);
+ for(let i=0;i<8;i++){
+  const a=i*Math.PI/4;
+  box(-7.75+Math.cos(a)*.29,.50+Math.sin(a)*.29,-1.36,.12,.12,.08,C.gold,a);
+ }
+ // 2. A REAL hole under the hinged crossing; brass hatch-frame is solid wood on its sides.
+ const gapX=-6.4,gapZ=-2.35;
+ for(const z of [-3.20,-1.50])box(gapX,.055,z,2.05,.16,.14,C.iron);
+ for(const x of [-7.32,-5.48])box(x,.055,gapZ,.15,.16,1.85,C.copper);
+ // Exposed machinery below the gap is visible from the tabletop when the bridge is down.
+ for(let i=0;i<7;i++){
+  let x=-7.12+i*.25;
+  box(x,-1.23,-2.35,.12,.15,1.1,i%2?C.iron:C.brass);
+ }
+ for(let x of [-7.04,-5.79])stagePillar(x,-3.52,1.83);
+ // West landing shares the toolbox top; low step lets children reach it by jumping.
+ stageDeck('west-rise',-9.45,.52,-2.25,1.45,.76,.24,C.wood3);
+ stageDeck('bridge-east-landing',-4.85,1.22,-2.33,1.51,1.32,.28,C.wood3);
+ // Eastward continuous raised gallery, with a separate ledge for a shimmy.
+ stageDeck('cabinet-step',-3.29,.89,-1.94,1.08,1.09,.28,C.wood2);
+ stageDeck('cabinet-upper',-2.20,1.31,-1.90,1.25,.72,.24,C.darkWood);
+ // Visible drawer face/hardware on the cabinet's reachable lip.
+ box(-2.20,.77,-1.49,1.13,.62,.12,C.wood3);
+ for(let x of [-2.53,-1.87])box(x,.77,-1.39,.23,.075,.075,C.gold);
+ // An open passage between tall storage cupboards guides toward the bell.
+ stagePillar(-.98,-.73,3.1);stagePillar(1.65,-.73,3.1);
+ box(.32,3.05,-.73,2.81,.19,.38,C.wood2);
+ for(let x of [-.98,1.65])box(x,2.48,-.73,.34,.18,.48,C.brass);
+ // Caretaker's guarded lane is readable as a physically bounded path.
+ for(const x of [-3.6,-2.8,-2.0,-1.2,-.4,.4,1.2,2.0]){
+   box(x,.067,-5.06,.12,.09,.30,C.copper);
+   box(x,.067,-6.44,.12,.09,.30,C.brass);
+ }
+ box(-3.35,.20,-5.05,.26,.40,.18,C.darkWood);
+ box(2.15,.20,-6.44,.26,.40,.18,C.darkWood);
+ // Low display islands in the caretaker corridor create physical cover.
+ stageDeck('caretaker-cover-A',-.98,.64,-4.67,1.24,.64,.28,C.wood2);
+ stageDeck('caretaker-cover-B',.88,.64,-6.94,1.05,.60,.28,C.wood2);
+ // 3. Counterweight assembly: the washers, traverse and lift share an overhead gantry.
+ stagePillar(-3.1,-4.6,3.52);stagePillar(4.48,-3.3,3.52);
+ box(.65,3.46,-4.38,7.9,.24,.24,C.iron);
+ for(let x of [-2.05,.65,3.5]){
+  box(x,3.28,-4.37,.70,.24,.42,C.brass);
+  box(x,3.28,-4.14,.46,.45,.08,C.iron);
+  for(let a=0;a<8;a++){
+   const theta=a*Math.PI/4;
+   box(x+.33*Math.cos(theta),3.28+.33*Math.sin(theta),-4.06,.12,.11,.10,C.gold,theta);
+  }
+ }
+ // A suspended counterweight tray is positioned next to the jar.
+ box(-2.12,.13,-4.09,1.15,.14,.78,C.iron);
+ for(let x of [-2.66,-1.58])box(x,.32,-4.09,.065,.32,.055,C.brass);
+ for(let x of [-2.05,3.50])box(x,1.86,-4.21,.054,2.36,.054,C.copper);
+ box(.71,3.33,-4.24,5.60,.065,.09,C.cream);
+ // Mechanism-support steps connect the jar to the lift without flat running.
+ stageDeck('washer-step',-.96,.64,-3.45,1.14,.88,.24,C.wood2);
+ stageDeck('lift-approach',1.22,1.16,-3.36,1.23,1.10,.28,C.wood3);
+ stageDeck('lift-side-landing',2.28,1.36,-2.85,1.08,.82,.24,C.wood2);
+ // Upper route: ride lift, transfer to a cabinet, then cross to power cutoff.
+ stageDeck('high-mechanism-shelf',5.20,1.90,-2.13,1.50,.99,.24,C.wood3);
+ stageDeck('switch-overlook',5.68,1.57,-3.23,.95,.70,.22,C.darkWood);
+ stageDeck('switch-descent',4.43,.82,-3.95,.92,.92,.22,C.wood3);
+ for(const x of [4.5,5.9])stagePillar(x,-2.0,2.32);
+ box(5.2,2.30,-2,1.54,.14,.28,C.brass);
+ // The switch and fan share a visibly connected power conduit along a raised wall.
+ for(let i=0;i<=23;i++){
+  const t=i/23,xx=5.5+(9.7-5.5)*t,zz=-4.40+(-7.78+4.4)*t;
+  box(xx,1.82+Math.sin(t*Math.PI)*.55,zz,.12,.10,.14,i%4?C.iron:C.copper);
+ }
+ for(const [x,z] of [[6.25,-5.10],[7.55,-6.36],[9.16,-7.51]]){
+  box(x,.85,z,.14,1.68,.14,C.copper);
+  box(x,1.73,z,.34,.16,.24,C.brass);
+ }
+ // 4. The fan approach is a recognisable duct entrance; keep boss field clear.
+ for(let x of [8.25,11.15]){
+  box(x,2.05,-8.05,.31,4.0,.32,C.iron);
+  for(let y of [.5,1.3,2.15,2.90,3.55])box(x,y,-7.83,.37,.12,.18,C.brass);
+ }
+ box(9.70,3.85,-8.10,3.23,.40,.46,C.darkWood);
+ for(let k=0;k<7;k++)box(8.42+k*.42,3.60,-7.97,.15,.10,.16,C.copper);
+ // Emphasize the route with genuine railings and architectural repetition.
+ for(const x of [-10.80,-7.95,-3.10,.00,4.45]){
+  box(x,3.13,5.2,.09,2.88,.09,C.copper);
+  box(x,1.58,5.2,.35,.16,.35,C.brass);
+ }
+}
+stageOneSpatialWorld();
+
 const worldGpu=gpu(world);
 const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0,landImpact:0,takeoff:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
 const rope={x:3.7,y:3.35,z:.85,length:1.85};
@@ -800,13 +965,30 @@ function stageOneProps(mesh,t){
  mesh.box(crate.x,.36,crate.z,crate.w,.72,crate.d,C.wood3);
  for(const sx of [-1,1])for(const sz of [-1,1])mesh.box(crate.x+sx*.50,.36,crate.z+sz*.49,.10,.76,.12,C.darkWood);
  for(let i=-1;i<=1;i++)mesh.box(crate.x+i*.20,.73,crate.z,.10,.055,.96,C.brass);
- if(crateHeld){mesh.box(crate.x,.94+.08*shimmer,crate.z,.13,.17,.13,C.gold);}
+ // Tall brass grab handles and a clear pale ribbon identify the movable crate.
+ for(const dx of [-.43,.43]){
+  mesh.box(crate.x+dx,.82,crate.z+.53,.11,.29,.095,C.gold);
+  mesh.box(crate.x+dx,.97,crate.z+.53,.21,.075,.10,C.brass);
+ }
+ mesh.box(crate.x,crate.top+.034,crate.z,crate.w*.74,.064,.28,C.cream);
+ mesh.box(crate.x,crate.top+.07,crate.z,crate.w*.66,.021,.048,C.copper);
+ if(!blockPlaced){
+  const pulse=.5+.5*Math.sin(t*3);
+  mesh.box(crate.x,1.17+pulse*.06,crate.z,.12,.16,.12,C.glow,t*.5);
+ }
+ if(crateHeld){mesh.box(crate.x,.98+.08*shimmer,crate.z,.16,.19,.16,C.gold);}
  // Once docked, a small hinged bridge swings across an otherwise intimidating gap.
  if(blockPlaced){
-   const spanX=-6.65,spanZ=-2.35;
-   mesh.box(spanX,.38,spanZ,2.6,.18,.70,C.wood2);
-   for(let i=0;i<8;i++)mesh.box(-7.8+i*.33,.50,spanZ,.07,.05,.79,C.brass);
-   mesh.box(-7.89,.28,spanZ,.14,.40,.84,C.copper);
+   const spanX=-6.65,spanZ=-2.35,top=bridgeCollider.top;
+   mesh.box(spanX,top-.11,spanZ,bridgeCollider.w,.22,bridgeCollider.d,C.wood2);
+   for(let i=0;i<9;i++)mesh.box(-7.76+i*.28,top+.025,spanZ,.07,.055,bridgeCollider.d+.04,i%2?C.brass:C.wood3);
+   for(const dz of [-.47,.47])mesh.box(spanX,top+.045,spanZ+dz,2.45,.085,.10,C.gold);
+   mesh.box(-7.91,top-.28,spanZ,.18,.48,1.05,C.copper);
+ }else{
+   // The folded leaf visibly blocks the crossing until the socket is loaded.
+   mesh.box(-7.80,.94,-2.35,.22,1.8,1.06,C.wood2);
+   for(let i=0;i<5;i++)mesh.box(-7.65,.34+i*.31,-2.35,.06,.09,1.11,C.brass);
+   mesh.box(-7.81,1.86,-2.35,.35,.14,1.10,C.gold);
  }
  // Lever-driven counterweight lift: the top surface and physics collider share coordinates.
  const platformY=liftCollider.top;
@@ -815,8 +997,7 @@ function stageOneProps(mesh,t){
  for(const dx of [-.92,.92]){
   mesh.box(liftCollider.x+dx,.75,liftCollider.z-.69,.14,1.65,.13,C.copper);
   mesh.box(liftCollider.x+dx,1.72,liftCollider.z-.69,.25,.13,.26,C.brass);
- }
- for(let i=0;i<6;i++)mesh.box(-1.4+i*.19,.09,-3.68,.07,.07,.13,jarDown?C.gold:C.iron2);
+ } for(let i=0;i<6;i++)mesh.box(-1.4+i*.19,.09,-3.68,.07,.07,.13,jarDown?C.gold:C.iron2);
  if(jarDown){mesh.box(liftCollider.x,platformY+.28+.10*shimmer,liftCollider.z,.15,.23,.15,C.glow);}
  // The fan has visible airflow: motes move toward the dangerous blades.
  if(fanOn){for(let i=0;i<18;i++){
@@ -883,7 +1064,7 @@ const puzzleCrate={x:-8.95,z:2.65,y:.36,w:1.13,h:.72,d:1.13,top:.72,grabbable:tr
       liftCollider={x:3.5,y:.15,z:-1.72,w:2.10,h:.28,d:1.55,top:.29,grabbable:true,dynamicPuzzle:true};
 colliders.push(puzzleCrate,liftCollider);
 const CRATE_SOCKET={x:-8.95,z:-1.20};
-const bridgeCollider={x:-6.65,z:-2.35,y:-10,w:2.6,h:.18,d:.70,top:-9.91,grabbable:false,dynamicPuzzle:true};
+const bridgeCollider={x:-6.65,z:-2.35,y:-10,w:2.6,h:.22,d:1.02,top:-9.89,grabbable:false,dynamicPuzzle:true};
 colliders.push(bridgeCollider);
 let sketchSeen=false,blockPlaced=false,crateHeld=false,liftAmount=0,mouseWon=false;
 const mouseMatch={active:false,x:8.15,z:-6.05,ballX:8.15,ballZ:-4.48,vx:0,vz:0,playerScore:0,mouseScore:0,kickUntil:0,blockUntil:0,mouseCooldown:0,finishTimer:0,goalPause:0};
@@ -910,7 +1091,7 @@ const STAGES=[
 ];
 const CHECKPOINTS=[
  {id:'start',label:'The First Thread',x:RESTART.x,y:RESTART.y,z:RESTART.z,challenge:true},
- {id:'spool',label:'The Moving Crate',x:-8.65,y:0,z:-.85,challenge:true},
+ {id:'spool',label:'The Moving Crate',x:-9.86,y:0,z:-.16,challenge:true},
  {id:'bell',label:'The Bell',x:2.7,y:0,z:-1.55,challenge:false},
  {id:'switch',label:'The Last Switch',x:5.45,y:0,z:-4.2,challenge:true}
 ];
@@ -997,7 +1178,8 @@ function renderStageSelect(){
   const status=progress.completedStages.includes(st.id)?'✓ COMPLETED':st.available?'● PLAYABLE':st.id<=progress.unlockedStage?'◌ REACHED · IN DEVELOPMENT':'◇ COMING LATER';
   tile.innerHTML=`<span class="stage-number">${String(st.id).padStart(2,'0')}</span><span><span class="stage-name"></span><span class="stage-meta"></span></span>`;
   tile.querySelector('.stage-name').textContent=st.title;
-  tile.querySelector('.stage-meta').textContent=status;  tile.onclick=()=>{selectedStageId=st.id;renderStageSelect()};
+  tile.querySelector('.stage-meta').textContent=status;
+  tile.onclick=()=>{selectedStageId=st.id;renderStageSelect()};
   $('stageGrid').appendChild(tile);
  }
  const stage=STAGES.find(x=>x.id===selectedStageId)||STAGES[0];
@@ -1030,7 +1212,7 @@ function resetWorkshopForStage(resume){
  camera.yaw=CAMERA_MODES[settings.cameraMode].yaw??0;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;
  guide.firstMove=false;clearParkour();parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;
  camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;
- fanOn=!flags.fanStopped;jarDown=!!flags.jar;bellRung=!!flags.bell;sketchSeen=!!flags.sketch;blockPlaced=!!flags.blockPlaced;mouseWon=!!flags.mouseWon;crateHeld=false;mouseMatch.active=false;mouseMatch.finishTimer=0;$('mouseScore').classList.add('hidden');$('schematic').classList.add('hidden');puzzleCrate.x=blockPlaced?CRATE_SOCKET.x:-8.95;puzzleCrate.z=blockPlaced?CRATE_SOCKET.z:2.65;bridgeCollider.y=blockPlaced?.38:-10;bridgeCollider.top=blockPlaced?.47:-9.91;bridgeCollider.grabbable=blockPlaced;liftAmount=jarDown?1:0;liftCollider.y=.15+liftAmount*1.36;liftCollider.top=liftCollider.y+.14;freeTime=0;
+ fanOn=!flags.fanStopped;jarDown=!!flags.jar;bellRung=!!flags.bell;sketchSeen=!!flags.sketch;blockPlaced=!!flags.blockPlaced;mouseWon=!!flags.mouseWon;crateHeld=false;mouseMatch.active=false;mouseMatch.finishTimer=0;$('mouseScore').classList.add('hidden');$('schematic').classList.add('hidden');puzzleCrate.x=blockPlaced?CRATE_SOCKET.x:-8.95;puzzleCrate.z=blockPlaced?CRATE_SOCKET.z:2.65;bridgeCollider.y=blockPlaced?1.10:-10;bridgeCollider.top=blockPlaced?1.21:-9.89;bridgeCollider.grabbable=blockPlaced;liftAmount=jarDown?1:0;liftCollider.y=.15+liftAmount*1.36;liftCollider.top=liftCollider.y+.14;freeTime=0;
  npc.mode='patrol';npc.timer=0;npc.x=1.8;npc.z=-5.8;npc.targetX=1.8;npc.targetZ=-5.8;
  hearts=resume?progress.hearts:3;gameMode='exploration';resetToCheckpoint(true);invulnerableUntil=time+1.3;updateJourneyHud();updateQuestGoal();
 }
@@ -1050,7 +1232,7 @@ function checkpointVisuals(mesh,t){
 function toast(s){$('toast').textContent=s;$('toast').style.opacity=1;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.opacity=0,2200)}function objective(s){$('objective').textContent=s;$('objective').style.opacity=1;clearTimeout(objective.timer);objective.timer=setTimeout(()=>$('objective').style.opacity=0,3200)}
 function questData(){
  if(!sketchSeen)return {text:'Discover the old inventor’s sketch',point:[-5.45,.65,3.65]};
- if(!blockPlaced)return {text:crateHeld?'Move the crate onto the brass rectangle · USE to release':'Push or pull the crate onto the brass socket',point:[CRATE_SOCKET.x,.65,CRATE_SOCKET.z]};
+ if(!blockPlaced)return crateHeld?{text:'Move the crate along the brass rails to the socket',point:[CRATE_SOCKET.x,.86,CRATE_SOCKET.z]}:{text:'Find the brass-bound crate beside the sketch',point:[puzzleCrate.x,.95,puzzleCrate.z]};
  if(!bellRung)return {text:'Ring the brass bell to distract the caretaker',point:[2.5,.95,-1.8]};
  if(!jarDown)return {text:'Tip the jar: washers power the pulley lift',point:[-2.05,.95,-3.55]};
  if(fanOn)return {text:'Ride the lift and follow the cable to cut the fan',point:[5.5,.96,-4.4]};
@@ -1077,7 +1259,7 @@ function moveCrate(dx,dz){
  puzzleCrate.x=x;puzzleCrate.z=z;
  if(Math.hypot(x-CRATE_SOCKET.x,z-CRATE_SOCKET.z)<.64){
   puzzleCrate.x=CRATE_SOCKET.x;puzzleCrate.z=CRATE_SOCKET.z;
-  blockPlaced=true;crateHeld=false;bridgeCollider.y=.38;bridgeCollider.top=.47;bridgeCollider.grabbable=true;playTone(630,.25,'triangle');
+  blockPlaced=true;crateHeld=false;bridgeCollider.y=1.10;bridgeCollider.top=1.21;bridgeCollider.grabbable=true;playTone(630,.25,'triangle');
   checkpointFlash('✦ THE BRASS LATCH CLICKS · SHORTCUT UNLOCKED');
   objective('Good! The crate has opened a route toward the bell.');saveWorkshopPuzzle();
  }
@@ -1213,7 +1395,9 @@ function interact(){
  }
 }
 function groundAt(x,z,footY){
-  let surface=(Math.abs(x)<11.7&&Math.abs(z)<8.7)?0:-2.65;
+  const onBench=Math.abs(x)<11.7&&Math.abs(z)<8.7;
+  const throughGap=x>-7.24&&x<-5.56&&z>-3.14&&z<-1.56;
+  let surface=onBench&&!throughGap?0:-2.65;
   for(const b of colliders){const top=b.top;
     if(x>b.x-b.w/2-.25&&x<b.x+b.w/2+.25&&z>b.z-b.d/2-.25&&z<b.z+b.d/2+.25&&footY>=top-.23)surface=Math.max(surface,top);
   }return surface;
@@ -1592,14 +1776,14 @@ function show(name){for(let n of ['menu','pause','settings','complete','stageSel
 function start(){return startStage(1,true)}
 function replayStage(){return startStage(1,false)}
 function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('stageMenuButton').onclick=()=>openStageSelect('menu');$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('checkpointButton').onclick=()=>{state='playing';show('none');resetToCheckpoint();};$('restartButton').onclick=replayStage;$('playAgain').onclick=replayStage;$('pauseStageButton').onclick=()=>openStageSelect('paused');$('completionStages').onclick=()=>openStageSelect('complete');$('stageBack').onclick=returnFromStages;$('stageAction').onclick=()=>{const st=STAGES.find(x=>x.id===selectedStageId);if(st?.available)startStage(st.id,!progress.completedStages.includes(st.id))};$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing'&&!mouseMatch.active)cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('sketchClose').onclick=()=>{if(state!=='schematic')return;$('schematic').classList.add('hidden');state='playing';updateQuestGoal();objective('The little mouse has stolen a spool! Follow the trail.');};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline-first adventure v0.6-B. Stage 1 has a new story, contraptions and mouse football; later stages are previews.')};
+$('startButton').onclick=start;$('stageMenuButton').onclick=()=>openStageSelect('menu');$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('checkpointButton').onclick=()=>{state='playing';show('none');resetToCheckpoint();};$('restartButton').onclick=replayStage;$('playAgain').onclick=replayStage;$('pauseStageButton').onclick=()=>openStageSelect('paused');$('completionStages').onclick=()=>openStageSelect('complete');$('stageBack').onclick=returnFromStages;$('stageAction').onclick=()=>{const st=STAGES.find(x=>x.id===selectedStageId);if(st?.available)startStage(st.id,!progress.completedStages.includes(st.id))};$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing'&&!mouseMatch.active)cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('sketchClose').onclick=()=>{if(state!=='schematic')return;$('schematic').classList.add('hidden');state='playing';updateQuestGoal();objective('The little mouse has stolen a spool! Follow the trail.');};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline adventure v0.6-C1. Stage 1 now includes a cut-through gap, raised shelves, crate bridge and pulley gallery. Later stages are previews.')};
 for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera','smartCamera','difficulty'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;settings.smartCamera=$('smartCamera').checked;const previousDifficulty=settings.difficulty;settings.difficulty=$('difficulty').value;if(previousDifficulty!==settings.difficulty&&settings.difficulty!=='story'){hearts=3;progress.hearts=3;saveProgress();}store();updateJourneyHud();renderStageSelect()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
 window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='schematic')$('sketchClose').click();else if(state==='settings')$('settingsBack').click();else if(state==='stages')returnFromStages();else pause();return}if(k===' '&&!keys.has(k)){if(mouseMatch.active)footballDash();else jumpQueued=true;}if(k==='g'&&!keys.has(k)&&state==='playing'){if(mouseMatch.active)footballBlock();else requestGrip();}if(k==='c'&&!keys.has(k)&&state==='playing'&&!mouseMatch.active)cycleCamera();keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
 let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.4,Math.min(15,camera.dist+Math.sign(e.deltaY)*.6));camera.manualUntil=time+7},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();if(mouseMatch.active)footballDash();else jumpQueued=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('gripButton').addEventListener('pointerdown',e=>{e.preventDefault();if(mouseMatch.active)footballBlock();else requestGrip();$('gripButton').classList.add('pressed')});for(const s of ['pointerup','pointercancel','pointerleave'])$('gripButton').addEventListener(s,()=>$('gripButton').classList.remove('pressed'));$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint,worldTriangleCount:world.count,atmosphericMotes,realismEnvironment,STAGES,CHECKPOINTS,progress,saveProgress,activateCheckpoint,updateCheckpoints,loseHeart,resetToCheckpoint,currentCheckpoint,startStage,finishStage,openStageSelect,renderStageSelect,get gameMode(){return gameMode;},get hearts(){return hearts;},puzzleCrate,liftCollider,mouseMatch,ARENA,moveCrate,crateToggle,questData,updateQuestGoal,startMouseMatch,scoreMouseGoal,footballKick,updateMouseFootball,get sketchSeen(){return sketchSeen;},get blockPlaced(){return blockPlaced;},get mouseWon(){return mouseWon;}};
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint,worldTriangleCount:world.count,atmosphericMotes,realismEnvironment,STAGES,CHECKPOINTS,progress,saveProgress,activateCheckpoint,updateCheckpoints,loseHeart,resetToCheckpoint,currentCheckpoint,startStage,finishStage,openStageSelect,renderStageSelect,get gameMode(){return gameMode;},get hearts(){return hearts;},puzzleCrate,liftCollider,bridgeCollider,STAGE1_ROUTE,groundAt,mouseMatch,ARENA,moveCrate,crateToggle,questData,updateQuestGoal,startMouseMatch,scoreMouseGoal,footballKick,updateMouseFootball,get sketchSeen(){return sketchSeen;},get blockPlaced(){return blockPlaced;},get mouseWon(){return mouseWon;}};
 updateJourneyHud();if(progress.completedStages.includes(1))$('startButton').textContent='▶ Revisit Workshop';else if(progress.checkpointByStage[1]!=='start')$('startButton').textContent='▶ Continue Adventure';else $('startButton').textContent='▶ Begin Adventure';
 requestAnimationFrame(tick);
 })();
