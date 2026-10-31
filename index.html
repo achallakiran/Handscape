@@ -56,30 +56,54 @@
 #mouseScore small{display:block;color:#d6cfb7;font-size:9px;font-weight:650;letter-spacing:.3px;margin-top:4px}
 #mouseScore.hidden{display:none!important}
 @media(max-height:510px) and (orientation:landscape){#questGoal{top:54px;font-size:10px;padding:4px 7px;max-width:42vw}#mouseScore{top:40px;padding:4px 12px;font-size:12px}.sketch-drawing{height:76vh}.sketch-content{padding:8px}.sketch-notes p{font-size:12px}}
+
+/* v0.7-A: physical chapter and one-at-a-time notebook tutorials. */
+#questGoal{display:none!important}
+#hint{opacity:.88;font-size:clamp(10px,1.5vw,12px);bottom:11%;letter-spacing:.2px;max-width:55vw}
+#lessonCard{position:absolute;top:calc(max(13px,env(safe-area-inset-top)) + 54px);left:max(15px,env(safe-area-inset-left));width:min(295px,38vw);min-height:80px;background:#e3d3ae;color:#453524;border:2px solid #765f3e;border-radius:6px;box-shadow:0 11px 36px #0008;display:flex;align-items:center;padding:10px 12px;gap:11px;pointer-events:none;z-index:8;transform:rotate(-.7deg)}
+#lessonArt{flex:0 0 73px;height:65px;display:grid;place-items:center;border-right:1px solid #a08c68;padding-right:7px}#lessonArt svg{max-width:100%;max-height:100%;display:block}
+.lessonCopy{display:flex;flex-direction:column;gap:4px;line-height:1.22;min-width:0}.lessonCopy strong{font-size:12px;letter-spacing:1px}.lessonCopy span{font-size:11px}.lessonCopy small{font-weight:800;color:#85633b;font-size:10px}
+#chapterMoment{position:absolute;top:18%;left:50%;transform:translateX(-50%);max-width:65vw;padding:8px 20px;background:#15282ccb;border:1px solid #d6ba87a3;color:#ffe6b5;text-align:center;font-family:Georgia,serif;font-size:clamp(13px,2vw,21px);font-style:normal;letter-spacing:.4px;z-index:7;pointer-events:none}
+@media (pointer:coarse){#lessonCard{width:min(250px,40vw);padding:7px;min-height:64px;gap:7px;top:calc(max(10px,env(safe-area-inset-top)) + 43px)}#lessonArt{flex-basis:56px;height:51px}#lessonTitle{font-size:11px}#lessonLine{font-size:10px}#lessonControls{font-size:9px}#hint{display:none}}
+@media(max-height:430px) and (orientation:landscape){#lessonCard{width:min(220px,38vw)}#lessonArt{flex-basis:44px;height:45px}}
 </style>
 </head>
 <body>
 <canvas id="game" aria-label="FRANK playable voxel workshop"></canvas><div id="vignette"></div>
-<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">A little hand. A long way home.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Continue Adventure</button><button id="stageMenuButton" class="menu-btn">▦ Choose Stage</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.6-C1 · New Platforming Route</span></section>
-<div id="hud" class="hidden"><div id="journeyHud" aria-live="polite"><span id="heartDisplay" aria-label="Lives">♥ ♥ ♥</span><span id="journeyText">01 · WORKSHOP<br>STARTING THREAD</span></div><div id="checkpointToast" aria-live="polite"></div><div id="questGoal" aria-live="polite">A mysterious diagram lies nearby.</div><div id="mouseScore" class="hidden" aria-live="polite"></div><button id="pauseButton" aria-label="Pause game">Ⅱ</button><button id="cameraButton" aria-label="Change camera angle" title="Camera · C">◉</button><div id="cameraModeLabel" aria-live="polite"></div><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
+<section id="menu"><div class="menu-panel"><div class="crest">✦ THE FORGOTTEN WORKSHOP ✦</div><h1>FR<span>ANK</span></h1><p class="subtitle">One small hand. One enormous world.</p><div class="menu-actions"><button id="startButton" class="menu-btn primary">▶ Continue Adventure</button><button id="stageMenuButton" class="menu-btn">▦ Choose Stage</button><button id="menuSettings" class="menu-btn">⚙ Settings</button><button id="menuAbout" class="menu-btn">✧ About</button></div><div id="runHelp">MOVE <b class="em">WASD</b> &nbsp;·&nbsp; JUMP <b class="em">SPACE</b> &nbsp;·&nbsp; GRIP <b class="em">G</b> &nbsp;·&nbsp; USE <b class="em">E</b><br>LOOK <b class="em">DRAG</b> &nbsp;·&nbsp; CAMERA <b class="em">C</b> &nbsp;·&nbsp; SPRINT <b class="em">SHIFT</b></div><p class="micro">Chapter 01 / The Loose Thread</p></div><span class="top-corner">A stitch out of place</span><span id="credits">An original voxel adventure · v0.7-A · The Mousehole Escape</span></section>
+<div id="hud" class="hidden"><div id="journeyHud" aria-live="polite"><span id="heartDisplay" aria-label="Lives">♥ ♥ ♥</span><span id="journeyText">01 · WORKSHOP<br>STARTING THREAD</span></div><div id="checkpointToast" aria-live="polite"></div><div id="questGoal" aria-live="polite" hidden></div><div id="lessonCard" class="hidden" aria-live="polite"><div id="lessonArt"></div><div class="lessonCopy"><strong id="lessonTitle"></strong><span id="lessonLine"></span><small id="lessonControls"></small></div></div><div id="chapterMoment" class="hidden" aria-live="polite"></div><div id="mouseScore" class="hidden" aria-live="polite"></div><button id="pauseButton" aria-label="Pause game">Ⅱ</button><button id="cameraButton" aria-label="Change camera angle" title="Camera · C">◉</button><div id="cameraModeLabel" aria-live="polite"></div><div id="hint"></div><div id="objective"></div><div id="toast"></div><div id="mobile"><div id="stick-zone" aria-label="Movement joystick"><div id="stick-knob"></div></div><div id="actions"><button id="interactButton" class="action small" hidden>USE</button><button id="gripButton" class="action grip" aria-label="Grip ledge or cable">GRIP</button><button id="jumpButton" class="action">JUMP</button></div></div></div>
 <section id="pause" class="hidden"><div class="dialog"><h2>PAUSED<span class="em">.</span></h2><p>Even tiny troublemakers need a moment.</p><button id="resumeButton" class="menu-btn primary">▶ Resume</button><button id="pauseSettings" class="menu-btn">⚙ Settings</button><button id="checkpointButton" class="menu-btn">↩ Return to Checkpoint</button><button id="restartButton" class="menu-btn">↺ Restart Stage</button><button id="pauseStageButton" class="menu-btn">▦ Stage Selection</button><button id="toMenuButton" class="menu-btn">⌂ Main Menu</button></div></section>
 <section id="settings" class="hidden"><div class="dialog"><h2>SETTINGS<span class="em">.</span></h2><p>Make this little world your own.</p><div class="settings-row"><label for="quality">Graphics quality</label><select id="quality"><option value="low">Performance</option><option value="medium">Balanced</option><option value="high">Beautiful</option></select></div><label for="volume">Sound volume <span id="volLabel">70%</span></label><input id="volume" type="range" min="0" max="100" step="5" value="70"><label for="sensitivity">Camera sensitivity <span id="sensLabel">60%</span></label><input id="sensitivity" type="range" min="20" max="100" value="60"><div class="settings-row"><label for="shadows">Soft lighting</label><input id="shadows" type="checkbox" checked></div><div class="settings-row"><label for="hints">Tutorial hints</label><input id="hints" type="checkbox" checked></div><div class="settings-row"><label for="difficulty">Adventure difficulty</label><select id="difficulty"><option value="story">Story · Unlimited retries</option><option value="adventure">Adventure · 3 hearts</option><option value="challenge">Challenge · Fewer checkpoints</option></select></div><div class="settings-row"><label for="cameraMode">Camera view</label><select id="cameraMode"><option value="follow">Follow · Recommended</option><option value="isometric">Isometric</option><option value="side">Side View</option><option value="close">Close-up</option><option value="wide">Wide Explorer</option></select></div><div class="settings-row"><label for="smartCamera">Smart camera during climbing</label><input id="smartCamera" type="checkbox" checked></div><div class="settings-row"><label for="followCamera">Follow behind hand</label><input id="followCamera" type="checkbox" checked></div><button id="settingsBack" class="menu-btn primary">← Back</button></div></section>
-<section id="complete" class="hidden"><div class="dialog"><div class="crest" style="color:var(--gold)">✦ STAGE 01 CLEAR ✦</div><h2>THE FIRST<br>STITCH<span class="em">.</span></h2><p>The mysterious sketch is safe, the mouse has returned the spool, and the hand has escaped the workshop. Your progress is saved. Clockwork Storage is coming in a future build.</p><button id="completionStages" class="menu-btn primary">▦ View Your Adventure</button><button id="playAgain" class="menu-btn">↺ Replay Workshop</button><button id="finishedMenu" class="menu-btn">⌂ Main Menu</button></div></section>
-<section id="stageSelect" class="hidden" aria-label="Stage selection"><div class="stage-shell"><div class="stage-top"><div><div class="stage-kicker">THE LONG WAY HOME · THE ADVENTURE MAP</div><h2 class="stage-heading">CHOOSE YOUR STAGE<span class="em">.</span></h2><div id="stageProgress" class="stage-progress">One tiny hand, eight enormous adventures.</div></div><button id="stageBack" class="stage-back">← BACK</button></div><div class="stage-layout"><div id="stageGrid" aria-label="Adventure stages"></div><div class="stage-detail"><div id="detailIcon" class="detail-icon">🧵</div><div id="detailStatus" class="detail-status">PLAYABLE</div><div id="detailTitle" class="detail-title">The Workshop Awakening</div><div id="detailBody" class="detail-body"></div><button id="stageAction" class="stage-action">Play Stage 01</button></div></div></div></section>
-<section id="schematic" class="hidden" role="dialog" aria-modal="true" aria-label="Inventor's secret schematic">
- <div class="sketch-content"><svg class="sketch-drawing" viewBox="0 0 330 340" role="img" aria-label="Faded PROJECT F.R.A.N.K. blueprint, a stitched torso, loose green hand and missing-body diagrams; the face is hidden by a folded portion">
- <defs><pattern id="papergrain" width="11" height="11" patternUnits="userSpaceOnUse"><path d="M1 7l3-2" stroke="#a98b5e" stroke-width=".5" opacity=".4"/></pattern></defs>
- <rect width="330" height="340" fill="#d7c29a"/><rect width="330" height="340" fill="url(#papergrain)"/><g stroke="#604c35" fill="none" stroke-width="2"><rect x="12" y="12" width="306" height="316" stroke-width="1.5"/><path d="M24 46H305M24 292H305" stroke-width="1"/></g>
- <text x="26" y="35" font-size="19" fill="#463524" font-family="Georgia" font-weight="bold" letter-spacing="2">PROJECT F.R.A.N.K.</text>
- <g stroke="#675543" fill="none" stroke-width="2"><path d="M118 92Q165 73 208 91L222 141L202 222L132 223L111 142Z"/><path d="M115 105L76 120L60 168M210 106L247 124L268 167" stroke-dasharray="7 5"/><path d="M143 223L137 274M184 223L187 274"/><path d="M128 112L203 112M135 153L203 153" stroke-width="1"/><path d="M150 91L149 71M180 91L180 71" stroke-dasharray="3 5"/></g>
- <g fill="#5c755d"><rect x="122" y="118" width="91" height="93" rx="17" opacity=".24"/><rect x="140" y="143" width="56" height="7" rx="2"/></g>
- <g stroke="#6d5943" stroke-width="2"><path d="M124 118l12 10m-14 3l13 10m-9 3l12 10M194 169l11 10m-11 3l11 10"/><path d="M53 167l10-4m-5 10l10-4" stroke-width="2"/></g>
- <path d="M24 67l116-13l-22 69l-83-9z" fill="#e5d1a8" stroke="#a18a62"/><text x="36" y="91" font-family="Georgia" fill="#644e36" font-size="13" transform="rotate(-7 36 91)">SUBJECT: ? ? ?</text>
- <path d="M234 63L310 63L310 136L254 123Z" fill="#b7a07a" opacity=".97"/><path d="M233 64L310 137" stroke="#98754d" stroke-width="2"/>
- <path d="M47 251Q70 230 90 257" stroke="#607b63" stroke-width="8" fill="none" stroke-linecap="round"/><path d="M58 248q-6-21 1-29m8 26q0-23 9-30m-1 35q6-22 16-24" stroke="#607b63" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M95 261L123 242" stroke="#735a40" stroke-width="1.5" stroke-dasharray="4 3"/><text x="27" y="286" fill="#59462f" font-size="12" font-family="Georgia">DETACHED HAND — FIND THE MATCH</text>
- <text x="24" y="313" font-size="10" font-family="Georgia" fill="#725d42">INVENTOR'S WORKSHOP · EXPERIMENT 06 · RESTRICTED</text></svg>
- <div class="sketch-notes"><h2>Something familiar...</h2><p>An inventor's sketch. Stitch marks. A hand just like yours.</p><p>Most of the drawing is hidden beneath a folded page. All you can make out is the name <b>F.R.A.N.K.</b></p><p>A mouse squeaks, steals a red spool of thread, and scurries across the workshop...</p><button id="sketchClose">FOLLOW THAT THREAD ▶</button></div></div>
- </section>
+<section id="complete" class="hidden"><div class="dialog"><div class="crest" style="color:var(--gold)">✦ STAGE 01 CLEAR ✦</div><h2>THE FIRST<br>STITCH<span class="em">.</span></h2><p>You climbed down from the enormous table, explored the workshop floor and slipped through the mouse hole. Beyond it lies a much bigger world. Your progress is saved.</p><button id="completionStages" class="menu-btn primary">▦ View Your Adventure</button><button id="playAgain" class="menu-btn">↺ Replay Workshop</button><button id="finishedMenu" class="menu-btn">⌂ Main Menu</button></div></section>
+<section id="stageSelect" class="hidden" aria-label="Stage selection"><div class="stage-shell"><div class="stage-top"><div><div class="stage-kicker">THE LOOSE THREAD · THE ADVENTURE MAP</div><h2 class="stage-heading">CHOOSE YOUR STAGE<span class="em">.</span></h2><div id="stageProgress" class="stage-progress">One tiny hand, eight enormous adventures.</div></div><button id="stageBack" class="stage-back">← BACK</button></div><div class="stage-layout"><div id="stageGrid" aria-label="Adventure stages"></div><div class="stage-detail"><div id="detailIcon" class="detail-icon">🧵</div><div id="detailStatus" class="detail-status">PLAYABLE</div><div id="detailTitle" class="detail-title">The Workshop Awakening</div><div id="detailBody" class="detail-body"></div><button id="stageAction" class="stage-action">Play Stage 01</button></div></div></div></section>
+<section id="schematic" class="hidden" role="dialog" aria-modal="true" aria-label="Old inventor sketch">
+<div class="sketch-content"><svg class="sketch-drawing" viewBox="0 0 330 340" role="img" aria-label="A complete, fully stitched Frankenstein-like figure; both hands are attached, with no indication that the drawing belongs to the playable hand">
+<defs><pattern id="papergrain" width="12" height="12" patternUnits="userSpaceOnUse"><path d="M2 8l4-2" stroke="#a88a5c" stroke-width=".55" opacity=".40"/></pattern></defs>
+<rect width="330" height="340" fill="#dfcda6"/><rect width="330" height="340" fill="url(#papergrain)"/>
+<rect x="13" y="12" width="304" height="316" fill="none" stroke="#7d694c" stroke-width="1.6"/>
+<text x="165" y="35" fill="#56412d" text-anchor="middle" font-family="Georgia,serif" font-size="18" font-weight="bold" letter-spacing="2">PROJECT F.R.A.N.K.</text>
+<path d="M25 45H305M25 294H305" stroke="#8b7353" stroke-width="1.5"/>
+<g fill="#afbc9e" fill-opacity=".60" stroke="#62513c" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round">
+<!-- face, neck, broad torso, both arms, both hands and legs form ONE COMPLETE FIGURE -->
+<path d="M147 75L145 56L185 56L185 75L194 91L188 116L142 116L136 91Z"/>
+<path d="M147 76Q165 83 185 76L201 96L211 179L196 221L132 221L119 180L129 96Z"/>
+<path d="M134 96L118 103L92 149L78 188L92 198L111 163L143 112Z"/>
+<path d="M195 97L212 103L238 149L252 188L239 198L220 163L188 112Z"/>
+<path d="M79 186L91 196L87 208L82 218L76 216L77 207L68 216L64 212L73 201L59 208L55 202L70 194Z"/>
+<path d="M239 196L251 186L262 194L275 202L271 208L256 201L265 212L261 216L252 207L253 216L247 218L243 208Z"/>
+<path d="M136 220L158 221L155 271L144 286L129 284L133 261Z"/>
+<path d="M170 221L192 220L196 261L202 284L187 286L176 271Z"/>
+<path d="M129 283H146L153 292H126Z"/><path d="M185 283H202L205 292H178Z"/>
+</g>
+<g stroke="#66513b" stroke-width="2" fill="none"><path d="M146 94L161 105L177 96M138 138L151 148L144 157M192 175L204 184L196 194M106 153L95 160L101 171M226 160L238 168L234 179M146 251L154 258M186 250L194 257"/>
+<path d="M157 91L157 111M164 99L164 113M171 96L171 110M138 140L152 157M195 178L203 192" stroke-dasharray="2 4"/>
+<path d="M151 70H158M172 70H180" stroke-width="3.5"/><path d="M159 80L169 82L176 79"/>
+</g>
+<g stroke="#866d4e" stroke-width=".9" fill="none"><path d="M35 115L122 116M208 115L295 115M42 240L129 239M197 239L283 239" stroke-dasharray="3 4"/></g>
+<g fill="#665039" font-family="Georgia,serif" font-size="11"><text x="28" y="106">REPAIRED</text><text x="241" y="106">SUBJECT 06</text><text x="30" y="232">STITCH MAP</text><text x="239" y="232">FULL FIGURE</text></g>
+<text x="165" y="313" text-anchor="middle" font-size="10" font-family="Georgia,serif" fill="#725c40">ANATOMICAL STUDIES · INVENTOR'S WORKSHOP</text></svg>
+<div class="sketch-notes"><h2>An old drawing</h2><p>A stitched figure. Both arms, both hands, and a patchwork of seams.</p><p>The hand rests its fingers on the paper for a moment. Then a rustle comes from somewhere below the desk.</p><button id="sketchClose">CONTINUE EXPLORING</button></div></div>
+</section>
 <div id="rotateHint">↻<br>Rotate your phone to landscape for the best FRANK experience.</div>
 <script>
 (()=>{'use strict';
@@ -670,9 +694,129 @@ function stageOneSpatialWorld(){
 }
 stageOneSpatialWorld();
 
+
+// The Mousehole Escape: a new playable space, not a recolor of the old table.
+// Built after discarding legacy decorative geometry and collision hulls.
+const MOUSEHOLE={x:15.15,z:-12.95};
+const TABLE_TOP=4.20,FLOOR_TOP=-2.65;
+const DESCENT_ROUTE=[];
+function descentPlatform(id,x,z,w,d,top,color=C.wood3){
+ const thickness=.28;box(x,top-thickness/2,z,w,thickness,d,color,0,true);
+ colliders[colliders.length-1].routeId=id;
+ DESCENT_ROUTE.push({id,x,z,w,d,top});
+ // Legible hand-hold lips: few distinct brass details, not stripes on every surface.
+ box(x,top+.036,z+d/2+.027,w*.80,.07,.065,C.brass);
+ box(x+w/2+.035,top+.036,z,.065,.07,d*.60,C.gold);
+ return colliders[colliders.length-1];
+}
+function buildMouseholeWorld(){
+ // Matte floor planks, softly spaced. Empty traversal space is intentional.
+ box(0,-2.99,0,36,.68,30,C.floor);
+ for(let i=0;i<23;i++){
+  const z=-13.7+i*1.18;
+  box(0,-2.634,z,35.8,.022,1.12,i%3===0?'#655144':i%3===1?'#59453b':'#604b3e');
+  for(const x of [-13.5,-6.1,1.6,9.2,15.8])box(x,-2.615,z+.55,.17,.018,.05,C.darkWood);
+ }
+ // Tall workshop walls and limited decor outside the player’s main sightline.
+ box(0,5.2,-14.53,36,18,.48,C.wall);
+ box(-18,5.2,0,.46,18,30,C.wall2);
+ box(18,5.2,0,.46,18,30,C.wall2);
+ for(let x=-15;x<=9;x+=6){
+  box(x,4.2,-14.10,.32,13.5,.29,C.darkWood);
+  box(x,4.25,-13.88,.10,12.4,.055,C.brass);
+ }
+ for(let x of [-13,-6,1,8]){
+  box(x,9.6,-13.96,4.5,2.0,.14,C.wood2);
+  box(x,9.65,-13.82,4.1,1.65,.08,C.navy);
+ }
+ // Central star of the scene: a genuinely elevated table, over six units above floor.
+ box(-5,3.92,1.0,14,.56,14.0,C.wood2,0,true); // x -12..2, z -6..8, top 4.20
+ box(-5,4.21,1,13.8,.04,13.8,C.wood3);
+ for(let i=0;i<10;i++)box(-11.3+i*1.37,4.242,1,.035,.022,13.7,C.wood2);
+ for(let x of [-11.2,1.2])for(let z of [-5.2,7.1]){
+   box(x,.76,z,.74,6.25,.78,C.darkWood,0,true);
+   for(let y of [-1.4,.4,2.3])box(x,y,z+.42,.82,.11,.10,C.brass);
+ }
+ box(-5,3.58,1,13.95,.25,13.9,C.darkWood);
+ box(-5,4.26,-5.9,13.7,.09,.11,C.gold);
+ // The tabletop deliberately has just three foreground objects.
+ box(-6.85,4.25,4.7,2.45,.08,1.83,C.paper,.14);
+ box(-6.85,4.296,4.7,2.14,.025,1.58,C.cream,.14);
+ for(let n=0;n<5;n++)box(-7.55+n*.31,4.317,4.44,.13,.012,.07,n%2?C.wood:C.skinDark,.15);
+ box(-9.15,4.38,2.3,.62,.32,1.12,C.navy,0,true);
+ box(-9.15,4.56,2.3,.66,.04,1.18,C.gold);
+ // Single spool and pencil, kept well away from the tutorial route.
+ box(-8.95,4.47,6.75,.38,.45,.37,C.red);box(-8.95,4.71,6.75,.50,.08,.50,C.wood3);
+ box(-4.3,4.32,6.4,.12,.13,2.1,C.brass,.37);
+ // Atmospheric lamp on the far back edge of the tabletop, not a collision obstacle.
+ box(-1.0,4.43,-4.25,1.6,.40,1.55,C.iron);
+ box(-1.0,5.85,-4.25,.15,2.5,.16,C.copper);
+ box(-1.9,7.17,-4.25,1.9,.20,.18,C.iron2);
+ box(-2.65,6.9,-4.25,1.55,.58,1.36,C.gold);
+ box(-2.65,6.52,-4.25,1.32,.09,1.15,C.glow);
+ // Vertical descent: three progressively lower wooden drawers and shelves.
+ descentPlatform('upper-drawer',2.98,4.35,2.32,2.64,3.26,C.wood3);
+ descentPlatform('lower-drawer',4.52,3.69,2.28,2.44,2.18,C.wood2);
+ descentPlatform('shelf',5.93,2.90,2.24,2.20,1.10,C.wood3);
+ descentPlatform('hanging-shelf',7.28,1.73,2.18,2.15,-.02,C.wood2);
+ descentPlatform('low-step',8.54,.65,2.40,2.30,-1.08,C.wood3);
+ descentPlatform('floor-step',9.65,-.64,2.5,2.43,-2.00,C.wood2);
+ for(const d of DESCENT_ROUTE){
+  // Each drawer has a clear fascia and handle, readably different from floor clutter.
+  box(d.x,d.top-.31,d.z+d.d/2+.028,d.w*.95,.50,.14,C.darkWood);
+  box(d.x,d.top-.22,d.z+d.d/2+.112,.66,.10,.11,C.brass);
+  for(const sx of [-1,1])box(d.x+sx*d.w*.42,d.top-.17,d.z,.12,.32,d.d*.76,C.wood);
+ }
+ // Open cabinet frame visually explains why drawers emerge from the table.
+ for(const z of [2.9,5.9])box(1.75,2.6,z,.21,3.1,.20,C.darkWood);
+ box(1.75,1.05,4.4,.25,.22,3.2,C.copper);
+ for(let i=0;i<5;i++)box(1.95,1.68+i*.46,5.75,.11,.12,.15,C.brass);
+ // Floor route: sparse low objects provide playful hops and readable landmarks.
+ box(10.0,-2.44,-2.7,1.25,.40,1.10,C.wood3,0,true);
+ box(11.65,-2.10,-5.65,2.85,1.10,2.10,C.darkWood,0,true); // raised cabinet footrest
+ box(11.65,-1.50,-5.65,2.95,.10,2.23,C.copper);
+ box(14.7,-2.38,-7.08,1.3,.53,.85,C.wood3,0,true);
+ // Distinct, nonblocking floor hazards: pencils like logs and a spool.
+ box(8.5,-2.50,-3.75,.14,.23,2.05,C.iron2,.3);
+ box(13.0,-2.50,-4.04,.16,.22,1.8,C.copper,-.25);
+ box(10.9,-2.34,-2.1,.55,.6,.58,C.red);
+ // Mouse-footprints lead from the table descent to the real destination.
+ for(let i=0;i<13;i++){
+  const t=i/12,x=9.15+5.8*t,z=-2.9-9.1*t;
+  for(let s of [-1,1])box(x+s*.14,-2.608,z+.07*Math.sin(i),.085,.035,.13,i%2?C.wood2:C.cream,(i%3)*.17);
+ }
+ // Mouse hole: skirting-board arch silhouette, a glimpse of green and golden daylight.
+ box(14.70,-1.72,-14.17,2.48,1.82,.17,C.darkWood);
+ box(14.70,-1.73,-14.01,1.88,1.50,.055,C.black);
+ box(14.70,-1.46,-13.968,1.51,.96,.026,'#789874');
+ box(14.70,-1.26,-13.946,1.28,.57,.022,'#b7ca85');
+ for(const xx of [13.56,15.84])box(xx,-1.64,-13.88,.20,1.85,.22,C.wood3);
+ box(14.70,-.70,-13.89,2.55,.19,.27,C.wood3);
+ for(let i=0;i<6;i++)box(13.7+i*.4,-.80,-13.79,.09,.085,.07,C.brass);
+ // Gold slit of light on floor attracts exploration without UI arrows.
+ for(let i=0;i<5;i++)box(14.7,-2.601,-12.9+i*.34,2.25+i*.24,.018,.15,'#ad9870');
+ // Workshop vista: a few background cabinets high on the rear wall, not along route.
+ for(const x of [-13,-8,-3,3]){
+  box(x,3.65,-13.30,3.10,3.85,.80,C.darkWood);
+  for(let j=0;j<3;j++){
+   box(x,2.35+j*1.1,-12.83,2.82,.10,.2,C.brass);
+   box(x-.65,2.75+j*1.1,-12.78,.92,.66,.10,C.wood2);
+   box(x+.65,2.75+j*1.1,-12.78,.92,.66,.10,C.wood2);
+  }
+ }
+ // Very few atmosphere particles, mainly on the floor. No visual clutter in critical route.
+ for(let i=0;i<18;i++){
+  let x=-14+(i*79%28),z=-11+(i*37%24);
+  if(x>7&&x<16&&z>-12&&z<1)continue;
+  box(x,-2.60,z,.06,.04,.06,C.cream);
+ }
+}
+// Never render the former flat-stage world: only this authored vertical scene.
+world.a.length=0;world.count=0;colliders.length=0;
+buildMouseholeWorld();
 const worldGpu=gpu(world);
-const player={x:-4.2,y:0,z:3.3,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0,landImpact:0,takeoff:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=true,jarDown=false,bellRung=false,done=false,freeTime=0;
-const rope={x:3.7,y:3.35,z:.85,length:1.85};
+const player={x:-8.85,y:4.20,z:5.12,vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,hop:0,landImpact:0,takeoff:0},npc={x:1.8,z:-5.8,targetX:1.8,targetZ:-5.8,mode:'patrol',timer:0,angle:0};let state='menu',playingBeforeSettings='menu',time=0,blink=0,fanOn=false,jarDown=false,bellRung=false,done=false,freeTime=0;
+const rope={x:6.55,y:3.30,z:2.55,length:2.03};
 const parkour={mode:'none',ledge:null,hangX:0,hangZ:0,timer:0,start:null,finish:null,theta:0,omega:0,gripUntil:0,firstCatch:false,firstMantle:false,firstSwing:false,gripDigits:[],gripOrigin:null,gripStepCooldown:0,gripStepIndex:0,shimmySpeed:0,shimmyPhase:0};
 let jumpQueued=false;
 let settings={quality:'high',volume:70,sensitivity:60,shadows:true,hints:true,followCamera:true,cameraMode:'follow',smartCamera:true,difficulty:'adventure'};try{let loaded=JSON.parse(localStorage.getItem('handscape-settings')||'null');if(loaded)settings={...settings,...loaded}}catch(e){}if(!['follow','isometric','side','close','wide'].includes(settings.cameraMode))settings.cameraMode='follow';if(!['story','adventure','challenge'].includes(settings.difficulty))settings.difficulty='adventure';function store(){try{localStorage.setItem('handscape-settings',JSON.stringify(settings))}catch(e){}}
@@ -800,7 +944,49 @@ function handSurfaceStitches(mesh,bob,speed){
   }
  }
 }
+
+function cratePose(mesh){
+ // World-space actual contact: fingers remain on the physical box while it moves.
+ const dx=puzzleCrate.x-player.x,dz=puzzleCrate.z-player.z;
+ const faceX=Math.abs(dx)>Math.abs(dz),sgn=Math.sign(faceX?dx:dz)||1;
+ const contact=faceX?
+   [puzzleCrate.x-sgn*puzzleCrate.w*.505,puzzleCrate.y+.18,puzzleCrate.z]:
+   [puzzleCrate.x,puzzleCrate.y+.18,puzzleCrate.z-sgn*puzzleCrate.d*.505];
+ // Fingers visibly hold the near face; the palm leans under effort.
+ const bob=.015*Math.sin(player.walking*1.8),body=[player.x,player.y+.87+bob,player.z];
+ const lean=crateMotion==='pull'?-.09:.13;
+ const torso=toWorld(0,1.45+bob,lean);
+ bone(mesh,body,torso,.63,.52,C.skin);
+ mesh.box(torso[0],torso[1]+.17,torso[2],.63,.36,.60,C.skin,player.yaw);
+ mesh.box(torso[0],torso[1]+.42,torso[2],.53,.13,.54,C.cuffEdge,player.yaw);
+ for(let i=0;i<4;i++){
+  if(i<2){
+   const ph=player.walking+(i?Math.PI:0),lift=Math.max(0,Math.sin(ph))*.25;
+   const root=toWorld((i-.5)*.48,.92+bob,-.22);
+   const knee=toWorld((i-.5)*.64,.51+bob,-.55);
+   const foot=toWorld((i-.5)*.63,.08+lift,-.80-.15*Math.cos(ph));
+   bone(mesh,root,knee,.19,.19,C.skin);bone(mesh,knee,foot,.15,.17,C.skinLight);
+   mesh.box(foot[0],foot[1],foot[2],.18,.14,.20,C.skinLight);
+   continue;
+  }
+  const spread=(i-2.5)*.27;
+  const end=[contact[0]+(faceX?0:spread),contact[1]+(i%2)*.04,contact[2]+(faceX?spread:0)];
+  const root=toWorld((i-1.5)*.19,.92+bob,-.28);
+  const mid=[mix(root[0],end[0],.55),mix(root[1],end[1],.52)+.20,mix(root[2],end[2],.55)];
+  const knuckle=[mix(mid[0],end[0],.76),mix(mid[1],end[1],.74)+.08,mix(mid[2],end[2],.76)];
+  bone(mesh,root,mid,.19,.19,C.skin);bone(mesh,mid,knuckle,.165,.17,C.skinLight);
+  bone(mesh,knuckle,end,.135,.14,C.skinDark);
+  mesh.box(end[0],end[1],end[2],.13,.105,.13,C.skinLight);
+ }
+ const thumbRoot=toWorld(-.45,.98,.1),thumbEnd=[contact[0]+(faceX?.02:-.44),contact[1]-.18,contact[2]+(faceX?.39:.02)];
+ const thumbMid=mix3(thumbRoot,thumbEnd,.60);thumbMid[1]+=.17;
+ bone(mesh,thumbRoot,thumbMid,.23,.21,C.skin);bone(mesh,thumbMid,thumbEnd,.19,.18,C.skinLight);
+ // The top is stitched but intact, like the normal walking animation.
+ for(let i=0;i<5;i++)mesh.box(torso[0]+(i-2)*.095,torso[1]+.49,torso[2],.045,.025,.07,i%2?C.cuffEdge:C.skinDark);
+}
+
 function hand(mesh,dt,ambient=false){
+ if(crateHeld&&state==='playing'){cratePose(mesh);return;}
  if(parkour.mode!=='none'){gripPose(mesh);return;}
  const speed=Math.hypot(player.vx,player.vz),moving=speed>.16&&player.onGround;
  const phase=player.walking;
@@ -811,8 +997,7 @@ function hand(mesh,dt,ambient=false){
  for(let i=0;i<5;i++){
    const thumb=i===4,x=thumb?-.89:HAND_XS[i],tip=digitTarget(i,moving,phase,bob);
    const root=thumb?toWorld(-.485,1.13+bob,.22):toWorld(HAND_XS[i],.975+bob,-.435);
-   // Thumb runs along the side as an opposing fifth leg. It splays outward,
-   // pushes the hand over its contact, then lifts again on its own beat.
+   // Thumb runs along the side as an opposing fifth leg. It splays outward,   // pushes the hand over its contact, then lifts again on its own beat.
    const joint1=thumb?toWorld(-.705,.75+bob,-.075):toWorld(x,.65+bob,-.63);
    const joint2=thumb?toWorld(-.835,.43+bob,-.25):toWorld(x,.34+bob,-.90-(HAND_LENGTHS[i]-.98)*.17);
    const swing=toeState[i].planted?0:.11;
@@ -997,7 +1182,8 @@ function stageOneProps(mesh,t){
  for(const dx of [-.92,.92]){
   mesh.box(liftCollider.x+dx,.75,liftCollider.z-.69,.14,1.65,.13,C.copper);
   mesh.box(liftCollider.x+dx,1.72,liftCollider.z-.69,.25,.13,.26,C.brass);
- } for(let i=0;i<6;i++)mesh.box(-1.4+i*.19,.09,-3.68,.07,.07,.13,jarDown?C.gold:C.iron2);
+ }
+ for(let i=0;i<6;i++)mesh.box(-1.4+i*.19,.09,-3.68,.07,.07,.13,jarDown?C.gold:C.iron2);
  if(jarDown){mesh.box(liftCollider.x,platformY+.28+.10*shimmer,liftCollider.z,.15,.23,.15,C.glow);}
  // The fan has visible airflow: motes move toward the dangerous blades.
  if(fanOn){for(let i=0;i<18;i++){
@@ -1059,28 +1245,27 @@ mesh.box(cableEnd[0],cableEnd[1],cableEnd[2],.32,.23,.27,C.gold,time*.13);
  // Firefly motes, localized for atmospheric movement
 for(let i=0;i<16;i++){let a=i*1.618+t*.18;let x=-8+(i%6)*3.15+.32*Math.cos(a),z=-7+(i%4)*3.8+.24*Math.sin(a),y=1.4+(i%5)*.44+.18*Math.sin(a*2);mesh.box(x,y,z,.035,.035,.035,i%2?C.gold:C.tealLight)}
 }
-let timeSinceBell=99,worldViewGpu=worldGpu,dynGpu=null;const RESTART={x:-4.2,y:0,z:3.3};
-const puzzleCrate={x:-8.95,z:2.65,y:.36,w:1.13,h:.72,d:1.13,top:.72,grabbable:true,dynamicPuzzle:true},
+let timeSinceBell=99,worldViewGpu=worldGpu,dynGpu=null;const RESTART={x:-8.85,y:4.20,z:5.12};
+const puzzleCrate={x:9.30,z:-3.92,y:-2.27,w:1.04,h:.76,d:1.04,top:-1.89,grabbable:true,dynamicPuzzle:true},
       liftCollider={x:3.5,y:.15,z:-1.72,w:2.10,h:.28,d:1.55,top:.29,grabbable:true,dynamicPuzzle:true};
 colliders.push(puzzleCrate,liftCollider);
-const CRATE_SOCKET={x:-8.95,z:-1.20};
+const CRATE_SOCKET={x:9.55,z:-5.15};
 const bridgeCollider={x:-6.65,z:-2.35,y:-10,w:2.6,h:.22,d:1.02,top:-9.89,grabbable:false,dynamicPuzzle:true};
 colliders.push(bridgeCollider);
 let sketchSeen=false,blockPlaced=false,crateHeld=false,liftAmount=0,mouseWon=false;
-const mouseMatch={active:false,x:8.15,z:-6.05,ballX:8.15,ballZ:-4.48,vx:0,vz:0,playerScore:0,mouseScore:0,kickUntil:0,blockUntil:0,mouseCooldown:0,finishTimer:0,goalPause:0};
-const ARENA={cx:8.15,cz:-4.48,minX:6.25,maxX:10.05,nearZ:-2.05,farZ:-6.98};
+const mouseMatch={active:false,x:14.05,z:-10.65,ballX:14.05,ballZ:-9.0,vx:0,vz:0,playerScore:0,mouseScore:0,kickUntil:0,blockUntil:0,mouseCooldown:0,finishTimer:0,goalPause:0};
+const ARENA={cx:14.05,cz:-9.0,minX:11.50,maxX:16.60,nearZ:-6.55,farZ:-11.45};
 const interactions=[
- {id:'sketch',x:-5.45,z:3.65,label:'Inspect the mysterious sketch'},
- {id:'crate',x:-8.95,z:2.65,label:'Hold the crate · Move to push / pull'},
- {id:'bell',x:2.5,z:-1.8,label:'Ring the brass bell'},
- {id:'jar',x:-2.05,z:-3.55,label:'Tip the jar into the counterweight tray'},
- {id:'switch',x:5.5,z:-4.4,label:'Cut power to ventilation fan'},
- {id:'exit',x:9.7,z:-7.2,label:'Enter the ventilation escape'}];
+ {id:'sketch',x:-6.85,z:4.70,y:4.22,label:'Look at the old drawing'},
+ {id:'crate',x:9.30,z:-3.92,y:FLOOR_TOP,label:'Grab the wooden crate'},
+ {id:'bell',x:10.65,z:-6.82,y:FLOOR_TOP,label:'Ring the little bell'},
+ {id:'exit',x:14.70,z:-12.46,y:FLOOR_TOP,label:'Explore the mouse hole'}
+];
 
 // v0.6-A Adventure Framework. Only Stage 1 is built; the stage map honestly
 // previews later destinations instead of launching empty or dummy levels.
 const STAGES=[
- {id:1,title:'The Workshop Awakening',short:'Workshop',icon:'🧵',location:'Inventor’s workbench',theme:'Find the schematic, build a route, distract the caretaker, power the lift and escape the fan.',boss:'Play one-on-one tabletop football against the mouse to earn the escape.',available:true},
+ {id:1,title:'The Workshop Awakening',short:'Workshop',icon:'🧵',location:'Inventor’s workbench',theme:'Wake on the table, climb down its drawers, cross the giant workshop floor and find the mouse hole.',boss:'Play a tiny football match with the mouse before escaping outside.',available:true},
  {id:2,title:'Clockwork Storage',short:'Storage',icon:'⚙️',location:'Towering storage shelves',theme:'Bar-to-bar transfers, moving crates, giant shelves and counterweight pulleys.',boss:'Mechanical arm-wrestling match.',available:false},
  {id:3,title:'The Experiment Hall',short:'Experiment Hall',icon:'⚡',location:'The inventor’s machines',theme:'Improvised zip lines, moving platforms, push/pull contraptions and timed hazards.',boss:'A machinery challenge.',available:false},
  {id:4,title:'The Forgotten Library',short:'Library',icon:'📚',location:'The mansion’s hidden library',theme:'Bookshelf climbing, edge shimmying, hidden passages and suspended cords.',boss:'Rock–paper–scissors against a giant.',available:false},
@@ -1090,22 +1275,27 @@ const STAGES=[
  {id:8,title:'The Last Stitch',short:'Last Stitch',icon:'✨',location:'The hidden laboratory',theme:'A final mastery adventure brings the hand to the end of its search.',boss:'Slap-the-hand duel, then the final reunion with Frank.',available:false}
 ];
 const CHECKPOINTS=[
- {id:'start',label:'The First Thread',x:RESTART.x,y:RESTART.y,z:RESTART.z,challenge:true},
- {id:'spool',label:'The Moving Crate',x:-9.86,y:0,z:-.16,challenge:true},
- {id:'bell',label:'The Bell',x:2.7,y:0,z:-1.55,challenge:false},
- {id:'switch',label:'The Last Switch',x:5.45,y:0,z:-4.2,challenge:true}
+ {id:'start',label:'The Worktable',x:RESTART.x,y:RESTART.y,z:RESTART.z,challenge:true},
+ {id:'drawer',label:'The Open Drawers',x:4.52,y:2.18,z:3.69,challenge:false},
+ {id:'floor',label:'The Workshop Floor',x:9.32,y:FLOOR_TOP,z:-2.32,challenge:true},
+ {id:'mouse',label:'The Mouse Hole',x:13.78,y:FLOOR_TOP,z:-10.75,challenge:true}
 ];
-const PROGRESS_KEY='frank-progress-v1';
-const defaultProgress=()=>({version:1,unlockedStage:1,completedStages:[],checkpointByStage:{1:'start'},stageState:{1:{bell:false,jar:false,fanStopped:false,sketch:false,blockPlaced:false,mouseWon:false}},hearts:3});
+const PROGRESS_KEY='frank-progress-v2';
+const defaultProgress=()=>({version:2,unlockedStage:1,completedStages:[],checkpointByStage:{1:'start'},stageState:{1:{bell:false,jar:false,fanStopped:true,sketch:false,blockPlaced:false,mouseWon:false}},hearts:3});
 function loadProgress(){
  let saved=defaultProgress();
  try{const data=JSON.parse(localStorage.getItem(PROGRESS_KEY)||'null');
-   if(data&&data.version===1){
+   if(data&&data.version===2){
     saved.unlockedStage=Number.isInteger(data.unlockedStage)?Math.max(1,Math.min(8,data.unlockedStage)):1;
     saved.completedStages=Array.isArray(data.completedStages)?data.completedStages.filter(v=>Number.isInteger(v)&&v>=1&&v<=8):[];
     const cp=data.checkpointByStage?.[1];saved.checkpointByStage[1]=CHECKPOINTS.some(c=>c.id===cp)?cp:'start';
-    const w=data.stageState?.[1];if(w)saved.stageState[1]={bell:w.bell===true,jar:w.jar===true,fanStopped:w.fanStopped===true,sketch:w.sketch===true,blockPlaced:w.blockPlaced===true,mouseWon:w.mouseWon===true};
+    const w=data.stageState?.[1];if(w)saved.stageState[1]={bell:w.bell===true,jar:false,fanStopped:true,sketch:w.sketch===true,blockPlaced:w.blockPlaced===true,mouseWon:w.mouseWon===true};
     saved.hearts=Number.isInteger(data.hearts)?Math.max(1,Math.min(3,data.hearts)):3;
+   }else if(data?.version===1){
+    // Old workshop completion remains unlocked, but its checkpoints/puzzles do not
+    // carry over into a wholly different physical level.
+    saved.unlockedStage=Math.max(1,Math.min(8,data.unlockedStage||1));
+    saved.completedStages=Array.isArray(data.completedStages)?data.completedStages.filter(n=>Number.isInteger(n)&&n>=1&&n<=8):[];
    }else if(localStorage.getItem('handscape-complete')==='1'){
     // Preserve progress from the earlier single-workshop prototype.
     saved.unlockedStage=2;saved.completedStages=[1];saved.stageState[1].fanStopped=true;
@@ -1133,14 +1323,13 @@ function activateCheckpoint(cp,quiet=false){
  const previous=CHECKPOINTS.findIndex(c=>c.id===progress.checkpointByStage[1]);
  if(rank<=previous)return false;
  progress.checkpointByStage[1]=cp.id;hearts=3;progress.hearts=hearts;saveProgress();updateJourneyHud();
- if(!quiet){checkpointFlash('✦ THREAD ANCHOR · '+cp.label.toUpperCase());playTone(740,.19,'sine');}
+ if(!quiet){checkpointFlash('CHECKPOINT · '+cp.label.toUpperCase());playTone(740,.19,'sine');}
  return true;
 }
 function updateCheckpoints(){
- if(state!=='playing'||parkour.mode!=='none'||!player.onGround||player.y>0.3)return;
+ if(state!=='playing'||parkour.mode!=='none'||!player.onGround||mouseMatch.active)return;
  for(const cp of CHECKPOINTS){if(cp.id==='start'||!checkpointAvailable(cp))continue;
-   if(cp.id==='spool'&&!blockPlaced)continue;if(cp.id==='bell'&&!bellRung)continue;if(cp.id==='switch'&&fanOn)continue;
-   if(Math.hypot(player.x-cp.x,player.z-cp.z)<.85){activateCheckpoint(cp);break;}
+  if(Math.abs(player.y-cp.y)<.45&&Math.hypot(player.x-cp.x,player.z-cp.z)<1.30){activateCheckpoint(cp);break;}
  }
 }
 function clearParkour(){parkour.mode='none';parkour.ledge=null;parkour.gripDigits=[];parkour.gripUntil=0;parkour.catchClock=0;parkour.shimmySpeed=0;parkour.shimmyPhase=0;for(const t of toeState){t.planted=false;t.initialized=false;}}
@@ -1203,76 +1392,115 @@ function startStage(id=1,resume=true){
  const st=STAGES.find(s=>s.id===id);
  if(!st?.available){checkpointFlash('THIS STAGE IS COMING NEXT');return false}
  currentStageId=id;
- if(!resume){progress.checkpointByStage[1]='start';progress.stageState[1]={bell:false,jar:false,fanStopped:false,sketch:false,blockPlaced:false,mouseWon:false};progress.hearts=3;saveProgress();}
+ if(!resume){progress.checkpointByStage[1]='start';progress.stageState[1]={bell:false,jar:false,fanStopped:true,sketch:false,blockPlaced:false,mouseWon:false};progress.hearts=3;saveProgress();}
  resetWorkshopForStage(resume);state='playing';gameMode='exploration';show('none');playTone(610,.2);return true;
 }
 function resetWorkshopForStage(resume){
  const flags=resume?progress.stageState[1]||{}:{};
- Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:0,onGround:true,walking:0,turnLean:0});
- camera.yaw=CAMERA_MODES[settings.cameraMode].yaw??0;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;
+ Object.assign(player,RESTART,{vx:0,vy:0,vz:0,yaw:-Math.PI/2,onGround:true,walking:0,turnLean:0});
+ camera.yaw=-Math.PI/2;camera.pitch=CAMERA_MODES[settings.cameraMode].pitch;camera.dist=CAMERA_MODES[settings.cameraMode].dist;camera.manualUntil=0;camera.ready=false;
  guide.firstMove=false;clearParkour();parkour.firstCatch=false;parkour.firstMantle=false;parkour.firstSwing=false;
- camera.x=player.x;camera.y=player.y+3.7;camera.z=player.z+4.15;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;
- fanOn=!flags.fanStopped;jarDown=!!flags.jar;bellRung=!!flags.bell;sketchSeen=!!flags.sketch;blockPlaced=!!flags.blockPlaced;mouseWon=!!flags.mouseWon;crateHeld=false;mouseMatch.active=false;mouseMatch.finishTimer=0;$('mouseScore').classList.add('hidden');$('schematic').classList.add('hidden');puzzleCrate.x=blockPlaced?CRATE_SOCKET.x:-8.95;puzzleCrate.z=blockPlaced?CRATE_SOCKET.z:2.65;bridgeCollider.y=blockPlaced?1.10:-10;bridgeCollider.top=blockPlaced?1.21:-9.89;bridgeCollider.grabbable=blockPlaced;liftAmount=jarDown?1:0;liftCollider.y=.15+liftAmount*1.36;liftCollider.top=liftCollider.y+.14;freeTime=0;
- npc.mode='patrol';npc.timer=0;npc.x=1.8;npc.z=-5.8;npc.targetX=1.8;npc.targetZ=-5.8;
+ camera.x=player.x+4.2;camera.y=player.y+4.0;camera.z=player.z+3.2;camera.fx=player.x;camera.fy=player.y+1;camera.fz=player.z;
+ fanOn=false;jarDown=false;bellRung=!!flags.bell;sketchSeen=!!flags.sketch;
+ blockPlaced=!!flags.blockPlaced;mouseWon=!!flags.mouseWon;crateHeld=false;
+ mouseMatch.active=false;mouseMatch.finishTimer=0;$('mouseScore').classList.add('hidden');$('schematic').classList.add('hidden');
+ puzzleCrate.x=blockPlaced?CRATE_SOCKET.x:9.30;puzzleCrate.z=blockPlaced?CRATE_SOCKET.z:-3.92;
+ puzzleCrate.y=-2.27;puzzleCrate.top=-1.89;
+ bridgeCollider.grabbable=false;bridgeCollider.y=-10;bridgeCollider.top=-9.89;
+ liftAmount=0;liftCollider.y=-10;liftCollider.top=-9.89;
+ npc.mode='patrol';npc.timer=0;npc.x=13.90;npc.z=-8.15;npc.targetX=13.90;npc.targetZ=-8.15;
+ freeTime=0;lessonSeen=new Set();lessonUntil=0;chapterUntil=0;floorArrival=false;crateMotion='push';
+ $('lessonCard').classList.add('hidden');$('chapterMoment').classList.add('hidden');
  hearts=resume?progress.hearts:3;gameMode='exploration';resetToCheckpoint(true);invulnerableUntil=time+1.3;updateJourneyHud();updateQuestGoal();
+ showLesson('move');
 }
 // Non-colliding visual checkpoints: glowing stitched patches on the bench.
 function checkpointVisuals(mesh,t){
  if(state==='stages'||state==='complete')return;
  for(const cp of CHECKPOINTS){if(cp.id==='start'||!checkpointAvailable(cp))continue;
   const active=currentCheckpoint().id===cp.id,pulse=.5+.5*Math.sin(t*2.9+cp.x);
-  const y=.055;mesh.box(cp.x,y,cp.z,.46,.04,.46,active?'#f2d59d':'#5f9d92');
-  for(let i=0;i<4;i++){const a=i*Math.PI/2;
-   mesh.box(cp.x+Math.cos(a)*.17,y+.035,cp.z+Math.sin(a)*.17,.10,.026,.10,'#e8cf9c',a);
-  }
-  mesh.box(cp.x,y+.24+pulse*.08,cp.z,.095,.12,.095,active?'#ffe6b2':'#91d1b2');
+  mesh.box(cp.x,cp.y+.028,cp.z,.36,.032,.36,active?'#ecc996':'#678f80');
+  mesh.box(cp.x,cp.y+.19+pulse*.05,cp.z,.09,.12,.09,active?'#ffe3ac':'#97c4af');
  }
 }
 
 function toast(s){$('toast').textContent=s;$('toast').style.opacity=1;clearTimeout(toast.timer);toast.timer=setTimeout(()=>$('toast').style.opacity=0,2200)}function objective(s){$('objective').textContent=s;$('objective').style.opacity=1;clearTimeout(objective.timer);objective.timer=setTimeout(()=>$('objective').style.opacity=0,3200)}
 function questData(){
- if(!sketchSeen)return {text:'Discover the old inventor’s sketch',point:[-5.45,.65,3.65]};
- if(!blockPlaced)return crateHeld?{text:'Move the crate along the brass rails to the socket',point:[CRATE_SOCKET.x,.86,CRATE_SOCKET.z]}:{text:'Find the brass-bound crate beside the sketch',point:[puzzleCrate.x,.95,puzzleCrate.z]};
- if(!bellRung)return {text:'Ring the brass bell to distract the caretaker',point:[2.5,.95,-1.8]};
- if(!jarDown)return {text:'Tip the jar: washers power the pulley lift',point:[-2.05,.95,-3.55]};
- if(fanOn)return {text:'Ride the lift and follow the cable to cut the fan',point:[5.5,.96,-4.4]};
- if(!mouseWon)return {text:'Reach the vent · The mouse has a challenge!',point:[9.7,2.05,-7.55]};
- return {text:'The mouse has given you the spool!',point:[9.7,1.8,-7.55]};
+ if(!sketchSeen)return {text:'A drawing rests under the lamp',point:[-6.85,4.4,4.7]};
+ if(player.y>1.4)return {text:'Find a safe way off the worktable',point:[4.6,2.2,3.69]};
+ if(player.y>FLOOR_TOP+.30)return {text:'Keep descending toward the floor',point:[9.5,-2,-.6]};
+ if(player.z>-5.3)return {text:'A tiny opening is visible along the wall',point:[14.7,-1.2,-12.9]};
+ if(!mouseWon)return {text:'Follow the mouse to the hole',point:[14.7,-1.0,-12.9]};
+ return {text:'The mouse hole leads outside',point:[14.7,-1.0,-12.9]};
 }
-function updateQuestGoal(){const q=$('questGoal');q.hidden=!settings.hints||mouseMatch.active;q.textContent='✦ '+questData().text;}
+function updateQuestGoal(){const q=$('questGoal');q.hidden=true;q.textContent='';}
+
+
+const LESSONS={
+ move:{title:'MOVE',line:'Explore the worktable.',control:'WASD / LEFT STICK',art:'<path d="M28 38h28m-8-8 8 8-8 8M16 28V14m-6 7 6-7 6 7"/>'},
+ sketch:{title:'LOOK',line:'Examine nearby objects.',control:'E / USE',art:'<rect x="20" y="8" width="34" height="41" rx="2"/><path d="M26 16h22M26 22h18M26 28h16M26 35h20"/>'},
+ jump:{title:'JUMP DOWN',line:'Aim for the open drawers.',control:'SPACE / JUMP',art:'<path d="M7 16H36V24H7M42 48H71V57H42M27 20Q51 11 58 46M51 40l7 6 6-7"/>'},
+ grip:{title:'CATCH AN EDGE',line:'Grab a ledge while falling.',control:'G / GRIP',art:'<path d="M41 18H73V59H41Z"/><path d="M7 56L24 46 29 24Q31 17 38 17H49"/>'},
+ crate:{title:'PUSH OR PULL',line:'Hold the crate to move it.',control:'E / USE + MOVE',art:'<rect x="29" y="16" width="34" height="34"/><path d="M29 16L63 50M63 16L29 50M8 33h16m-7-7 7 7-7 7"/>'},
+ bell:{title:'DISTRACT',line:'A sound can draw attention.',control:'E / USE',art:'<path d="M24 41Q28 34 29 24Q30 9 44 9Q58 9 59 24Q60 34 64 41Z"/><path d="M40 48Q44 55 48 48M35 8H52"/>'},
+ mouse:{title:'MOUSE FOOTBALL',line:'Score three goals to pass.',control:'KICK · BLOCK · DASH',art:'<circle cx="26" cy="36" r="9"/><path d="M40 36H63m-8-8 8 8-8 8M68 21V51M75 21V51M68 21H75M68 51H75"/>'}
+};
+let lessonSeen=new Set(),lessonUntil=0,chapterUntil=0,floorArrival=false,crateMotion='push';
+function showLesson(id,force=false){
+ if(!settings.hints||(!force&&lessonSeen.has(id))||!LESSONS[id])return;
+ lessonSeen.add(id);const t=LESSONS[id];
+ $('lessonTitle').textContent=t.title;$('lessonLine').textContent=t.line;$('lessonControls').textContent=t.control;
+ $('lessonArt').innerHTML='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 67" width="80" height="67" fill="none" stroke="#6b573d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">'+t.art+'</svg>';
+ $('lessonCard').classList.remove('hidden');lessonUntil=time+5.2;
+}
+function chapterMoment(s){$('chapterMoment').textContent=s;$('chapterMoment').classList.remove('hidden');chapterUntil=time+3.2;}
+function updateStoryMoments(){
+ if(time>lessonUntil)$('lessonCard').classList.add('hidden');
+ if(time>chapterUntil)$('chapterMoment').classList.add('hidden');
+ if(!floorArrival&&player.y<FLOOR_TOP+.35&&player.onGround){
+  floorArrival=true;chapterMoment('The workshop is enormous from down here.');showLesson('crate');
+ }
+ if(sketchSeen&&player.y>2.3&&player.x>-.4){showLesson('jump');}
+ if(!sketchSeen&&guide.firstMove&&Math.hypot(player.x+6.85,player.z-4.7)<1.65){showLesson('sketch');}
+ if(!lessonSeen.has('grip')&&player.y<3.8&&player.y>-.5&&!player.onGround)showLesson('grip');
+ if(!lessonSeen.has('bell')&&player.y<0&&Math.hypot(player.x-10.65,player.z+6.82)<3)showLesson('bell');
+}
+
 function crateReleased(){crateHeld=false;saveWorkshopPuzzle();toast('The crate settles into place.');}
 function crateToggle(){
- if(blockPlaced){toast('The wooden bridge is already raised.');return;}
- crateHeld=!crateHeld;
- toast(crateHeld?'Crate gripped! Move to PUSH or PULL · USE releases':'Crate released.');
- updateQuestGoal();
+ if(blockPlaced){toast('The crate is placed below the high step.');return;}
+ if(!crateHeld){
+  if(Math.hypot(player.x-puzzleCrate.x,player.z-puzzleCrate.z)>1.6){toast('Get closer to the crate.');return;}
+  crateHeld=true;showLesson('crate');
+  toast('Fingers gripping the crate. Move to push or pull.');
+ }else{crateHeld=false;toast('Released.');}
 }
 function moveCrate(dx,dz){
- // Actual push/pull: keep the hand and crate anchored together, reject occupied moves.
  if(!crateHeld||blockPlaced)return false;
  const x=puzzleCrate.x+dx,z=puzzleCrate.z+dz;
- if(x<-10.6||x>10.5||z<-7.6||z>7.7)return false;
- for(const b of colliders){if(b===puzzleCrate||b===liftCollider)continue;
-  if(b.top<.25||b.y-b.h/2>.65)continue;
-  if(Math.abs(x-b.x)<(b.w+puzzleCrate.w)/2+.07&&Math.abs(z-b.z)<(b.d+puzzleCrate.d)/2+.07)return false;
+ if(x<8.4||x>13.2||z<-7.0||z>-.9)return false;
+ for(const b of colliders){if(b===puzzleCrate||b===liftCollider||b===bridgeCollider)continue;
+  if(b.top<FLOOR_TOP+.08||b.y-b.h/2>FLOOR_TOP+.72)continue;
+  if(Math.abs(x-b.x)<(b.w+puzzleCrate.w)/2+.03&&Math.abs(z-b.z)<(b.d+puzzleCrate.d)/2+.03)return false;
  }
+ const fromX=puzzleCrate.x-player.x,fromZ=puzzleCrate.z-player.z;
+ crateMotion=(dx*fromX+dz*fromZ)>=0?'push':'pull';
  puzzleCrate.x=x;puzzleCrate.z=z;
- if(Math.hypot(x-CRATE_SOCKET.x,z-CRATE_SOCKET.z)<.64){
+ if(Math.hypot(x-CRATE_SOCKET.x,z-CRATE_SOCKET.z)<.62){
   puzzleCrate.x=CRATE_SOCKET.x;puzzleCrate.z=CRATE_SOCKET.z;
-  blockPlaced=true;crateHeld=false;bridgeCollider.y=1.10;bridgeCollider.top=1.21;bridgeCollider.grabbable=true;playTone(630,.25,'triangle');
-  checkpointFlash('✦ THE BRASS LATCH CLICKS · SHORTCUT UNLOCKED');
-  objective('Good! The crate has opened a route toward the bell.');saveWorkshopPuzzle();
+  blockPlaced=true;crateHeld=false;playTone(630,.25,'triangle');
+  chapterMoment('A useful step up.');saveWorkshopPuzzle();
  }
  return true;
 }
 function startMouseMatch(){
  if(mouseMatch.active)return;
  crateHeld=false;clearParkour();Object.assign(mouseMatch,{active:true,x:ARENA.cx,z:ARENA.farZ+.66,ballX:ARENA.cx,ballZ:ARENA.cz,vx:0,vz:0,playerScore:0,mouseScore:0,kickUntil:0,blockUntil:0,mouseCooldown:0,finishTimer:0,goalPause:1.1});
- Object.assign(player,{x:ARENA.cx,y:0,z:ARENA.nearZ-.57,vx:0,vy:0,vz:0,onGround:true});
+ Object.assign(player,{x:ARENA.cx,y:FLOOR_TOP,z:ARENA.nearZ-.57,vx:0,vy:0,vz:0,onGround:true});
  gameMode='boss';camera.ready=false;camera.manualUntil=0;
  $('mouseScore').classList.remove('hidden');$('questGoal').hidden=true;
- $('mouseScore').innerHTML='HAND 0 &nbsp; : &nbsp; 0 MOUSE<small>FIRST TO 3 · E / KICK · G / BLOCK · JUMP / DASH</small>';
- objective('Beat the cheeky mouse! Move toward the felt ball · KICK · BLOCK · DASH. First to 3!');playTone(640,.3,'sine');
+ $('mouseScore').innerHTML='HAND 0 &nbsp; : &nbsp; 0 MOUSE<small>FIRST TO 3 · KICK · BLOCK · DASH</small>';
+ showLesson('mouse');chapterMoment('A game? Right here?');playTone(640,.3,'sine');
 }
 function scoreMouseGoal(forHand){
  if(forHand)mouseMatch.playerScore++;else mouseMatch.mouseScore++;
@@ -1306,7 +1534,7 @@ function footballDash(){
 }
 function updateMouseFootball(dt,forward,side){
  if(!mouseMatch.active)return;
- if(mouseMatch.finishTimer>0){mouseMatch.finishTimer-=dt;if(mouseMatch.finishTimer<=0){mouseMatch.active=false;finishStage(1);}return;}
+ if(mouseMatch.finishTimer>0){mouseMatch.finishTimer-=dt;if(mouseMatch.finishTimer<=0){mouseMatch.active=false;player.x=14.05;player.z=-11.55;player.y=FLOOR_TOP;chapterMoment('The mouse steps aside. The hole is open.');}return;}
  if(mouseMatch.goalPause>0){mouseMatch.goalPause-=dt;return;}
  // Arena-coordinate movement, intentionally independent of camera yaw.
  const speed=3.45;
@@ -1346,10 +1574,10 @@ function updateMouseFootball(dt,forward,side){
  if(m.ballZ<ARENA.farZ){if(Math.abs(m.ballX-ARENA.cx)<.85)scoreMouseGoal(true);else{m.ballZ=ARENA.farZ;m.vz=Math.abs(m.vz)*.7;}}
  else if(m.ballZ>ARENA.nearZ){if(Math.abs(m.ballX-ARENA.cx)<.85)scoreMouseGoal(false);else{m.ballZ=ARENA.nearZ;m.vz=-Math.abs(m.vz)*.7;}}
 }
-function nearest(){let min=1.82,found=null;for(const a of interactions){
+function nearest(){let min=1.70,found=null;for(const a of interactions){
  if(a.id==='sketch'&&sketchSeen)continue;
- if(a.id==='crate'){if(blockPlaced)continue;a.x=puzzleCrate.x;a.z=puzzleCrate.z;a.label=crateHeld?'Release crate':'Grab crate · Move to push / pull';}
- const dist=Math.hypot(player.x-a.x,player.z-a.z);
+ if(a.id==='crate'){if(blockPlaced)continue;a.x=puzzleCrate.x;a.z=puzzleCrate.z;a.label=crateHeld?'Release crate':'Hold crate to push or pull';}
+ const dist=Math.hypot(player.x-a.x,player.z-a.z,(player.y-(a.y??FLOOR_TOP))*.85);
  if(dist<min){min=dist;found=a;}
  }return found}
 function playTone(f=300,d=.13,type='sine',vol=.10){if(settings.volume===0)return;try{const context=(playTone.ctx??=new(window.AudioContext||window.webkitAudioContext)());if(context.state==='suspended')context.resume();let o=context.createOscillator(),g=context.createGain();o.type=type;o.frequency.setValueAtTime(f,context.currentTime);o.frequency.exponentialRampToValueAtTime(Math.max(100,f*.74),context.currentTime+d);g.gain.setValueAtTime(.0001,context.currentTime);g.gain.exponentialRampToValueAtTime(.018*settings.volume/100*vol/.10,context.currentTime+.01);g.gain.exponentialRampToValueAtTime(.0001,context.currentTime+d);o.connect(g);g.connect(context.destination);o.start();o.stop(context.currentTime+d+.02)}catch(e){}}
@@ -1358,49 +1586,27 @@ function interact(){
  if(mouseMatch.active){footballKick();return;}
  const a=nearest();if(!a)return;
  if(a.id==='sketch'){
-  sketchSeen=true;saveWorkshopPuzzle();
-  state='schematic';$('schematic').classList.remove('hidden');
-  playTone(560,.24,'sine');return;
+   sketchSeen=true;saveWorkshopPuzzle();state='schematic';$('schematic').classList.remove('hidden');
+   playTone(510,.24,'sine');return;
  }
  if(a.id==='crate'){crateToggle();return;}
  if(a.id==='bell'){
-  if(!sketchSeen){toast('A mysterious diagram is waiting on the table...');return;}
-  if(!blockPlaced){toast('The crate can raise a shortcut to this passage.');return;}
-  bellRung=true;timeSinceBell=0;playTone(880,.55,'sine');
-  toast('DING! The caretaker hurries toward the bell!');
-  npc.mode='investigate';npc.targetX=2.5;npc.targetZ=-1.8;npc.timer=17;
-  saveWorkshopPuzzle();objective('While it investigates, find the jar of brass washers.');return;
- }
- if(a.id==='jar'){
-  if(!bellRung){toast('The caretaker is guarding that corner. Distract it with the bell!');return;}
-  if(jarDown){toast('The counterweight is filled. Find the rising platform.');return;}
-  jarDown=true;playTone(250,.25,'triangle');playTone(610,.30,'sine');
-  toast('CLATTER! The washers load the pulley. Look at the rising platform!');
-  npc.mode='investigate';npc.targetX=-2.05;npc.targetZ=-3.55;npc.timer=12;
-  saveWorkshopPuzzle();objective('Ride the raised platform to reach the rope and fan circuit.');return;
- }
- if(a.id==='switch'){
-  if(!jarDown){toast('A safety latch holds the lever. The counterweight must lift first.');return;}
-  if(!fanOn){toast('The fan is already stopped. Reach the vent!');return;}
-  fanOn=false;playTone(320,.45,'square');
-  toast('WHIRRR... the blades slow. The vent passage is now safe.');
-  saveWorkshopPuzzle();objective('One last obstacle: the little mouse guarding the exit.');return;
+   bellRung=true;timeSinceBell=0;playTone(880,.42,'sine');
+   npc.mode='investigate';npc.targetX=10.65;npc.targetZ=-6.82;npc.timer=12;
+   chapterMoment('That got its attention.');saveWorkshopPuzzle();return;
  }
  if(a.id==='exit'){
-  if(!sketchSeen){toast('Something on the table might explain who you are.');return;}
-  if(!blockPlaced){toast('The brass socket and crate unlock a route forward.');return;}
-  if(!bellRung||!jarDown){toast('There is still a mechanism to solve in the workshop.');return;}
-  if(fanOn){toast('Danger! The fan is spinning. Follow its power cable.');playTone(175,.2);return;}
-  if(!mouseWon)startMouseMatch();else finishStage(1);
+   if(!mouseWon){startMouseMatch();return;}
+   finishStage(1);
  }
 }
 function groundAt(x,z,footY){
-  const onBench=Math.abs(x)<11.7&&Math.abs(z)<8.7;
-  const throughGap=x>-7.24&&x<-5.56&&z>-3.14&&z<-1.56;
-  let surface=onBench&&!throughGap?0:-2.65;
-  for(const b of colliders){const top=b.top;
-    if(x>b.x-b.w/2-.25&&x<b.x+b.w/2+.25&&z>b.z-b.d/2-.25&&z<b.z+b.d/2+.25&&footY>=top-.23)surface=Math.max(surface,top);
-  }return surface;
+ let surface=FLOOR_TOP;
+ for(const b of colliders){
+  if(footY<b.top-.22)continue;
+  if(x>b.x-b.w/2-.09&&x<b.x+b.w/2+.09&&z>b.z-b.d/2-.09&&z<b.z+b.d/2+.09)surface=Math.max(surface,b.top);
+ }
+ return surface;
 }
 // A broadphase rectangle check is sufficient for the authored box-shaped obstacles.
 function blockedAt(x,z,y){const radius=.29,head=y+.85;
@@ -1410,8 +1616,8 @@ function blockedAt(x,z,y){const radius=.29,head=y+.85;
 }
 function moveSolid(dx,dz){
   let x=player.x+dx,z=player.z+dz;
-  if(x<11.3&&x>-11.3&&!blockedAt(x,player.z,player.y)){player.x=x;}else player.vx=0;
-  if(z<8.45&&z>-8.45&&!blockedAt(player.x,z,player.y)){player.z=z;}else player.vz=0;
+  if(x<17.25&&x>-17.25&&!blockedAt(x,player.z,player.y)){player.x=x;}else player.vx=0;
+  if(z<13.65&&z>-13.65&&!blockedAt(player.x,z,player.y)){player.z=z;}else player.vz=0;
 }
 function moveBasis(yaw){return {forward:[-Math.sin(yaw),-Math.cos(yaw)],right:[Math.cos(yaw),-Math.sin(yaw)]};}
 // Keep large solid objects from blocking the player. The camera moves inward
@@ -1493,14 +1699,14 @@ function cameraTargets(dt){
 }
 function computeCamera(dt){
  if(mouseMatch.active&&state==='playing'){
-  const focus={focusX:ARENA.cx,focusY:.40,focusZ:ARENA.cz,fov:.79};
-  const a=1-Math.exp(-dt*4.8),tx=ARENA.cx,ty=9.8,tz=ARENA.cz+4.8;
+  const focus={focusX:ARENA.cx,focusY:FLOOR_TOP+.65,focusZ:ARENA.cz,fov:.79};
+  const a=1-Math.exp(-dt*4.8),tx=ARENA.cx,ty=3.9,tz=ARENA.cz+4.8;
   camera.x+=(tx-camera.x)*a;camera.y+=(ty-camera.y)*a;camera.z+=(tz-camera.z)*a;
   return focus;
  }
  if(state==='menu'){
    camera.yaw=.26+Math.sin(time*.21)*.085;camera.pitch=.44;camera.dist=5.9;
-   const x=-2.0,y=1.2,z=1.2,cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);
+   const x=-7.1,y=5.0,z=4.4,cp=Math.cos(camera.pitch),sp=Math.sin(camera.pitch);
    camera.fx=x;camera.fy=y;camera.fz=z;camera.ready=true;
    const tx=x+Math.sin(camera.yaw)*camera.dist*cp,ty=y+camera.dist*sp,tz=z+Math.cos(camera.yaw)*camera.dist*cp;
    const damp=1-Math.exp(-dt*2);camera.x+=(tx-camera.x)*damp;camera.y+=(ty-camera.y)*damp;camera.z+=(tz-camera.z)*damp;
@@ -1578,14 +1784,14 @@ function startGrip(){
    parkour.firstCatch=true;parkour.gripUntil=0;parkour.shimmySpeed=0;parkour.shimmyPhase=0;gripInit(ledge);
    for(const t of toeState){t.planted=false;t.initialized=false;}
    playTone(490,.1,'sine');
-   if(settings.hints)objective('Caught it! · JUMP to climb · GRIP to let go');
+   if(settings.hints)showLesson('grip');
    return true;
  }
  if(canCatchCable()){
    parkour.mode='swing';parkour.theta=clamp(Math.asin(clamp((player.z-rope.z)/rope.length,-.35,.35)),-.35,.35);
    parkour.omega=clamp(player.vz/rope.length,-1.9,1.9);parkour.shimmySpeed=0;
    parkour.gripUntil=0;player.vx=player.vy=player.vz=0;player.onGround=false;player.yaw=0;
-   playTone(540,.12,'triangle');if(settings.hints)objective('Swing · W/S to pump · JUMP to launch');
+   playTone(540,.12,'triangle');if(settings.hints)showLesson('grip');
    return true;
  }
  return false;
@@ -1665,7 +1871,7 @@ function updateParkour(dt,forward,side,basis){
    player.y=mix(parkour.start[1],parkour.finish[1]+.055,vertical)-.055*smooth01(clamp((u-.94)/.06,0,1));
    player.vx=player.vy=player.vz=0;
    if(u>=1){parkour.mode='none';parkour.ledge=null;parkour.gripDigits=[];parkour.firstMantle=true;player.onGround=true;player.landImpact=.28;
-     if(settings.hints)objective(bellRung?'Nice climb · Find the fan switch':'Nice climb · Find the bell');
+     if(settings.hints)showLesson('jump');
      for(const t of toeState){t.planted=false;t.initialized=false;}
    }
  }else if(parkour.mode==='swing'){
@@ -1721,7 +1927,7 @@ function update(dt){
     const response=1-Math.exp(-dt*(mag>0?10:14));
     player.vx+=(vx-player.vx)*response;player.vz+=(vz-player.vz)*response;
     moveSolid(player.vx*dt,player.vz*dt);
-    if(fanOn&&player.x>7.0&&player.z< -5.65&&player.z> -8.2){moveSolid(dt*.42,0);}
+    
     let motion=Math.hypot(player.vx,player.vz);
     if(motion>.13){
       const desired=Math.atan2(-player.vx,-player.vz);
@@ -1729,26 +1935,34 @@ function update(dt){
       player.yaw+=diff*Math.min(1,dt*10);
       player.turnLean=player.turnLean*.75+clamp(-diff*.12,-.08,.08)*.25;
       player.walking+=dt*motion*4.8;
-      if(!guide.firstMove&&motion>.8){guide.firstMove=true;if(settings.hints)objective('A faded schematic lies near the starting table.');}
+      if(!guide.firstMove&&motion>.8){guide.firstMove=true;}
     }else player.turnLean*=.82;
     if(jumpQueued&&player.onGround){player.vy=5.0;player.onGround=false;player.takeoff=1;player.landImpact=0;for(const t of toeState){t.planted=false;t.initialized=false;}playTone(310,.09,'triangle');}
     jumpQueued=false;
     let oldY=player.y;player.vy-=15*dt;player.y+=player.vy*dt;
     let support=groundAt(player.x,player.z,oldY);
-    if(player.vy<=0&&player.y<=support&&oldY>=support-.23){if(!player.onGround&&player.vy<-1.4)player.landImpact=clamp(-player.vy/9,.15,1);player.y=support;player.vy=0;player.onGround=true;}
+    if(player.vy<=0&&player.y<=support&&oldY>=support-.23){
+      const impact=-player.vy;
+      if(!player.onGround&&impact>1.4)player.landImpact=clamp(impact/9,.15,1);
+      player.y=support;player.vy=0;player.onGround=true;
+      // Falling from tabletop height directly onto the floor costs a heart;
+      // reaching the floor using the designed steps is safe.
+      if(impact>11.7&&support<=FLOOR_TOP+.10&&time>invulnerableUntil)loseHeart('Hard landing');
+    }
     else player.onGround=false;
     if(parkour.gripUntil>time&&!player.onGround)startGrip();
-    if(player.y< -1.65)loseHeart('Long fall');
+    if(player.y<FLOOR_TOP-.45)loseHeart('Out of bounds');
     // Camera tracking is handled in cameraTargets(), independent from movement physics.
   }
 // Counterweight platform genuinely rises over time with the jar's falling washers.
   liftAmount+=((jarDown?1:0)-liftAmount)*Math.min(1,dt*1.9);
   liftCollider.y=.15+liftAmount*1.36;liftCollider.top=liftCollider.y+.14;
   // Caretaker reacts to mischief, not omniscient player tracking
-npc.timer-=dt;if(npc.mode==='investigate'&&npc.timer<=0){npc.mode='patrol';npc.targetX=1.8;npc.targetZ=-5.8}if(npc.mode==='patrol'&&Math.hypot(npc.x-npc.targetX,npc.z-npc.targetZ)<.35){npc.targetX=npc.targetX>0?-4.1:1.8;npc.targetZ=-5.8}let dx=npc.targetX-npc.x,dz=npc.targetZ-npc.z,dist=Math.hypot(dx,dz);if(dist>.08){let s=Math.min(dist,dt*(npc.mode==='investigate'?1.25:.48));npc.x+=dx/dist*s;npc.z+=dz/dist*s;npc.angle=Math.atan2(-dx,-dz)}
+npc.timer-=dt;if(npc.mode==='investigate'&&npc.timer<=0){npc.mode='patrol';npc.targetX=13.9;npc.targetZ=-8.15}if(npc.mode==='patrol'&&Math.hypot(npc.x-npc.targetX,npc.z-npc.targetZ)<.35){npc.targetX=npc.targetX>13?11.8:13.9;npc.targetZ=-8.15}let dx=npc.targetX-npc.x,dz=npc.targetZ-npc.z,dist=Math.hypot(dx,dz);if(dist>.08){let s=Math.min(dist,dt*(npc.mode==='investigate'?1.25:.48));npc.x+=dx/dist*s;npc.z+=dz/dist*s;npc.angle=Math.atan2(-dx,-dz)}
   gameMode=parkour.mode==='none'?'exploration':'platforming';
-  updateCheckpoints();updateGameplayFeedback();
-  if(!freeTime){freeTime=1;if(settings.hints)objective('The hand awakens… what is that folded drawing?');}
+  if(player.y<FLOOR_TOP+.5&&!mouseMatch.active&&npc.mode==='patrol'&&Math.hypot(player.x-npc.x,player.z-npc.z)<.64&&time>invulnerableUntil){resetToCheckpoint();chapterMoment('The caretaker spotted something moving!');}
+  updateCheckpoints();updateStoryMoments();updateGameplayFeedback();
+  if(!freeTime){freeTime=1;chapterMoment('A finger twitches. Then another.');}
 }
 // D4: motes exist in world space and drift gently. They are decorative only.
 const MOTES=Array.from({length:38},(_,i)=>({
@@ -1770,20 +1984,82 @@ function atmosphericMotes(mesh,t){
 }
 function render(dt){const r=canvas.getBoundingClientRect(),q=settings.quality==='low'?.7:settings.quality==='medium'?.9:1.4,dpr=Math.min(window.devicePixelRatio||1,q);let w=Math.max(1,Math.floor(r.width*dpr)),h=Math.max(1,Math.floor(r.height*dpr));if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h}gl.viewport(0,0,w,h);gl.clearColor(.10,.15,.14,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.useProgram(prog);
 const framing=computeCamera(dt);eye.set([camera.x,camera.y,camera.z]);lookAt(view,eye,[framing.focusX,framing.focusY,framing.focusZ]);perspective(proj,framing.fov,w/h,.08,96);gl.uniformMatrix4fv(uni.view,false,view);gl.uniformMatrix4fv(uni.proj,false,proj);gl.uniform1f(uni.warm,settings.shadows?1:.35);gl.uniform1f(uni.detail,settings.quality==='low'?.3:settings.quality==='medium'?.75:1);draw(worldViewGpu);
-let dyn=new Mesh();hand(dyn,dt);robot(dyn,time);gizmos(dyn,time);atmosphericMotes(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
+let dyn=new Mesh();hand(dyn,dt);escapeGizmos(dyn,time);atmosphericMotes(dyn,time);if(dynGpu)gl.deleteBuffer(dynGpu.buffer);dynGpu=gpu(dyn,true);draw(dynGpu);
 }
+
+function escapeGizmos(mesh,t){
+ checkpointVisuals(mesh,t);
+ const cr=puzzleCrate;
+ mesh.box(cr.x,cr.y,cr.z,cr.w,cr.h,cr.d,C.wood3);
+ for(const sx of [-1,1])for(const sz of [-1,1])mesh.box(cr.x+sx*.465,cr.y,cr.z+sz*.465,.10,.72,.12,C.darkWood);
+ for(let s of [-1,1])mesh.box(cr.x+s*.39,cr.y+.05,cr.z+.54,.12,.28,.10,C.brass);
+ for(let i=0;i<4;i++)mesh.box(cr.x,cr.top+.05,cr.z-.38+i*.25,.88,.035,.06,i%2?C.brass:C.cream);
+ // A socket is a physical indication of where the crate makes a useful step,
+ // not a magic switch that changes the layout.
+ for(let s of [-1,1])mesh.box(CRATE_SOCKET.x+s*.55,FLOOR_TOP+.025,CRATE_SOCKET.z,.065,.035,1.25,C.brass); for(let s of [-1,1])mesh.box(CRATE_SOCKET.x,FLOOR_TOP+.025,CRATE_SOCKET.z+s*.55,1.25,.035,.065,C.brass);
+ // Cord moves with the hand in swing mode.
+ let end=parkour.mode==='swing'?[player.x,player.y+1.05,player.z-.30]:[rope.x,rope.y-rope.length,rope.z];
+ bone(mesh,[rope.x,rope.y,rope.z],end,.095,.09,C.iron2);
+ mesh.box(end[0],end[1],end[2],.25,.22,.25,C.gold);
+ // A floor-level brass bell near the caretaker; sound gives a window to sneak by.
+ const b=10.65,z=-6.82,bounce=Math.max(0,1.2-timeSinceBell)*.07*Math.sin(t*34);
+ mesh.box(b,FLOOR_TOP+.11,z,.65,.22,.66,C.wood2);
+ mesh.box(b,FLOOR_TOP+.40+bounce,z,.47,.43,.48,C.gold);
+ mesh.box(b,FLOOR_TOP+.68+bounce,z,.20,.12,.17,C.brass);
+ // The clockwork caretaker is grounded, readable and smaller than table legs.
+ const nx=npc.x,nz=npc.z,wobble=.035*Math.sin(t*5);
+ mesh.box(nx,FLOOR_TOP+.40+wobble,nz,.60,.59,.54,C.teal);
+ mesh.box(nx,FLOOR_TOP+.89+wobble,nz,.64,.47,.55,C.iron2);
+ mesh.box(nx,FLOOR_TOP+1.01+wobble,nz-.29,.55,.17,.07,C.black);
+ for(let s of [-1,1]){
+   mesh.box(nx+s*.18,FLOOR_TOP+1.04+wobble,nz-.339,.12,.10,.04,C.gold);
+   mesh.box(nx+s*.39,FLOOR_TOP+.21+wobble,nz,.15,.43,.17,C.copper);
+ }
+ mesh.box(nx,FLOOR_TOP+1.37+wobble,nz,.09,.40,.09,C.brass);
+ mesh.box(nx,FLOOR_TOP+1.56+wobble,nz,.20,.17,.23,C.gold);
+ // Mouse-hole story: the mouse and red spool peek from behind the wall.
+ if(!mouseMatch.active&&!mouseWon){
+  const mx=14.70+Math.sin(t*2)*.09,mz=-12.80;
+  mesh.box(mx,FLOOR_TOP+.29,mz,.54,.42,.54,C.wood2);
+  for(let s of [-1,1])mesh.box(mx+s*.21,FLOOR_TOP+.61,mz-.13,.21,.23,.13,C.copper);
+  mesh.box(mx,FLOOR_TOP+.48,mz-.32,.16,.11,.10,C.black);
+  mesh.box(mx+.4,FLOOR_TOP+.20,mz+.23,.26,.30,.27,C.red);
+ }
+ if(mouseMatch.active){
+  const a=ARENA,m=mouseMatch,fieldTop=FLOOR_TOP+.025;
+  // Thin chalk sideline only. The wood floor remains the arena surface.
+  for(let s of [-1,1])mesh.box(a.cx+s*(a.maxX-a.minX)/2,fieldTop,a.cz,.060,.037,a.nearZ-a.farZ,C.cream);
+  for(let zz of [a.nearZ,a.farZ])mesh.box(a.cx,fieldTop,zz,a.maxX-a.minX,.037,.06,C.cream);
+  mesh.box(a.cx,fieldTop,a.cz,.035,.034,a.nearZ-a.farZ,C.cream);
+  for(let z of [a.farZ,a.nearZ]){
+   for(let sx of [-1,1])mesh.box(a.cx+sx*.89,FLOOR_TOP+.21,z,.10,.42,.12,C.wood3);
+   mesh.box(a.cx,FLOOR_TOP+.43,z,1.86,.10,.12,C.brass);
+  }
+  const by=FLOOR_TOP+.25+.04*Math.sin(t*10);
+  mesh.box(m.ballX,by,m.ballZ,.30,.30,.30,C.cream,t*3);
+  mesh.box(m.ballX+.11,by+.12,m.ballZ,.10,.04,.12,C.red,t*3);
+  mesh.box(m.x,FLOOR_TOP+.29,m.z,.53,.40,.46,C.wood2);
+  mesh.box(m.x,FLOOR_TOP+.51,m.z-.18,.47,.32,.38,C.wood3);
+  for(let sx of [-1,1]){
+   mesh.box(m.x+sx*.22,FLOOR_TOP+.75,m.z-.12,.23,.26,.12,C.copper);
+   mesh.box(m.x+sx*.14,FLOOR_TOP+.55,m.z-.38,.07,.07,.05,C.black);
+  }
+  mesh.box(m.x,FLOOR_TOP+.43,m.z-.39,.13,.10,.09,C.red);
+ }
+}
+
 function show(name){for(let n of ['menu','pause','settings','complete','stageSelect'])$(n).classList.toggle('hidden',n!==name);$('hud').classList.toggle('hidden',name!=='none')}
 function start(){return startStage(1,true)}
 function replayStage(){return startStage(1,false)}
 function pause(){if(state==='playing'){state='paused';show('pause')}else if(state==='paused'){state='playing';show('none')}}
-$('startButton').onclick=start;$('stageMenuButton').onclick=()=>openStageSelect('menu');$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('checkpointButton').onclick=()=>{state='playing';show('none');resetToCheckpoint();};$('restartButton').onclick=replayStage;$('playAgain').onclick=replayStage;$('pauseStageButton').onclick=()=>openStageSelect('paused');$('completionStages').onclick=()=>openStageSelect('complete');$('stageBack').onclick=returnFromStages;$('stageAction').onclick=()=>{const st=STAGES.find(x=>x.id===selectedStageId);if(st?.available)startStage(st.id,!progress.completedStages.includes(st.id))};$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing'&&!mouseMatch.active)cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('sketchClose').onclick=()=>{if(state!=='schematic')return;$('schematic').classList.add('hidden');state='playing';updateQuestGoal();objective('The little mouse has stolen a spool! Follow the trail.');};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Loose Thread.\nOffline adventure v0.6-C1. Stage 1 now includes a cut-through gap, raised shelves, crate bridge and pulley gallery. Later stages are previews.')};
+$('startButton').onclick=start;$('stageMenuButton').onclick=()=>openStageSelect('menu');$('resumeButton').onclick=pause;$('pauseButton').onclick=pause;$('checkpointButton').onclick=()=>{state='playing';show('none');resetToCheckpoint();};$('restartButton').onclick=replayStage;$('playAgain').onclick=replayStage;$('pauseStageButton').onclick=()=>openStageSelect('paused');$('completionStages').onclick=()=>openStageSelect('complete');$('stageBack').onclick=returnFromStages;$('stageAction').onclick=()=>{const st=STAGES.find(x=>x.id===selectedStageId);if(st?.available)startStage(st.id,!progress.completedStages.includes(st.id))};$('toMenuButton').onclick=$('finishedMenu').onclick=()=>{state='menu';show('menu')};$('menuSettings').onclick=()=>{playingBeforeSettings='menu';state='settings';show('settings')};$('pauseSettings').onclick=()=>{playingBeforeSettings='paused';state='settings';show('settings')};$('cameraButton').onclick=()=>{if(state==='playing'&&!mouseMatch.active)cycleCamera()};$('cameraMode').addEventListener('change',()=>cameraModeChanged($('cameraMode').value));$('settingsBack').onclick=()=>{state=playingBeforeSettings;show(state==='menu'?'menu':'pause')};$('sketchClose').onclick=()=>{if(state!=='schematic')return;$('schematic').classList.add('hidden');state='playing';chapterMoment('A rustle. Something scurries off the table.');showLesson('jump');};$('menuAbout').onclick=()=>{alert('FRANK · A Hand in Search of Its Owner\n\nAn original voxel parkour, puzzle and mischief adventure.\n\nChapter 1: The Mousehole Escape.\nOffline adventure v0.7-A. A new vertical route descends from the worktable to the workshop floor and out through a mouse hole. Later stages are previews.')};
 for(let id of ['quality','volume','sensitivity','shadows','hints','followCamera','smartCamera','difficulty'])$(id).addEventListener('change',()=>{settings.quality=$('quality').value;settings.volume=+$('volume').value;settings.sensitivity=+$('sensitivity').value;settings.shadows=$('shadows').checked;settings.hints=$('hints').checked;settings.followCamera=$('followCamera').checked;settings.smartCamera=$('smartCamera').checked;const previousDifficulty=settings.difficulty;settings.difficulty=$('difficulty').value;if(previousDifficulty!==settings.difficulty&&settings.difficulty!=='story'){hearts=3;progress.hearts=3;saveProgress();}store();updateJourneyHud();renderStageSelect()});for(let id of ['volume','sensitivity'])$(id).addEventListener('input',()=>{$(id==='volume'?'volLabel':'sensLabel').textContent=$(id).value+'%'});$('volLabel').textContent=settings.volume+'%';$('sensLabel').textContent=settings.sensitivity+'%';
 window.addEventListener('keydown',e=>{let k=e.key.toLowerCase();if([' ','arrowleft','arrowright','arrowup','arrowdown'].includes(k))e.preventDefault();if(k==='escape'){if(state==='schematic')$('sketchClose').click();else if(state==='settings')$('settingsBack').click();else if(state==='stages')returnFromStages();else pause();return}if(k===' '&&!keys.has(k)){if(mouseMatch.active)footballDash();else jumpQueued=true;}if(k==='g'&&!keys.has(k)&&state==='playing'){if(mouseMatch.active)footballBlock();else requestGrip();}if(k==='c'&&!keys.has(k)&&state==='playing'&&!mouseMatch.active)cycleCamera();keys.add(k);if(k==='e')interact();if(k==='enter'&&state==='menu')start()});window.addEventListener('keyup',e=>keys.delete(e.key.toLowerCase()));window.addEventListener('blur',()=>{keys.clear();touch.x=touch.y=0;if(state==='playing')pause()});
 let dragging=false,px=0,py=0;canvas.addEventListener('pointerdown',e=>{if(state!=='playing')return;dragging=true;px=e.clientX;py=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging||state!=='playing')return;camera.yaw-=(e.clientX-px)*.0035*settings.sensitivity/60;camera.manualUntil=time+2.5;camera.pitch=Math.max(.18,Math.min(1.13,camera.pitch+(e.clientY-py)*.003*settings.sensitivity/60));px=e.clientX;py=e.clientY});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);canvas.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();camera.dist=Math.max(3.4,Math.min(15,camera.dist+Math.sign(e.deltaY)*.6));camera.manualUntil=time+7},{passive:false});
 // Thumb-first touch controls: stick stays anchored; jumping and USE stay in predictable positions.
 const zone=$('stick-zone'),knob=$('stick-knob');let stickPointer=null;function stickMove(e){let rc=zone.getBoundingClientRect(),dx=e.clientX-(rc.left+rc.width/2),dy=e.clientY-(rc.top+rc.height/2),m=Math.min(1,Math.hypot(dx,dy)/43),a=Math.atan2(dy,dx);touch.x=Math.cos(a)*m;touch.y=Math.sin(a)*m;knob.style.transform=`translate(${touch.x*43}px,${touch.y*43}px)`}zone.addEventListener('pointerdown',e=>{stickPointer=e.pointerId;zone.setPointerCapture(e.pointerId);stickMove(e)});zone.addEventListener('pointermove',e=>{if(e.pointerId===stickPointer)stickMove(e)});function resetStick(e){if(stickPointer===e.pointerId){stickPointer=null;touch.x=touch.y=0;knob.style.transform=''}}zone.addEventListener('pointerup',resetStick);zone.addEventListener('pointercancel',resetStick);
 $('jumpButton').addEventListener('pointerdown',e=>{e.preventDefault();if(mouseMatch.active)footballDash();else jumpQueued=true;$('jumpButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel','pointerleave'])$('jumpButton').addEventListener(s,()=>{$('jumpButton').classList.remove('pressed')});$('gripButton').addEventListener('pointerdown',e=>{e.preventDefault();if(mouseMatch.active)footballBlock();else requestGrip();$('gripButton').classList.add('pressed')});for(const s of ['pointerup','pointercancel','pointerleave'])$('gripButton').addEventListener(s,()=>$('gripButton').classList.remove('pressed'));$('interactButton').addEventListener('pointerdown',e=>{e.preventDefault();interact();$('interactButton').classList.add('pressed')});for(let s of ['pointerup','pointercancel'])$('interactButton').addEventListener(s,()=>$('interactButton').classList.remove('pressed'));
-if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint,worldTriangleCount:world.count,atmosphericMotes,realismEnvironment,STAGES,CHECKPOINTS,progress,saveProgress,activateCheckpoint,updateCheckpoints,loseHeart,resetToCheckpoint,currentCheckpoint,startStage,finishStage,openStageSelect,renderStageSelect,get gameMode(){return gameMode;},get hearts(){return hearts;},puzzleCrate,liftCollider,bridgeCollider,STAGE1_ROUTE,groundAt,mouseMatch,ARENA,moveCrate,crateToggle,questData,updateQuestGoal,startMouseMatch,scoreMouseGoal,footballKick,updateMouseFootball,get sketchSeen(){return sketchSeen;},get blockPlaced(){return blockPlaced;},get mouseWon(){return mouseWon;}};
+if(new URLSearchParams(location.search).has('debug'))window.__handscapeDebug={player,camera,CAMERA_MODES,cycleCamera,cameraModeChanged,computeCamera,moveBasis,blockedAt,avoidCameraOcclusion,colliders,guide,settings,interactions,parkour,rope,toeState,digitTarget,walkingBody,hand,gripPose,findLedge,canCatchCable,requestGrip,startGrip,startMantle,releaseGrip,updateParkour,get state(){return state;},get bellRung(){return bellRung;},get fanOn(){return fanOn;},gripPadState,gripInit,updateGripDigits,mantleClearance,gripExtent,gripAlong,gripPoint,worldTriangleCount:world.count,atmosphericMotes,realismEnvironment,STAGES,CHECKPOINTS,progress,saveProgress,activateCheckpoint,updateCheckpoints,loseHeart,resetToCheckpoint,currentCheckpoint,startStage,finishStage,openStageSelect,renderStageSelect,get gameMode(){return gameMode;},get hearts(){return hearts;},puzzleCrate,liftCollider,bridgeCollider,STAGE1_ROUTE,DESCENT_ROUTE,TABLE_TOP,FLOOR_TOP,MOUSEHOLE,showLesson,LESSONS,interact,nearest,update,cratePose,groundAt,mouseMatch,ARENA,moveCrate,crateToggle,questData,updateQuestGoal,startMouseMatch,scoreMouseGoal,footballKick,updateMouseFootball,get sketchSeen(){return sketchSeen;},get blockPlaced(){return blockPlaced;},get mouseWon(){return mouseWon;}};
 updateJourneyHud();if(progress.completedStages.includes(1))$('startButton').textContent='▶ Revisit Workshop';else if(progress.checkpointByStage[1]!=='start')$('startButton').textContent='▶ Continue Adventure';else $('startButton').textContent='▶ Begin Adventure';
 requestAnimationFrame(tick);
 })();
